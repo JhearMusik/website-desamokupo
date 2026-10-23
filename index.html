@@ -991,12 +991,15 @@
         <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undang-undang.</p>
     </footer>
 
-    <!-- JAVASCRIPT & LOGIC -->
-    <script>
-        // KONEKSI SUPABASE
-        const SUPABASE_URL = 'https://klnpdpyogknfelfdqjm.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_rfplDrCh0xEgKtzp6mnx1w_cKgjar7r';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+   <!-- JAVASCRIPT & LOGIC -->
+<!-- 1. CDN Supabase SDK resmi -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- 2. File Konfigurasi Supabase Anda -->
+<script src="supabase-config.js"></script>
+
+<!-- 3. File Logika Aplikasi Utama -->
+<script src="app.js"></script>
 
         // TOGGLE MENU MOBILE (ANDROID)
         function toggleMobileMenu() {
