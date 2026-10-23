@@ -1,4 +1,4 @@
-// app.js - Logika Utama & Integrasi Supabase Desa Mokupo (Lengkap & Utuh)
+// app.js - Sistem Utama Desa Mokupo (Final & Stable)
 
 document.addEventListener('DOMContentLoaded', () => {
   applySettings();
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 1. KONEKSI & BERANDA SUPABASE (LOGO & VIDEO)
+// 1. KELOLA BERANDA, LOGO & VIDEO (SUPABASE STORAGE & DB)
 // ==========================================
 async function loadHeaderSettings() {
   if (typeof window.supabase === 'undefined') return;
@@ -22,7 +22,7 @@ async function loadHeaderSettings() {
 
   if (error || !data) return;
 
-  // Isikan data ke input form admin
+  // Isikan data ke input form admin (jika ada di halaman)
   const inputNama = document.getElementById('admin-nama-desa');
   const inputSlogan = document.getElementById('admin-slogan-desa');
   const inputLogoLama = document.getElementById('admin-logo-url-lama');
@@ -33,7 +33,7 @@ async function loadHeaderSettings() {
   if (inputLogoLama) inputLogoLama.value = data.logo_url || '';
   if (inputVideoLama) inputVideoLama.value = data.video_url || '';
 
-  // Tampilkan di Header Publik
+  // Tampilkan Nama & Slogan ke Header Publik
   const elAppTitle = document.getElementById('app-title');
   const elAppSlogan = document.getElementById('app-slogan');
   if (elAppTitle && data.nama_desa) elAppTitle.innerText = data.nama_desa;
@@ -77,7 +77,10 @@ async function updateBerandaSettings(e) {
     return;
   }
 
-  // 1. Unggah Logo Baru jika dipilih dari komputer
+  // Indikator proses simpan
+  alert('Sedang memproses data dan file... Mohon tunggu sebentar.');
+
+  // 1. Unggah Logo Baru ke Supabase Storage jika dipilih
   if (logoFile) {
     const fileName = 'logo_' + Date.now() + '_' + logoFile.name.replace(/\s+/g, '_');
     const { error: logoError } = await window.supabase.storage
@@ -85,7 +88,7 @@ async function updateBerandaSettings(e) {
       .upload(fileName, logoFile);
 
     if (logoError) {
-      alert('Gagal unggah logo ke Supabase Storage: ' + logoError.message);
+      alert('Gagal unggah logo: ' + logoError.message);
       return;
     }
 
@@ -93,7 +96,7 @@ async function updateBerandaSettings(e) {
     logo_url = publicLogo.publicUrl;
   }
 
-  // 2. Unggah Video Baru jika dipilih dari komputer
+  // 2. Unggah Video Baru ke Supabase Storage jika dipilih
   if (videoFile) {
     const videoName = 'video_' + Date.now() + '_' + videoFile.name.replace(/\s+/g, '_');
     const { error: videoError } = await window.supabase.storage
@@ -101,7 +104,7 @@ async function updateBerandaSettings(e) {
       .upload(videoName, videoFile);
 
     if (videoError) {
-      alert('Gagal unggah video ke Supabase Storage: ' + videoError.message);
+      alert('Gagal unggah video: ' + videoError.message);
       return;
     }
 
@@ -117,18 +120,24 @@ async function updateBerandaSettings(e) {
   if (error) {
     alert('Gagal menyimpan ke database: ' + error.message);
   } else {
-    alert('Data, Logo & Video berhasil diunggah dan disimpan secara permanen!');
+    alert('Data Beranda, Logo & Video berhasil disimpan secara permanen!');
     loadHeaderSettings();
   }
 }
 
 // ==========================================
-// 2. NAVIGASI UTAMA TAB
+// 2. NAVIGASI UTAMA TAB (RESPONSIF HP & LAPTOP)
 // ==========================================
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   const target = document.getElementById(tabId);
-  if (target) target.classList.add('active');
+  if (target) {
+    target.classList.add('active');
+  } else {
+    // Fallback jika ID tab tidak ditemukan persis, arahkan ke beranda
+    const berandaEl = document.getElementById('beranda');
+    if(berandaEl) berandaEl.classList.add('active');
+  }
 
   const heroBanner = document.getElementById('beranda-hero-fullscreen');
   if (heroBanner) {
@@ -173,7 +182,7 @@ function switchAdminSub(subId) {
 }
 
 // ==========================================
-// 4. TOGGLE MENU MOBILE (ANDROID)
+// 4. TOGGLE MENU MOBILE (HP)
 // ==========================================
 function toggleMobileMenu() {
   const menu = document.getElementById('mobile-menu');
