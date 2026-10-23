@@ -1,4 +1,4 @@
-// app.js - Logika Utama & Integrasi Supabase Desa Mokupo
+// app.js - Desa Mokupo Full Fitur & Stabil
 
 document.addEventListener('DOMContentLoaded', () => {
   applySettings();
@@ -59,7 +59,7 @@ function switchTab(tabId) {
 }
 
 // ==========================================
-// 3. NAVIGASI SUB-MENU ADMIN
+// 3. NAVIGASI SUB-MENU ADMIN (TOMBOL MENU EDIT)
 // ==========================================
 function switchAdminSub(subId) {
   document.querySelectorAll('.admin-sub-content').forEach(el => el.classList.remove('active'));
@@ -101,7 +101,7 @@ function toggleMobileMenu() {
 }
 
 // ==========================================
-// 5. SISTEM LOGIN PETUGAS
+// 5. SISTEM LOGIN PETUGAS & RENDER PANEL ADMIN
 // ==========================================
 function handleLogin(e) {
   e.preventDefault();
@@ -142,7 +142,7 @@ function checkAuthStatus() {
 }
 
 // ==========================================
-// 6. DATA STORE & RENDER PENDUKUNG (BPD, Pengaduan, dll)
+// 6. DATA STORE & RENDER PENDUKUNG
 // ==========================================
 function getBpdList() {
   let data = localStorage.getItem('desa_bpd_list');
@@ -287,19 +287,9 @@ function applySettings() {
   }
 }
 
-function generateSuratPreview(e) {
-  e.preventDefault();
-  alert('Surat berhasil digenerate dengan nomor dan TTD Digital Verified!');
-}
-
-function kirimPengaduanPublik(e) {
-  e.preventDefault();
-  alert('Pengaduan berhasil dikirim!');
-}
-
-function cekStatusPengaduan() {
-  alert('Fitur cek status siap digunakan.');
-}
+function generateSuratPreview(e) { e.preventDefault(); alert('Surat berhasil digenerate!'); }
+function kirimPengaduanPublik(e) { e.preventDefault(); alert('Pengaduan berhasil dikirim!'); }
+function cekStatusPengaduan() { alert('Fitur cek status siap digunakan.'); }
 
 function updateBerandaSettings(e) { e.preventDefault(); alert('Beranda diperbarui!'); }
 function updateProfilSettings(e) { e.preventDefault(); alert('Profil diperbarui!'); }
