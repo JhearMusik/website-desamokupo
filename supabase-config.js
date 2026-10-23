@@ -1,8 +1,8 @@
-// supabase-config.js - Konfigurasi Utama Supabase
+// supabase-config.js - Konfigurasi Utama Supabase SDK
 const SUPABASE_URL = 'https://klnpdpyogknfelfdqjm.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInI1cCI6IkpXVCJ9.eyJpcGM3MiOiJzdDxBhYmFmZzZSIsInJlZmlwbGVzaNImtsnBkN-1ImtsnBkN2tuMVsZmRxam0iLCJyb2xlIjoiaW5vY2IsImlhdCI6MTcNzM5NDM2MSwZXhwIjoyMDczMzMzYXfQ.eyJz...'; // Ganti dengan key lengkap Anda jika perlu
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsbnBkcHlvZ3RrbmZlbGZkcWptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2OTc4NTksImV4cCI6MjEwODI3Mzg1OX0.vcVJPBcwTAH0pjg1kzEBRLX3YcEb-4CGVk_YjdJr3Jg'; 
 
-// Inisialisasi global aman
+// Inisialisasi Supabase secara Global
 if (typeof supabase !== 'undefined') {
     window.supabase = window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 } else {
