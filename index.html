@@ -43,14 +43,21 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center gap-3">
-                    <div id="nav-logo-container" class="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center font-bold text-xl border-2 border-amber-400 overflow-hidden shadow-inner">
+                    <div id="nav-logo-container" class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 rounded-full flex items-center justify-center font-bold text-lg sm:text-xl border-2 border-amber-400 overflow-hidden shadow-inner shrink-0">
                         <i class="fa-solid fa-building-columns" id="nav-logo-icon"></i>
                         <img id="nav-logo-img" src="" alt="Logo" class="w-full h-full object-cover hidden">
                     </div>
                     <div>
-                        <h1 id="app-title" class="font-bold text-sm md:text-base leading-tight uppercase tracking-wider">DESA MOKUPO KECAMATAN KARAMAT</h1>
-                        <p id="app-slogan" class="text-xs text-emerald-200">Sistem Informasi & Portal Pelayanan Publik</p>
+                        <h1 id="app-title" class="font-bold text-xs sm:text-base leading-tight uppercase tracking-wider">DESA MOKUPO KECAMATAN KARAMAT</h1>
+                        <p id="app-slogan" class="text-[10px] sm:text-xs text-emerald-200">Sistem Informasi & Portal Pelayanan Publik</p>
                     </div>
+                </div>
+
+                <!-- TOMBOL HAMBURGER MOBILE -->
+                <div class="xl:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-white p-2 focus:outline-none text-xl">
+                        <i id="mobile-menu-icon" class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
 
                 <!-- NAV MENU DESKTOP -->
@@ -97,14 +104,39 @@
                 </nav>
             </div>
         </div>
+
+        <!-- MENU DROPDOWN MOBILE (HP ANDROID) -->
+        <div id="mobile-menu" class="hidden xl:hidden bg-emerald-900 border-t border-emerald-700 px-4 py-3 space-y-2 text-xs font-medium">
+            <button onclick="switchTab('beranda'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">BERANDA</button>
+            <div class="py-1 border-t border-emerald-800 space-y-1">
+                <p class="text-amber-300 font-bold px-3 pt-1">PROFIL DESA</p>
+                <button onclick="switchTab('profil-sejarah'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Sejarah</button>
+                <button onclick="switchTab('profil-visimisi'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Visi dan Misi</button>
+                <button onclick="switchTab('profil-struktur'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Struktur Organisasi</button>
+                <button onclick="switchTab('profil-sambutan'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Sambutan Kepala Desa</button>
+            </div>
+            <button onclick="switchTab('aparat'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 border-t border-emerald-800">APARAT DESA & TUPOKSI</button>
+            <div class="py-1 border-t border-emerald-800 space-y-1">
+                <p class="text-amber-300 font-bold px-3 pt-1">LAYANAN PUBLIK</p>
+                <button onclick="switchTab('layanan-surat-masuk'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Surat Masuk</button>
+                <button onclick="switchTab('layanan-surat-keluar'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Surat Keluar</button>
+                <button onclick="switchTab('layanan-buat-surat'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800 font-bold text-amber-300">- Buat & Cetak Surat</button>
+                <button onclick="switchTab('layanan-pengaduan'); toggleMobileMenu()" class="block w-full text-left py-1.5 px-5 rounded hover:bg-emerald-800">- Pengaduan Masyarakat</button>
+            </div>
+            <button onclick="switchTab('add-dds'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 border-t border-emerald-800">ADD DAN DDS</button>
+            <button onclick="switchTab('tautan'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">TAUTAN</button>
+            <button onclick="switchTab('adminduk'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">DATA ADMINDUK</button>
+            <button onclick="switchTab('portal-petugas'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded bg-amber-500 text-slate-900 font-bold"><i class="fa-solid fa-user-shield mr-1"></i> PORTAL PETUGAS</button>
+            <button onclick="switchTab('kontak'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 border-t border-emerald-800">KONTAK</button>
+        </div>
     </header>
 
     <!-- KONTEN UTAMA -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
         <!-- 1. BERANDA -->
         <section id="beranda" class="tab-content active space-y-6">
-            <div id="beranda-hero" class="relative rounded-2xl overflow-hidden p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-emerald-700 to-teal-800">
+            <div id="beranda-hero" class="relative rounded-2xl overflow-hidden p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-emerald-700 to-teal-800">
                 <div id="hero-video-container" class="absolute inset-0 z-0 overflow-hidden hidden">
                     <video id="hero-video-bg" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
                     <div class="absolute inset-0 bg-emerald-950/75"></div>
@@ -112,49 +144,49 @@
                 
                 <div class="relative z-10 space-y-3">
                     <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Official Portal</span>
-                    <h2 id="banner-title" class="text-3xl font-extrabold tracking-tight">Selamat Datang di Portal Desa Mokupo</h2>
-                    <p id="banner-desc" class="text-emerald-100 max-w-2xl leading-relaxed">Pusat pelayanan administrasi kependudukan, transparansi anggaran, dan pembuatan surat mandiri yang cepat, transparan, serta terintegrasi.</p>
+                    <h2 id="banner-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight">Selamat Datang di Portal Desa Mokupo</h2>
+                    <p id="banner-desc" class="text-xs sm:text-sm text-emerald-100 max-w-2xl leading-relaxed">Pusat pelayanan administrasi kependudukan, transparansi anggaran, dan pembuatan surat mandiri yang cepat, transparan, serta terintegrasi.</p>
                 </div>
-                <button onclick="switchTab('layanan-buat-surat')" class="relative z-10 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 shrink-0">
+                <button onclick="switchTab('layanan-buat-surat')" class="relative z-10 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 shrink-0 text-xs sm:text-sm">
                     <i class="fa-solid fa-file-pen mr-2"></i> Buat Surat Mandiri
                 </button>
             </div>
 
             <!-- STATISTIK RINGKASAN -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Total Penduduk</p>
-                        <h3 id="home-total" class="text-3xl font-bold text-slate-800 mt-1">4830</h3>
+                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Total Penduduk</p>
+                        <h3 id="home-total" class="text-2xl sm:text-3xl font-bold text-slate-800 mt-1">4830</h3>
                     </div>
-                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-users"></i></div>
                 </div>
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Laki-Laki (Pria)</p>
-                        <h3 id="home-laki" class="text-3xl font-bold text-blue-600 mt-1">2450</h3>
+                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Laki-Laki (Pria)</p>
+                        <h3 id="home-laki" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">2450</h3>
                     </div>
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-mars"></i></div>
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-mars"></i></div>
                 </div>
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Perempuan (Wanita)</p>
-                        <h3 id="home-perempuan" class="text-3xl font-bold text-pink-600 mt-1">2380</h3>
+                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Perempuan (Wanita)</p>
+                        <h3 id="home-perempuan" class="text-2xl sm:text-3xl font-bold text-pink-600 mt-1">2380</h3>
                     </div>
-                    <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-venus"></i></div>
+                    <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-venus"></i></div>
                 </div>
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Kepala Keluarga (KK)</p>
-                        <h3 id="home-kk" class="text-3xl font-bold text-teal-600 mt-1">1210</h3>
+                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Kepala Keluarga (KK)</p>
+                        <h3 id="home-kk" class="text-2xl sm:text-3xl font-bold text-teal-600 mt-1">1210</h3>
                     </div>
-                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-house-chimney"></i></div>
+                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-house-chimney"></i></div>
                 </div>
             </div>
 
             <!-- INFORMASI DAN BERITA -->
             <div class="bg-white rounded-xl border p-6 shadow-sm space-y-4">
-                <h3 class="text-xl font-bold text-slate-800 border-b pb-3"><i class="fa-regular fa-newspaper text-emerald-600 mr-2"></i>Informasi Dan Berita Terbaru</h3>
+                <h3 class="text-lg sm:text-xl font-bold text-slate-800 border-b pb-3"><i class="fa-regular fa-newspaper text-emerald-600 mr-2"></i>Informasi Dan Berita Terbaru</h3>
                 <div id="beranda-berita-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="border p-4 rounded-xl space-y-2 bg-slate-50">
                         <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PENGUMUMAN</span>
@@ -167,23 +199,23 @@
         </section>
 
         <!-- 2. PROFIL SEJARAH -->
-        <section id="profil-sejarah" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Sejarah Desa</h2>
-            <div id="content-sejarah" class="text-slate-600 leading-relaxed space-y-2">
+        <section id="profil-sejarah" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Sejarah Desa</h2>
+            <div id="content-sejarah" class="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-2">
                 <p>Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol. Sejarah desa ini berawal dari pemukiman swadaya masyarakat lokal yang terus berkembang pesat hingga menjadi desa definitif mandiri dengan pelayanan publik berbasis digital.</p>
             </div>
         </section>
 
         <!-- 3. PROFIL VISI & MISI -->
-        <section id="profil-visimisi" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Visi dan Misi Desa</h2>
+        <section id="profil-visimisi" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Visi dan Misi Desa</h2>
             <div>
-                <h3 class="font-bold text-slate-700 text-lg">Visi</h3>
-                <p id="content-visi" class="text-slate-600 italic mt-1 bg-emerald-50 p-4 rounded-lg border border-emerald-100">"Terwujudnya Desa Mokupo yang Mandiri, Transparan, Agamis, dan Sejahtera Berbasis Teknologi Pelayanan Publik."</p>
+                <h3 class="font-bold text-slate-700 text-base sm:text-lg">Visi</h3>
+                <p id="content-visi" class="text-xs sm:text-sm text-slate-600 italic mt-1 bg-emerald-50 p-4 rounded-lg border border-emerald-100">"Terwujudnya Desa Mokupo yang Mandiri, Transparan, Agamis, dan Sejahtera Berbasis Teknologi Pelayanan Publik."</p>
             </div>
             <div>
-                <h3 class="font-bold text-slate-700 text-lg">Misi</h3>
-                <div id="content-misi" class="text-slate-600 space-y-2 mt-2">
+                <h3 class="font-bold text-slate-700 text-base sm:text-lg">Misi</h3>
+                <div id="content-misi" class="text-xs sm:text-sm text-slate-600 space-y-2 mt-2">
                     <ul class="list-disc list-inside space-y-1">
                         <li>Meningkatkan kualitas pelayanan administrasi kependudukan yang cepat dan akuntabel.</li>
                         <li>Mengoptimalkan tata kelola Anggaran Dana Desa (ADD & DDS) secara transparan.</li>
@@ -194,23 +226,23 @@
         </section>
 
         <!-- 4. PROFIL STRUKTUR ORGANISASI -->
-        <section id="profil-struktur" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Struktur Organisasi Pemerintahan Desa</h2>
-            <div class="p-8 bg-slate-50 border rounded-xl text-center space-y-4">
-                <i class="fa-solid fa-sitemap text-6xl text-emerald-600"></i>
-                <p id="content-struktur" class="text-slate-600">Bagan Struktur Organisasi Pemerintah Desa Mokupo tersusun mulai dari Kepala Desa, Sekretaris Desa, Kepala Seksi, Kepala Urusan, hingga Kepala Dusun.</p>
+        <section id="profil-struktur" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Struktur Organisasi Pemerintahan Desa</h2>
+            <div class="p-6 sm:p-8 bg-slate-50 border rounded-xl text-center space-y-4">
+                <i class="fa-solid fa-sitemap text-5xl sm:text-6xl text-emerald-600"></i>
+                <p id="content-struktur" class="text-xs sm:text-sm text-slate-600">Bagan Struktur Organisasi Pemerintah Desa Mokupo tersusun mulai dari Kepala Desa, Sekretaris Desa, Kepala Seksi, Kepala Urusan, hingga Kepala Dusun.</p>
             </div>
         </section>
 
         <!-- 5. PROFIL SAMBUTAN KEPALA DESA -->
-        <section id="profil-sambutan" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Sambutan Kepala Desa Mokupo</h2>
+        <section id="profil-sambutan" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Sambutan Kepala Desa Mokupo</h2>
             <div class="flex flex-col md:flex-row gap-6 items-center">
-                <div id="sambutan-foto-container" class="w-40 h-48 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-3xl border shrink-0 overflow-hidden shadow">
+                <div id="sambutan-foto-container" class="w-36 h-44 sm:w-40 sm:h-48 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-3xl border shrink-0 overflow-hidden shadow">
                     <i class="fa-solid fa-user-tie" id="sambutan-icon"></i>
                     <img id="sambutan-img" src="" alt="Kepala Desa" class="w-full h-full object-cover hidden">
                 </div>
-                <div id="content-sambutan" class="space-y-3 text-slate-600 leading-relaxed">
+                <div id="content-sambutan" class="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed text-center md:text-left">
                     <p><em>"Assalamu'alaikum Wr. Wb. Selamat datang di portal resmi Sistem Informasi Desa Mokupo. Website ini kami hadirkan untuk memudahkan warga dalam mengakses layanan administrasi surat-menyurat secara mandiri serta mewujudkan keterbukaan informasi publik."</em></p>
                     <p class="font-bold text-slate-800">— Kepala Desa Mokupo</p>
                 </div>
@@ -218,33 +250,33 @@
         </section>
 
         <!-- 6. APARAT DESA DAN TUPOKSI -->
-        <section id="aparat" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Aparat Desa Dan Tupoksi</h2>
-            <div id="aparat-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section id="aparat" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Aparat Desa Dan Tupoksi</h2>
+            <div id="aparat-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3 relative shadow-sm">
                     <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border overflow-hidden">
                         <i class="fa-solid fa-user"></i>
                     </div>
-                    <h3 class="font-bold text-lg text-slate-800">Kepala Desa</h3>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-800">Kepala Desa</h3>
                     <p class="text-xs text-emerald-700 font-semibold uppercase">KEPALA DESA</p>
-                    <p class="text-xs text-slate-500">Tugas Pokok: Menyelenggarakan pemerintahan desa, pembangunan, pembinaan kemasyarakatan, dan pemberdayaan.</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500">Tugas Pokok: Menyelenggarakan pemerintahan desa, pembangunan, pembinaan kemasyarakatan, dan pemberdayaan.</p>
                 </div>
                 <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3 relative shadow-sm">
                     <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border overflow-hidden">
                         <i class="fa-solid fa-user"></i>
                     </div>
-                    <h3 class="font-bold text-lg text-slate-800">Sekretaris Desa</h3>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-800">Sekretaris Desa</h3>
                     <p class="text-xs text-emerald-700 font-semibold uppercase">SEKRETARIS DESA</p>
-                    <p class="text-xs text-slate-500">Tugas Pokok: Membantu Kepala Desa dalam bidang administrasi pemerintahan dan pelayanan kesekretariatan.</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500">Tugas Pokok: Membantu Kepala Desa dalam bidang administrasi pemerintahan dan pelayanan kesekretariatan.</p>
                 </div>
             </div>
         </section>
 
         <!-- 7. LAYANAN: SURAT MASUK -->
-        <section id="layanan-surat-masuk" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Masuk</h2>
+        <section id="layanan-surat-masuk" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Masuk</h2>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
                     <thead>
                         <tr class="bg-emerald-50 text-emerald-900 border-b">
                             <th class="p-3">No. Surat</th>
@@ -262,10 +294,10 @@
         </section>
 
         <!-- 8. LAYANAN: SURAT KELUAR -->
-        <section id="layanan-surat-keluar" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Keluar</h2>
+        <section id="layanan-surat-keluar" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Keluar</h2>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
                     <thead>
                         <tr class="bg-emerald-50 text-emerald-900 border-b">
                             <th class="p-3">No. Surat</th>
@@ -284,13 +316,13 @@
 
         <!-- 9. LAYANAN: BUAT & CETAK SURAT -->
         <section id="layanan-buat-surat" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Layanan Pembuatan & Cetak Surat Mandiri</h2>
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Layanan Pembuatan & Cetak Surat Mandiri</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-xl border shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-800 text-lg border-b pb-2">Formulir Pengisian Surat</h3>
-                    <form onsubmit="generateSuratPreview(event)" class="space-y-4">
+                    <h3 class="font-bold text-slate-800 text-base sm:text-lg border-b pb-2">Formulir Pengisian Surat</h3>
+                    <form onsubmit="generateSuratPreview(event)" class="space-y-4 text-xs sm:text-sm">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">JENIS SURAT</label>
+                            <label class="block font-medium text-slate-700">JENIS SURAT</label>
                             <select id="s-jenis" class="w-full mt-1 p-2.5 border rounded-lg bg-white">
                                 <option value="SURAT IZIN USAHA MIKRO">Surat Izin Usaha Mikro</option>
                                 <option value="SURAT KETERANGAN TIDAK MAMPU">Surat Keterangan Tidak Mampu (SKTM)</option>
@@ -299,15 +331,15 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">NAMA PEMOHON / SUBJEK</label>
+                            <label class="block font-medium text-slate-700">NAMA PEMOHON / SUBJEK</label>
                             <input type="text" id="s-nama" placeholder="Masukkan nama pemohon" required class="w-full mt-1 p-2.5 border rounded-lg">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">NIK PEMOHON</label>
+                            <label class="block font-medium text-slate-700">NIK PEMOHON</label>
                             <input type="text" id="s-nik" placeholder="16 digit NIK" required maxlength="16" class="w-full mt-1 p-2.5 border rounded-lg">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">KETERANGAN / KEPERLUAN SURAT</label>
+                            <label class="block font-medium text-slate-700">KETERANGAN / KEPERLUAN SURAT</label>
                             <textarea id="s-ket" rows="3" placeholder="Deskripsi atau rincian keperluan surat..." required class="w-full mt-1 p-2.5 border rounded-lg"></textarea>
                         </div>
                         <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold shadow transition">
@@ -316,23 +348,23 @@
                     </form>
                 </div>
 
-                <div class="bg-slate-100 p-4 rounded-xl border shadow-inner flex flex-col items-center justify-between">
-                    <div id="printable-letter" class="bg-white w-full max-w-lg p-8 rounded-lg shadow border space-y-6 text-slate-900 font-serif text-sm">
+                <div class="bg-slate-100 p-4 rounded-xl border shadow-inner flex flex-col items-center justify-between overflow-x-auto">
+                    <div id="printable-letter" class="bg-white w-full max-w-lg p-6 sm:p-8 rounded-lg shadow border space-y-6 text-slate-900 font-serif text-xs sm:text-sm shrink-0">
                         <div class="text-center border-b-2 border-slate-900 pb-4 space-y-1">
-                            <h4 class="font-bold text-xs tracking-wider uppercase">PEMERINTAH KABUPATEN BUOL</h4>
-                            <h4 class="font-bold text-xs tracking-wider uppercase">KECAMATAN KARAMAT</h4>
-                            <h3 class="font-bold text-base tracking-wide uppercase text-emerald-900">KANTOR KEPALA DESA MOKUPO</h3>
-                            <p class="text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 40123</p>
+                            <h4 class="font-bold text-[10px] sm:text-xs tracking-wider uppercase">PEMERINTAH KABUPATEN BUOL</h4>
+                            <h4 class="font-bold text-[10px] sm:text-xs tracking-wider uppercase">KECAMATAN KARAMAT</h4>
+                            <h3 class="font-bold text-sm sm:text-base tracking-wide uppercase text-emerald-900">KANTOR KEPALA DESA MOKUPO</h3>
+                            <p class="text-[9px] sm:text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 40123</p>
                         </div>
                         <div class="text-center space-y-1 pt-2">
-                            <h3 id="preview-judul-surat" class="font-bold text-base underline uppercase">SURAT IZIN USAHA MIKRO</h3>
+                            <h3 id="preview-judul-surat" class="font-bold text-sm sm:text-base underline uppercase">SURAT IZIN USAHA MIKRO</h3>
                             <p class="text-xs">Nomor : <span id="preview-no-surat">503 / 482 / DS-MKP / X / 2026</span></p>
-                            <p class="text-[11px] text-slate-500">Indeks Kode: <span id="preview-indeks">503-Usaha/MKP</span></p>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500">Indeks Kode: <span id="preview-indeks">503-Usaha/MKP</span></p>
                         </div>
                         <div class="space-y-3 leading-relaxed pt-2">
                             <p>Yang bertanda tangan di bawah ini Kepala Desa Mokupo menerangkan bahwa pemohon terdaftar secara sah memiliki usaha mikro/perdagangan di wilayah Desa Mokupo:</p>
-                            <table class="w-full text-xs space-y-1 pl-4">
-                                <tr><td class="w-32 font-semibold">Nama Pemohon</td><td>: <span id="out-nama">...</span></td></tr>
+                            <table class="w-full text-xs space-y-1 pl-2 sm:pl-4">
+                                <tr><td class="w-28 sm:w-32 font-semibold">Nama Pemohon</td><td>: <span id="out-nama">...</span></td></tr>
                                 <tr><td class="font-semibold">NIK</td><td>: <span id="out-nik">...</span></td></tr>
                                 <tr><td class="font-semibold">Keperluan</td><td>: <span id="out-ket">...</span></td></tr>
                             </table>
@@ -342,15 +374,15 @@
                             <div class="text-center space-y-2">
                                 <p class="text-xs">Mokupo, <span id="current-date">23 Oktober 2026</span></p>
                                 <p class="text-xs font-bold">Kepala Desa Mokupo</p>
-                                <div class="w-28 h-12 border border-dashed border-emerald-600 bg-emerald-50 rounded mx-auto flex flex-col items-center justify-center p-1">
+                                <div class="w-24 sm:w-28 h-12 border border-dashed border-emerald-600 bg-emerald-50 rounded mx-auto flex flex-col items-center justify-center p-1">
                                     <i class="fa-solid fa-qrcode text-emerald-800 text-lg"></i>
-                                    <span class="text-[8px] font-bold text-emerald-900">TTD Digital Verified</span>
+                                    <span class="text-[7px] sm:text-[8px] font-bold text-emerald-900">TTD Digital Verified</span>
                                 </div>
                                 <p class="text-xs font-bold underline uppercase pt-1">AHLAN MOKUPO, S.IP</p>
                             </div>
                         </div>
                     </div>
-                    <button onclick="window.print()" class="mt-4 w-full max-w-lg bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-bold shadow flex items-center justify-center gap-2">
+                    <button onclick="window.print()" class="mt-4 w-full max-w-lg bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-bold shadow flex items-center justify-center gap-2 text-xs sm:text-sm">
                         <i class="fa-solid fa-file-arrow-down"></i> Cetak / Simpan PDF Dokumen Ini
                     </button>
                 </div>
@@ -361,48 +393,48 @@
         <section id="layanan-pengaduan" class="tab-content space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- FORM PENGADUAN -->
-                <div class="bg-white p-8 rounded-xl border shadow-sm space-y-6">
-                    <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Buat Pengaduan Masyarakat</h2>
-                    <form onsubmit="kirimPengaduanPublik(event)" class="space-y-4">
+                <div class="bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+                    <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Buat Pengaduan Masyarakat</h2>
+                    <form onsubmit="kirimPengaduanPublik(event)" class="space-y-4 text-xs sm:text-sm">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Nama Pelapor</label>
+                            <label class="block font-medium text-slate-700">Nama Pelapor</label>
                             <input type="text" id="adu-nama" required class="w-full mt-1 p-2.5 border rounded-lg">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Nomor WhatsApp Aktif</label>
+                            <label class="block font-medium text-slate-700">Nomor WhatsApp Aktif</label>
                             <input type="text" id="adu-telp" placeholder="08xxxxxxxxxx" required class="w-full mt-1 p-2.5 border rounded-lg">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Subjek / Pihak Terlapor</label>
+                            <label class="block font-medium text-slate-700">Subjek / Pihak Terlapor</label>
                             <input type="text" id="adu-subjek" placeholder="Contoh: Sengketa Batas Tanah / Masalah Warga" required class="w-full mt-1 p-2.5 border rounded-lg">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Isi Pengaduan / Kronologi</label>
+                            <label class="block font-medium text-slate-700">Isi Pengaduan / Kronologi</label>
                             <textarea id="adu-isi" rows="3" required class="w-full mt-1 p-2.5 border rounded-lg"></textarea>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Bukti Gambar / Foto (Opsional)</label>
+                            <label class="block font-medium text-slate-700">Bukti Gambar / Foto (Opsional)</label>
                             <input type="url" id="adu-lampiran" placeholder="https://link-gambar.com/foto.jpg" class="w-full mt-1 p-2.5 border rounded-lg text-xs">
-                            <p class="text-[11px] text-slate-400 mt-1">Masukkan tautan URL gambar bukti jika ada.</p>
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">Masukkan tautan URL gambar bukti jika ada.</p>
                         </div>
                         <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold shadow">Kirim Pengaduan</button>
                     </form>
                 </div>
 
                 <!-- CEK STATUS PENGADUAN -->
-                <div class="bg-white p-8 rounded-xl border shadow-sm space-y-6">
-                    <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Cek Status Pengaduan Anda</h2>
-                    <div class="space-y-4">
+                <div class="bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+                    <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Cek Status Pengaduan Anda</h2>
+                    <div class="space-y-4 text-xs sm:text-sm">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Masukkan Kode Unik Pengaduan</label>
+                            <label class="block font-medium text-slate-700">Masukkan Kode Unik Pengaduan</label>
                             <div class="flex gap-2 mt-1">
                                 <input type="text" id="cek-kode" placeholder="Contoh: ADU-7832" class="w-full p-2.5 border rounded-lg uppercase">
-                                <button onclick="cekStatusPengaduan()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg font-bold text-sm">Cek</button>
+                                <button onclick="cekStatusPengaduan()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg font-bold text-sm shrink-0">Cek</button>
                             </div>
                         </div>
                         <div id="hasil-cek-status" class="p-4 bg-slate-50 border rounded-xl hidden space-y-3">
                             <p class="text-xs font-bold uppercase text-slate-500">Hasil Pencarian:</p>
-                            <div id="detail-status-box" class="space-y-2 text-sm text-slate-700"></div>
+                            <div id="detail-status-box" class="space-y-2 text-slate-700"></div>
                         </div>
                     </div>
                 </div>
@@ -410,26 +442,26 @@
         </section>
 
         <!-- 11. ADD DAN DDS -->
-        <section id="add-dds" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Transparansi ADD dan DDS Desa Mokupo</h2>
+        <section id="add-dds" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Transparansi ADD dan DDS Desa Mokupo</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="p-6 bg-emerald-50 border border-emerald-100 rounded-xl space-y-2">
                     <p class="text-xs uppercase font-bold text-emerald-800">Alokasi Dana Desa (ADD)</p>
-                    <h3 id="display-add-total" class="text-2xl font-extrabold text-emerald-900">Rp 845.200.000</h3>
+                    <h3 id="display-add-total" class="text-xl sm:text-2xl font-extrabold text-emerald-900">Rp 845.200.000</h3>
                     <p class="text-xs text-slate-600">Fokus: Penghasilan tetap perangkat desa, operasional kantor, dan insentif lembaga.</p>
                 </div>
                 <div class="p-6 bg-blue-50 border border-blue-100 rounded-xl space-y-2">
                     <p class="text-xs uppercase font-bold text-blue-800">Dana Desa (DDS)</p>
-                    <h3 id="display-dds-total" class="text-2xl font-extrabold text-blue-900">Rp 1.120.500.000</h3>
+                    <h3 id="display-dds-total" class="text-xl sm:text-2xl font-extrabold text-blue-900">Rp 1.120.500.000</h3>
                     <p class="text-xs text-slate-600">Fokus: Infrastruktur jalan tani, ketahanan pangan, dan Bantuan Langsung Tunai (BLT).</p>
                 </div>
             </div>
 
             <!-- TABEL DAFTAR PROGRAM & KEGIATAN -->
             <div class="space-y-4 pt-4 border-t">
-                <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-list-check text-emerald-700 mr-2"></i>Daftar Program & Kegiatan Berdasarkan Sumber Dana</h3>
+                <h3 class="font-bold text-slate-800 text-base sm:text-lg"><i class="fa-solid fa-list-check text-emerald-700 mr-2"></i>Daftar Program & Kegiatan Berdasarkan Sumber Dana</h3>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
                         <thead>
                             <tr class="bg-emerald-50 text-emerald-900 border-b">
                                 <th class="p-3">Sumber Dana</th>
@@ -448,9 +480,9 @@
         </section>
 
         <!-- 12. TAUTAN -->
-        <section id="tautan" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Tautan Portal Terkait</h2>
-            <div id="tautan-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <section id="tautan" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Tautan Portal Terkait</h2>
+            <div id="tautan-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs sm:text-sm">
                 <a href="https://buolkab.go.id" target="_blank" class="p-4 border rounded-xl hover:bg-slate-50 flex items-center justify-between">
                     <span class="font-medium text-slate-700">Pemerintah Kabupaten Buol</span>
                     <i class="fa-solid fa-external-link text-slate-400"></i>
@@ -462,221 +494,221 @@
             </div>
         </section>
 
-        <!-- 13. DATA ADMINDUK (DENGAN KARTU IKD) -->
-        <section id="adminduk" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Data Administrasi Kependudukan (Adminduk)</h2>
+        <!-- 13. DATA ADMINDUK -->
+        <section id="adminduk" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Data Administrasi Kependudukan (Adminduk)</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div class="p-5 border rounded-xl bg-slate-50 text-center shadow-sm">
-                    <p class="text-xs text-slate-500 font-semibold">JUMLAH KK</p>
+                    <p class="text-[11px] text-slate-500 font-semibold">JUMLAH KK</p>
                     <h3 id="adm-kk" class="text-2xl font-bold text-slate-800 mt-1">1210</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center shadow-sm">
-                    <p class="text-xs text-slate-500 font-semibold">MEMILIKI KTP-EL</p>
+                    <p class="text-[11px] text-slate-500 font-semibold">MEMILIKI KTP-EL</p>
                     <h3 id="adm-ktp" class="text-2xl font-bold text-blue-600 mt-1">3620</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center shadow-sm">
-                    <p class="text-xs text-slate-500 font-semibold">ANAK MEMILIKI KIA</p>
+                    <p class="text-[11px] text-slate-500 font-semibold">ANAK MEMILIKI KIA</p>
                     <h3 id="adm-kia" class="text-2xl font-bold text-emerald-600 mt-1">965</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center shadow-sm">
-                    <p class="text-xs text-slate-500 font-semibold">MEMILIKI AKTA KELAHIRAN</p>
+                    <p class="text-[11px] text-slate-500 font-semibold">MEMILIKI AKTA KELAHIRAN</p>
                     <h3 id="adm-akta" class="text-2xl font-bold text-pink-600 mt-1">4340</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center shadow-sm sm:col-span-2 lg:col-span-1">
-                    <p class="text-xs text-slate-500 font-semibold">PENGGUNA APLIKASI IKD</p>
+                    <p class="text-[11px] text-slate-500 font-semibold">PENGGUNA APLIKASI IKD</p>
                     <h3 id="adm-ikd" class="text-2xl font-bold text-amber-600 mt-1">850</h3>
                 </div>
             </div>
         </section>
 
-        <!-- 14. PORTAL PETUGAS (DENGAN PENGELOLAAN ADMINDUK LENGKAP) -->
+        <!-- 14. PORTAL PETUGAS -->
         <section id="portal-petugas" class="tab-content space-y-6">
             
             <!-- GATE LOGIN PETUGAS -->
-            <div id="auth-login-box" class="max-w-md mx-auto bg-white p-8 rounded-2xl border shadow-xl space-y-6 mt-10">
+            <div id="auth-login-box" class="max-w-md mx-auto bg-white p-6 sm:p-8 rounded-2xl border shadow-xl space-y-6 mt-6 sm:mt-10">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 bg-amber-500 text-slate-900 rounded-full flex items-center justify-center text-2xl mx-auto shadow">
                         <i class="fa-solid fa-lock"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-slate-800">Login Portal Petugas</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Login Portal Petugas</h2>
                     <p class="text-xs text-slate-500">Masukkan akun admin desa untuk mengakses panel pengaturan.</p>
                 </div>
-                <form onsubmit="handleLogin(event)" class="space-y-4">
+                <form onsubmit="handleLogin(event)" class="space-y-4 text-xs sm:text-sm">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
-                        <input type="text" id="login-user" placeholder="admin" required class="w-full p-3 border rounded-lg text-sm bg-slate-50">
+                        <label class="block font-bold text-slate-700 uppercase mb-1">Username</label>
+                        <input type="text" id="login-user" placeholder="admin" required class="w-full p-3 border rounded-lg bg-slate-50">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
-                        <input type="password" id="login-pass" placeholder="••••••••" required class="w-full p-3 border rounded-lg text-sm bg-slate-50">
+                        <label class="block font-bold text-slate-700 uppercase mb-1">Password</label>
+                        <input type="password" id="login-pass" placeholder="••••••••" required class="w-full p-3 border rounded-lg bg-slate-50">
                     </div>
                     <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg shadow transition">
                         Masuk Dashboard
                     </button>
-                    <p class="text-[11px] text-center text-slate-400">Default Demo: username <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">admin</code> | password <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">admin123</code></p>
+                    <p class="text-[10px] sm:text-[11px] text-center text-slate-400">Default Demo: username <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">admin</code> | password <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">admin123</code></p>
                 </form>
             </div>
 
             <!-- DASHBOARD ADMIN UTAMA -->
-            <div id="admin-dashboard-box" class="hidden space-y-6 bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100">
+            <div id="admin-dashboard-box" class="hidden space-y-6 bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100 overflow-x-auto">
                 
                 <!-- TOP HEADER DASHBOARD -->
-                <div class="flex flex-col md:flex-row justify-between items-center bg-slate-800 p-6 rounded-xl border border-slate-700 gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-user-gear text-amber-400 text-2xl"></i>
-                            <h2 class="text-2xl font-bold text-white tracking-wide">PORTAL PETUGAS (ADMIN DASHBOARD)</h2>
+                <div class="flex flex-col md:flex-row justify-between items-center bg-slate-800 p-4 sm:p-6 rounded-xl border border-slate-700 gap-4">
+                    <div class="space-y-1 text-center md:text-left">
+                        <div class="flex items-center justify-center md:justify-start gap-2">
+                            <i class="fa-solid fa-user-gear text-amber-400 text-xl sm:text-2xl"></i>
+                            <h2 class="text-lg sm:text-2xl font-bold text-white tracking-wide">PORTAL PETUGAS (ADMIN)</h2>
                         </div>
-                        <p class="text-xs text-slate-400">Kelola Seluruh Menu, Adminduk, Anggaran, & Mediasi</p>
+                        <p class="text-[11px] sm:text-xs text-slate-400">Kelola Seluruh Menu, Adminduk, Anggaran, & Mediasi</p>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1.5 rounded-lg">Status: Admin Logged In</span>
-                        <button onclick="handleLogout()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow transition">
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg">Status: Logged In</span>
+                        <button onclick="handleLogout()" class="bg-rose-600 hover:bg-rose-700 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow transition">
                             <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
                         </button>
                     </div>
                 </div>
 
                 <!-- SUB-MENU NAVIGASI ADMIN -->
-                <div class="flex flex-wrap gap-2 bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs font-semibold">
-                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-3 py-2 rounded bg-amber-500 text-slate-900 transition"><i class="fa-solid fa-image mr-1"></i> 1. Beranda</button>
-                    <button onclick="switchAdminSub('sub-profil')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-id-card mr-1"></i> 2. Profil</button>
-                    <button onclick="switchAdminSub('sub-aparat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-user-tie mr-1"></i> 3. Aparat</button>
-                    <button onclick="switchAdminSub('sub-petugas')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-users-gear mr-1"></i> 4. Petugas</button>
-                    <button onclick="switchAdminSub('sub-surat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-envelope-open-text mr-1"></i> 5. Surat</button>
-                    <button onclick="switchAdminSub('sub-pengaduan')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-comments mr-1"></i> 6. Pengaduan</button>
-                    <button onclick="switchAdminSub('sub-berita')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-newspaper mr-1"></i> 7. Berita</button>
-                    <button onclick="switchAdminSub('sub-penduduk')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid id-card-clip mr-1"></i> 8. Adminduk & Penduduk</button>
-                    <button onclick="switchAdminSub('sub-tautan')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-link mr-1"></i> 9. Tautan</button>
-                    <button onclick="switchAdminSub('sub-kontak')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-address-book mr-1"></i> 10. Kontak</button>
-                    <button onclick="switchAdminSub('sub-add-dds')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-wallet mr-1"></i> 11. ADD & DDS</button>
+                <div class="flex flex-wrap gap-1.5 sm:gap-2 bg-slate-800 p-3 rounded-xl border border-slate-700 text-[11px] sm:text-xs font-semibold">
+                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-amber-500 text-slate-900 transition"><i class="fa-solid fa-image mr-1"></i> 1. Beranda</button>
+                    <button onclick="switchAdminSub('sub-profil')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-id-card mr-1"></i> 2. Profil</button>
+                    <button onclick="switchAdminSub('sub-aparat')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-user-tie mr-1"></i> 3. Aparat</button>
+                    <button onclick="switchAdminSub('sub-petugas')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-users-gear mr-1"></i> 4. Petugas</button>
+                    <button onclick="switchAdminSub('sub-surat')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-envelope-open-text mr-1"></i> 5. Surat</button>
+                    <button onclick="switchAdminSub('sub-pengaduan')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-comments mr-1"></i> 6. Pengaduan</button>
+                    <button onclick="switchAdminSub('sub-berita')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-newspaper mr-1"></i> 7. Berita</button>
+                    <button onclick="switchAdminSub('sub-penduduk')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-id-card-clip mr-1"></i> 8. Adminduk</button>
+                    <button onclick="switchAdminSub('sub-tautan')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-link mr-1"></i> 9. Tautan</button>
+                    <button onclick="switchAdminSub('sub-kontak')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-address-book mr-1"></i> 10. Kontak</button>
+                    <button onclick="switchAdminSub('sub-add-dds')" class="admin-tab-btn px-2.5 sm:px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-wallet mr-1"></i> 11. ADD & DDS</button>
                 </div>
 
                 <!-- KONTEN SUB-MENU ADMIN -->
-                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <div class="bg-slate-800 p-4 sm:p-6 rounded-xl border border-slate-700">
 
                     <!-- SUB 1: BERANDA -->
                     <div id="sub-beranda" class="admin-sub-content active space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Data Beranda, Logo & Video</h3>
-                        <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Data Beranda, Logo & Video</h3>
+                        <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Nama Desa / Instansi</label>
-                                <input type="text" id="admin-nama-desa" value="DESA MOKUPO KECAMATAN KARAMAT" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Nama Desa / Instansi</label>
+                                <input type="text" id="admin-nama-desa" value="DESA MOKUPO KECAMATAN KARAMAT" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Slogan Beranda</label>
-                                <input type="text" id="admin-slogan-desa" value="Sistem Informasi & Portal Pelayanan Publik" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Slogan Beranda</label>
+                                <input type="text" id="admin-slogan-desa" value="Sistem Informasi & Portal Pelayanan Publik" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">URL Logo Desa</label>
-                                <input type="url" id="admin-logo-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">URL Logo Desa</label>
+                                <input type="url" id="admin-logo-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">URL Video Latar Beranda (.mp4)</label>
-                                <input type="url" id="admin-video-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">URL Video Latar Beranda (.mp4)</label>
+                                <input type="url" id="admin-video-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded text-xs shadow">Simpan</button>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded shadow">Simpan</button>
                         </form>
                     </div>
 
                     <!-- SUB 2: PROFIL -->
                     <div id="sub-profil" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil, Sambutan & Foto Kepala Desa</h3>
-                        <form onsubmit="updateProfilSettings(event)" class="space-y-4 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil, Sambutan & Foto Kepala Desa</h3>
+                        <form onsubmit="updateProfilSettings(event)" class="space-y-4 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">URL Foto Kepala Desa</label>
-                                <input type="url" id="admin-foto-sambutan" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">URL Foto Kepala Desa</label>
+                                <input type="url" id="admin-foto-sambutan" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Teks Sejarah Desa</label>
-                                <textarea id="admin-sejarah" rows="3" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol...</textarea>
+                                <label class="block font-semibold mb-1">Teks Sejarah Desa</label>
+                                <textarea id="admin-sejarah" rows="3" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol...</textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Teks Sambutan Kepala Desa</label>
-                                <textarea id="admin-sambutan" rows="3" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">Assalamu'alaikum Wr. Wb...</textarea>
+                                <label class="block font-semibold mb-1">Teks Sambutan Kepala Desa</label>
+                                <textarea id="admin-sambutan" rows="3" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">Assalamu'alaikum Wr. Wb...</textarea>
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded text-xs shadow">Simpan Profil</button>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded shadow">Simpan Profil</button>
                         </form>
                     </div>
 
                     <!-- SUB 3: APARAT -->
                     <div id="sub-aparat" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa & Foto</h3>
-                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa & Foto</h3>
+                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Nama Aparat & Gelar</label>
-                                <input type="text" id="admin-nama-aparat" placeholder="Nama..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Nama Aparat & Gelar</label>
+                                <input type="text" id="admin-nama-aparat" placeholder="Nama..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Jabatan</label>
-                                <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Jabatan</label>
+                                <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">URL Foto Aparat</label>
-                                <input type="url" id="admin-foto-aparat" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">URL Foto Aparat</label>
+                                <input type="url" id="admin-foto-aparat" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Tupoksi</label>
-                                <input type="text" id="admin-tupoksi-aparat" placeholder="Tugas pokok..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Tupoksi</label>
+                                <input type="text" id="admin-tupoksi-aparat" placeholder="Tugas pokok..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded text-xs shadow">Tambah Aparat</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Tambah Aparat</button>
                         </form>
                     </div>
 
                     <!-- SUB 4: PETUGAS -->
                     <div id="sub-petugas" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Petugas / Admin</h3>
-                        <form onsubmit="tambahPetugasBaru(event)" class="space-y-3 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Petugas / Admin</h3>
+                        <form onsubmit="tambahPetugasBaru(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Nama Petugas</label>
-                                <input type="text" id="petugas-nama" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Nama Petugas</label>
+                                <input type="text" id="petugas-nama" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Username</label>
-                                <input type="text" id="petugas-user" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Username</label>
+                                <input type="text" id="petugas-user" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Password</label>
-                                <input type="password" id="petugas-pass" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Password</label>
+                                <input type="password" id="petugas-pass" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded text-xs shadow">Daftarkan</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Daftarkan</button>
                         </form>
                     </div>
 
                     <!-- SUB 5: SURAT -->
                     <div id="sub-surat" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Arsip Surat Masuk & Keluar</h3>
-                        <form onsubmit="tambahArsipSurat(event)" class="space-y-3 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Arsip Surat Masuk & Keluar</h3>
+                        <form onsubmit="tambahArsipSurat(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Kategori</label>
-                                <select id="arsip-kategori" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Kategori</label>
+                                <select id="arsip-kategori" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                     <option value="Masuk">Surat Masuk</option>
                                     <option value="Keluar">Surat Keluar</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">No. Surat</label>
-                                <input type="text" id="arsip-nomor" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">No. Surat</label>
+                                <input type="text" id="arsip-nomor" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Indeks</label>
-                                <input type="text" id="arsip-indeks" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Indeks</label>
+                                <input type="text" id="arsip-indeks" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Pengirim/Penerima</label>
-                                <input type="text" id="arsip-pihak" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Pengirim/Penerima</label>
+                                <input type="text" id="arsip-pihak" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Perihal</label>
-                                <input type="text" id="arsip-perihal" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Perihal</label>
+                                <input type="text" id="arsip-perihal" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded text-xs shadow">Simpan Surat</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Simpan Surat</button>
                         </form>
                     </div>
 
                     <!-- SUB 6: PENGADUAN -->
                     <div id="sub-pengaduan" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Daftar Pengaduan Masyarakat & Respon Mediasi</h3>
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Daftar Pengaduan Masyarakat & Respon Mediasi</h3>
                         <div id="admin-pengaduan-list" class="space-y-4">
                             <p class="text-xs text-slate-400">Belum ada pengaduan baru.</p>
                         </div>
@@ -684,139 +716,139 @@
 
                     <!-- SUB 7: BERITA -->
                     <div id="sub-berita" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Berita</h3>
-                        <form onsubmit="publikasiBerita(event)" class="space-y-3 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Berita</h3>
+                        <form onsubmit="publikasiBerita(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Judul Berita</label>
-                                <input type="text" id="admin-judul-berita" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Judul Berita</label>
+                                <input type="text" id="admin-judul-berita" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Isi Berita</label>
-                                <textarea id="admin-isi-berita" rows="3" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white"></textarea>
+                                <label class="block font-semibold mb-1">Isi Berita</label>
+                                <textarea id="admin-isi-berita" rows="3" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white"></textarea>
                             </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded text-xs shadow">Publikasikan</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Publikasikan</button>
                         </form>
                     </div>
 
                     <!-- SUB 8: PENDUDUK & ADMINDUK LENGKAP -->
                     <div id="sub-penduduk" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Statistik Kependudukan & Data Adminduk</h3>
-                        <form onsubmit="updateStatistikPenduduk(event)" class="space-y-4 max-w-xl">
-                            <div class="grid grid-cols-2 gap-3">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Statistik Kependudukan & Data Adminduk</h3>
+                        <form onsubmit="updateStatistikPenduduk(event)" class="space-y-4 max-w-xl text-xs sm:text-sm">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs font-semibold mb-1">Jumlah Penduduk Pria</label>
-                                    <input type="number" id="admin-jml-pria" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <label class="block font-semibold mb-1">Jumlah Penduduk Pria</label>
+                                    <input type="number" id="admin-jml-pria" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold mb-1">Jumlah Penduduk Wanita</label>
-                                    <input type="number" id="admin-jml-wanita" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold mb-1">Jumlah Kepala Keluarga (KK)</label>
-                                    <input type="number" id="admin-adm-kk" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold mb-1">Warga Memiliki KTP-el</label>
-                                    <input type="number" id="admin-adm-ktp" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <label class="block font-semibold mb-1">Jumlah Penduduk Wanita</label>
+                                    <input type="number" id="admin-jml-wanita" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                 </div>
                             </div>
-                            <div class="grid grid-cols-3 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs font-semibold mb-1">Anak Memiliki KIA</label>
-                                    <input type="number" id="admin-adm-kia" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <label class="block font-semibold mb-1">Jumlah Kepala Keluarga (KK)</label>
+                                    <input type="number" id="admin-adm-kk" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold mb-1">Memiliki Akta Kelahiran</label>
-                                    <input type="number" id="admin-adm-akta" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold mb-1">Pengguna Aplikasi IKD</label>
-                                    <input type="number" id="admin-adm-ikd" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <label class="block font-semibold mb-1">Warga Memiliki KTP-el</label>
+                                    <input type="number" id="admin-adm-ktp" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                 </div>
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2 rounded text-xs shadow">Simpan Data Adminduk & Kependudukan</button>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block font-semibold mb-1">Anak Memiliki KIA</label>
+                                    <input type="number" id="admin-adm-kia" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold mb-1">Akta Kelahiran</label>
+                                    <input type="number" id="admin-adm-akta" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold mb-1">Pengguna IKD</label>
+                                    <input type="number" id="admin-adm-ikd" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
+                                </div>
+                            </div>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2 rounded shadow">Simpan Data Adminduk</button>
                         </form>
                     </div>
 
                     <!-- SUB 9: TAUTAN -->
                     <div id="sub-tautan" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Tautan</h3>
-                        <form onsubmit="tambahTautanBaru(event)" class="space-y-3 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Tautan</h3>
+                        <form onsubmit="tambahTautanBaru(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Nama Instansi</label>
-                                <input type="text" id="tautan-nama" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Nama Instansi</label>
+                                <input type="text" id="tautan-nama" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">URL</label>
-                                <input type="url" id="tautan-url" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">URL</label>
+                                <input type="url" id="tautan-url" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded text-xs shadow">Tambah Tautan</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Tambah Tautan</button>
                         </form>
                     </div>
 
                     <!-- SUB 10: KONTAK -->
                     <div id="sub-kontak" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Kontak Desa & URL Peta (Google Maps Embed)</h3>
-                        <form onsubmit="updateKontakSettings(event)" class="space-y-3 max-w-xl">
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Kontak Desa & URL Peta (Google Maps Embed)</h3>
+                        <form onsubmit="updateKontakSettings(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Telepon / WA</label>
-                                <input type="text" id="admin-phone" value="+62 821-xxxx-xxxx" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Telepon / WA</label>
+                                <input type="text" id="admin-phone" value="+62 821-xxxx-xxxx" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Email Resmi</label>
-                                <input type="email" id="admin-email" value="pemdesmokupo@buolkab.go.id" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Email Resmi</label>
+                                <input type="email" id="admin-email" value="pemdesmokupo@buolkab.go.id" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">URL Embed Google Maps (Link src iframenya)</label>
-                                <input type="text" id="admin-map-url" placeholder="https://www.google.com/maps/embed?pb=..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">URL Embed Google Maps (Link src iframenya)</label>
+                                <input type="text" id="admin-map-url" placeholder="https://www.google.com/maps/embed?pb=..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded text-xs shadow">Simpan Kontak & Peta</button>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded shadow">Simpan Kontak & Peta</button>
                         </form>
                     </div>
 
                     <!-- SUB 11: ADD & DDS -->
                     <div id="sub-add-dds" class="admin-sub-content space-y-6">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Anggaran & Program ADD & DDS</h3>
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Anggaran & Program ADD & DDS</h3>
                         
-                        <form onsubmit="updateTotalAddDds(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700">
+                        <form onsubmit="updateTotalAddDds(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700 text-xs sm:text-sm">
                             <h4 class="font-bold text-sm text-amber-300">Total Pagu Anggaran Desa</h4>
-                            <div class="grid grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs font-semibold mb-1">Total ADD (Rp)</label>
-                                    <input type="text" id="input-total-add" value="Rp 845.200.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <label class="block font-semibold mb-1">Total ADD (Rp)</label>
+                                    <input type="text" id="input-total-add" value="Rp 845.200.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold mb-1">Total DDS (Rp)</label>
-                                    <input type="text" id="input-total-dds" value="Rp 1.120.500.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <label class="block font-semibold mb-1">Total DDS (Rp)</label>
+                                    <input type="text" id="input-total-dds" value="Rp 1.120.500.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                 </div>
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded text-xs shadow">Simpan Total Anggaran</button>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded shadow">Simpan Total Anggaran</button>
                         </form>
 
-                        <form onsubmit="tambahProgramKegiatan(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700">
+                        <form onsubmit="tambahProgramKegiatan(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700 text-xs sm:text-sm">
                             <h4 class="font-bold text-sm text-emerald-400">Tambah Program / Kegiatan Berdasarkan Sumber Dana</h4>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Sumber Dana</label>
-                                <select id="prog-sumber" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Sumber Dana</label>
+                                <select id="prog-sumber" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                                     <option value="ADD">ADD (Alokasi Dana Desa)</option>
                                     <option value="DDS">DDS (Dana Desa)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Nama Program / Kegiatan</label>
-                                <input type="text" id="prog-nama" placeholder="Contoh: Pembangunan Jembatan Tani" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Nama Program / Kegiatan</label>
+                                <input type="text" id="prog-nama" placeholder="Contoh: Pembangunan Jembatan Tani" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Besaran Anggaran (Rp)</label>
-                                <input type="text" id="prog-anggaran" placeholder="Contoh: Rp 150.000.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Besaran Anggaran (Rp)</label>
+                                <input type="text" id="prog-anggaran" placeholder="Contoh: Rp 150.000.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Keterangan / Fokus Kegiatan</label>
-                                <input type="text" id="prog-ket" placeholder="Contoh: Fisik / Insentif / Rutin" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                <label class="block font-semibold mb-1">Keterangan / Fokus Kegiatan</label>
+                                <input type="text" id="prog-ket" placeholder="Contoh: Fisik / Insentif / Rutin" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded text-xs shadow">Tambah Program</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded shadow">Tambah Program</button>
                         </form>
 
                         <div class="space-y-2">
@@ -832,9 +864,9 @@
         </section>
 
         <!-- 15. KONTAK -->
-        <section id="kontak" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Kontak Kantor Desa Mokupo</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-600">
+        <section id="kontak" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Kontak Kantor Desa Mokupo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm text-slate-600">
                 <div class="space-y-3">
                     <p><i class="fa-solid fa-location-dot text-emerald-700 mr-2"></i> Jl. Trans Sulawesi, Desa Mokupo, Kec. Karamat, Kab. Buol</p>
                     <p id="display-email"><i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> pemdesmokupo@buolkab.go.id</p>
@@ -848,8 +880,8 @@
             </div>
 
             <div class="space-y-2 pt-4 border-t">
-                <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-map-location-dot text-emerald-700 mr-2"></i>Peta Lokasi Kantor Desa Mokupo</h3>
-                <div class="w-full h-96 rounded-xl overflow-hidden border shadow-inner bg-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm sm:text-base"><i class="fa-solid fa-map-location-dot text-emerald-700 mr-2"></i>Peta Lokasi Kantor Desa Mokupo</h3>
+                <div class="w-full h-80 sm:h-96 rounded-xl overflow-hidden border shadow-inner bg-slate-100">
                     <iframe id="display-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.814529321523!2d121.417!3d1.083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMDUnMDAuMCJOIDEyMcKwMjUnMDAuMCJF!5e0!3m2!1sid!2sid!4v1600000000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
@@ -859,25 +891,25 @@
 
     <!-- MODAL CETAK SURAT UNDANGAN MEDIASI -->
     <div id="modal-mediation" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-2xl rounded-2xl p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
+        <div class="bg-white w-full max-w-2xl rounded-2xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
             <button onclick="document.getElementById('modal-mediation').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="printable-mediation" class="bg-white p-6 font-serif text-slate-900 text-sm space-y-6 border rounded-xl">
+            <div id="printable-mediation" class="bg-white p-4 sm:p-6 font-serif text-slate-900 text-xs sm:text-sm space-y-6 border rounded-xl">
                 <div class="text-center border-b-2 border-slate-900 pb-4 space-y-1">
-                    <h4 class="font-bold text-xs uppercase tracking-wider">PEMERINTAH KABUPATEN BUOL</h4>
-                    <h4 class="font-bold text-xs uppercase tracking-wider">KECAMATAN KARAMAT</h4>
-                    <h3 class="font-bold text-base uppercase text-emerald-900">KANTOR KEPALA DESA MOKUPO</h3>
-                    <p class="text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 40123</p>
+                    <h4 class="font-bold text-[10px] sm:text-xs uppercase tracking-wider">PEMERINTAH KABUPATEN BUOL</h4>
+                    <h4 class="font-bold text-[10px] sm:text-xs uppercase tracking-wider">KECAMATAN KARAMAT</h4>
+                    <h3 class="font-bold text-sm sm:text-base uppercase text-emerald-900">KANTOR KEPALA DESA MOKUPO</h3>
+                    <p class="text-[9px] sm:text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 40123</p>
                 </div>
                 <div class="text-center space-y-1 pt-2">
-                    <h3 class="font-bold text-base underline uppercase">SURAT UNDANGAN MEDIASI / KLARIFIKASI</h3>
+                    <h3 class="font-bold text-sm sm:text-base underline uppercase">SURAT UNDANGAN MEDIASI / KLARIFIKASI</h3>
                     <p class="text-xs">Nomor : 140 / <span id="med-no-surat">042</span> / DS-MKP / X / 2026</p>
                 </div>
                 <div class="space-y-3 leading-relaxed pt-2">
                     <p>Kepada Yth,<br>Bapak/Ibu/Saudara(i) <b id="med-terlapor">...</b><br>di – Tempat</p>
                     <p>Sehubungan dengan adanya laporan / pengaduan dari warga terkait permasalahan <b><span id="med-permasalahan">...</span></b>, dengan ini Pemerintah Desa Mokupo mengundang Bapak/Ibu untuk hadir dalam acara mediasi dan penyelesaian masalah secara kekeluargaan yang akan dilaksanakan pada:</p>
-                    <table class="w-full text-xs pl-6 space-y-1">
-                        <tr><td class="w-32 font-semibold">Hari / Tanggal</td><td>: Senin, 26 Oktober 2026</td></tr>
+                    <table class="w-full text-xs pl-4 sm:pl-6 space-y-1">
+                        <tr><td class="w-28 sm:w-32 font-semibold">Hari / Tanggal</td><td>: Senin, 26 Oktober 2026</td></tr>
                         <tr><td class="font-semibold">Pukul</td><td>: 09.00 WITA s.d. Selesai</td></tr>
                         <tr><td class="font-semibold">Tempat</td><td>: Kantor Desa Mokupo (Ruang Mediasi)</td></tr>
                     </table>
@@ -896,7 +928,7 @@
             </div>
 
             <div class="flex gap-4">
-                <button onclick="window.print()" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-bold shadow flex items-center justify-center gap-2">
+                <button onclick="window.print()" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-bold shadow flex items-center justify-center gap-2 text-xs sm:text-sm">
                     <i class="fa-solid fa-print"></i> Cetak Surat Mediasi Ini
                 </button>
             </div>
@@ -904,8 +936,8 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-sm">
-        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Oleh Undang-undang.</p>
+    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-xs sm:text-sm px-4">
+        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undang-undang.</p>
     </footer>
 
     <!-- JAVASCRIPT & LOGIC -->
@@ -914,6 +946,21 @@
         const SUPABASE_URL = 'https://klnpdpyogknfelfdqjm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_rfplDrCh0xEgKtzp6mnx1w_cKgjar7r';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // TOGGLE MENU MOBILE (ANDROID)
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
 
         // DATA STORE PENGADUAN
         function getPengaduanList() {
