@@ -1,4 +1,4 @@
-// app.js - Sistem Utama Desa Mokupo (Stabil & Full Integrasi Supabase)
+// app.js - Logika Utama & Integrasi Supabase Desa Mokupo (Lengkap & Utuh)
 
 document.addEventListener('DOMContentLoaded', () => {
   applySettings();
@@ -13,26 +13,33 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 async function loadHeaderSettings() {
   if (typeof window.supabase === 'undefined') return;
-  const { data, error } = await window.supabase.from('settings').select('*').eq('id', 1).single();
+
+  const { data, error } = await window.supabase
+    .from('settings')
+    .select('*')
+    .eq('id', 1)
+    .maybeSingle();
+
   if (error || !data) return;
 
+  // Isikan data ke input form admin
+  const inputNama = document.getElementById('admin-nama-desa');
+  const inputSlogan = document.getElementById('admin-slogan-desa');
+  const inputLogoLama = document.getElementById('admin-logo-url-lama');
+  const inputVideoLama = document.getElementById('admin-video-url-lama');
+
+  if (inputNama) inputNama.value = data.nama_desa || '';
+  if (inputSlogan) inputSlogan.value = data.slogan || '';
+  if (inputLogoLama) inputLogoLama.value = data.logo_url || '';
+  if (inputVideoLama) inputVideoLama.value = data.video_url || '';
+
+  // Tampilkan di Header Publik
   const elAppTitle = document.getElementById('app-title');
   const elAppSlogan = document.getElementById('app-slogan');
   if (elAppTitle && data.nama_desa) elAppTitle.innerText = data.nama_desa;
   if (elAppSlogan && data.slogan) elAppSlogan.innerText = data.slogan;
 
-  // Set form admin jika ada
-  const inputNama = document.getElementById('admin-nama-desa');
-  const inputSlogan = document.getElementById('admin-slogan-desa');
-  const inputLogo = document.getElementById('admin-logo-url');
-  const inputVideo = document.getElementById('admin-video-url');
-
-  if (inputNama) inputNama.value = data.nama_desa || '';
-  if (inputSlogan) inputSlogan.value = data.slogan || '';
-  if (inputLogo) inputLogo.value = data.logo_url || '';
-  if (inputVideo) inputVideo.value = data.video_url || '';
-
-  // Logo Publik
+  // Tampilkan Logo Publik
   if (data.logo_url) {
     const imgEl = document.getElementById('nav-logo-img');
     const iconEl = document.getElementById('nav-logo-icon');
@@ -43,35 +50,74 @@ async function loadHeaderSettings() {
     }
   }
 
-  // Video Background Publik
+  // Tampilkan Video Latar Publik
   if (data.video_url) {
     const videoBg = document.getElementById('hero-video-bg');
     if (videoBg) {
       videoBg.src = data.video_url;
+      videoBg.load();
     }
   }
 }
 
 async function updateBerandaSettings(e) {
   e.preventDefault();
-  const nama_desa = document.getElementById('admin-nama-desa').value;
-  const slogan = document.getElementById('admin-slogan-desa').value;
-  const logo_url = document.getElementById('admin-logo-url').value;
-  const video_url = document.getElementById('admin-video-url').value;
+  
+  const nama_desa = document.getElementById('admin-nama-desa')?.value || '';
+  const slogan = document.getElementById('admin-slogan-desa')?.value || '';
+  
+  const logoFile = document.getElementById('admin-logo-file')?.files[0];
+  const videoFile = document.getElementById('admin-video-file')?.files[0];
+
+  let logo_url = document.getElementById('admin-logo-url-lama')?.value || '';
+  let video_url = document.getElementById('admin-video-url-lama')?.value || '';
 
   if (typeof window.supabase === 'undefined') {
     alert('Koneksi Supabase belum siap!');
     return;
   }
 
-  const { error } = await window.supabase.from('settings').upsert([
-    { id: 1, nama_desa, slogan, logo_url, video_url }
-  ]);
+  // 1. Unggah Logo Baru jika dipilih dari komputer
+  if (logoFile) {
+    const fileName = 'logo_' + Date.now() + '_' + logoFile.name.replace(/\s+/g, '_');
+    const { error: logoError } = await window.supabase.storage
+      .from('desa-media')
+      .upload(fileName, logoFile);
+
+    if (logoError) {
+      alert('Gagal unggah logo ke Supabase Storage: ' + logoError.message);
+      return;
+    }
+
+    const { data: publicLogo } = window.supabase.storage.from('desa-media').getPublicUrl(fileName);
+    logo_url = publicLogo.publicUrl;
+  }
+
+  // 2. Unggah Video Baru jika dipilih dari komputer
+  if (videoFile) {
+    const videoName = 'video_' + Date.now() + '_' + videoFile.name.replace(/\s+/g, '_');
+    const { error: videoError } = await window.supabase.storage
+      .from('desa-media')
+      .upload(videoName, videoFile);
+
+    if (videoError) {
+      alert('Gagal unggah video ke Supabase Storage: ' + videoError.message);
+      return;
+    }
+
+    const { data: publicVideo } = window.supabase.storage.from('desa-media').getPublicUrl(videoName);
+    video_url = publicVideo.publicUrl;
+  }
+
+  // 3. Simpan ke Database Tabel 'settings'
+  const { error } = await window.supabase
+    .from('settings')
+    .upsert([{ id: 1, nama_desa, slogan, logo_url, video_url }], { onConflict: 'id' });
 
   if (error) {
-    alert('Gagal menyimpan ke Supabase: ' + error.message);
+    alert('Gagal menyimpan ke database: ' + error.message);
   } else {
-    alert('Data Beranda, Logo & Video berhasil disimpan secara permanen ke database!');
+    alert('Data, Logo & Video berhasil diunggah dan disimpan secara permanen!');
     loadHeaderSettings();
   }
 }
@@ -82,11 +128,11 @@ async function updateBerandaSettings(e) {
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   const target = document.getElementById(tabId);
-  if(target) target.classList.add('active');
+  if (target) target.classList.add('active');
 
   const heroBanner = document.getElementById('beranda-hero-fullscreen');
-  if(heroBanner) {
-    if(tabId === 'beranda') {
+  if (heroBanner) {
+    if (tabId === 'beranda') {
       heroBanner.classList.remove('hidden');
     } else {
       heroBanner.classList.add('hidden');
@@ -113,9 +159,9 @@ function switchAdminSub(subId) {
   });
 
   const targetSub = document.getElementById(subId);
-  if(targetSub) targetSub.classList.add('active');
+  if (targetSub) targetSub.classList.add('active');
   
-  if(event && event.currentTarget) {
+  if (event && event.currentTarget) {
     event.currentTarget.classList.remove('bg-slate-700', 'text-slate-200');
     event.currentTarget.classList.add('bg-amber-500', 'text-slate-900');
   }
@@ -127,7 +173,7 @@ function switchAdminSub(subId) {
 }
 
 // ==========================================
-// 4. TOGGLE MENU MOBILE
+// 4. TOGGLE MENU MOBILE (ANDROID)
 // ==========================================
 function toggleMobileMenu() {
   const menu = document.getElementById('mobile-menu');
@@ -203,7 +249,7 @@ function saveBpdList(list) {
 
 function renderPublicBpd() {
   const container = document.getElementById('bpd-public-container');
-  if(!container) return;
+  if (!container) return;
   let list = getBpdList();
   container.innerHTML = list.length === 0 ? `<p class="text-xs text-slate-400 col-span-full text-center py-4">Belum ada data anggota BPD.</p>` : '';
   list.forEach(item => {
@@ -222,7 +268,7 @@ function renderPublicBpd() {
 
 function renderAdminBpdList() {
   const container = document.getElementById('admin-bpd-list');
-  if(!container) return;
+  if (!container) return;
   let list = getBpdList();
   container.innerHTML = list.length === 0 ? `<p class="text-xs text-slate-400">Belum ada anggota BPD.</p>` : '';
   list.forEach((item, index) => {
@@ -261,6 +307,18 @@ function hapusBpdMember(index) {
   }
 }
 
+function getPengaduanList() {
+  let data = localStorage.getItem('desa_pengaduan');
+  return data ? JSON.parse(data) : [];
+}
+
+function renderAdminPengaduanList() {
+  const container = document.getElementById('admin-pengaduan-list');
+  if (!container) return;
+  let list = getPengaduanList();
+  container.innerHTML = list.length === 0 ? `<p class="text-xs text-slate-400">Belum ada pengaduan masyarakat.</p>` : '';
+}
+
 function getAddDdsPrograms() {
   let data = localStorage.getItem('desa_add_dds_programs');
   return data ? JSON.parse(data) : [];
@@ -286,14 +344,14 @@ function getAdmindukData() {
 
 function renderAdminPendudukForm() {
   let adm = getAdmindukData();
-  if(document.getElementById('admin-jml-pria')) {
+  if (document.getElementById('admin-jml-pria')) {
     document.getElementById('admin-jml-pria').value = adm.pria;
   }
 }
 
 function applySettings() {
   let adm = getAdmindukData();
-  if(document.getElementById('home-total')) {
+  if (document.getElementById('home-total')) {
     document.getElementById('home-total').innerText = adm.pria + adm.wanita;
     document.getElementById('home-laki').innerText = adm.pria;
     document.getElementById('home-perempuan').innerText = adm.wanita;
