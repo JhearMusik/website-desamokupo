@@ -1,6 +1,7 @@
-// app.js - Integrasi Supabase Lengkap untuk 12 Menu Desa Mokupo
+// app.js - Integrasi Supabase Lengkap untuk 12 Menu Website Desa Mokupo
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadHeaderSettings();
   loadBeritaList();
   loadTautanList();
   loadAparatList();
@@ -22,8 +23,25 @@ async function updateHeaderSettings(event) {
     { id: 1, nama_desa, slogan, logo_url, video_url }
   ]);
 
-  if (error) alert('Gagal menyimpan Data Beranda: ' + error.message);
-  else alert('Data Beranda berhasil disimpan secara permanen!');
+  if (error) {
+    alert('Gagal menyimpan Data Beranda: ' + error.message);
+  } else {
+    alert('Data Beranda berhasil disimpan secara permanen!');
+    loadHeaderSettings();
+  }
+}
+
+async function loadHeaderSettings() {
+  const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
+  if (error || !data) return;
+
+  const elNamaDesa = document.getElementById('site-nama-desa');
+  const elSlogan = document.getElementById('site-slogan');
+  const elLogo = document.getElementById('site-logo');
+
+  if (elNamaDesa) elNamaDesa.innerText = data.nama_desa;
+  if (elSlogan) elSlogan.innerText = data.slogan;
+  if (elLogo && data.logo_url) elLogo.src = data.logo_url;
 }
 
 
@@ -40,8 +58,11 @@ async function updateProfileSettings(event) {
     { id: 1, foto_kades, sejarah, sambutan }
   ]);
 
-  if (error) alert('Gagal menyimpan Profil: ' + error.message);
-  else alert('Profil berhasil disimpan secara permanen!');
+  if (error) {
+    alert('Gagal menyimpan Profil: ' + error.message);
+  } else {
+    alert('Profil berhasil disimpan secara permanen!');
+  }
 }
 
 
@@ -55,8 +76,9 @@ async function tambahAparatBaru(event) {
   const foto = document.getElementById('admin-foto-aparat').value;
 
   const { error } = await supabase.from('aparat').insert([{ nama, jabatan, foto }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Aparat berhasil ditambahkan!');
     event.target.reset();
     loadAparatList();
@@ -80,15 +102,16 @@ async function loadAparatList() {
 // ==========================================
 // 4. BPD (Badan Permusyawaratan Desa)
 // ==========================================
-async function tambahBpsMember(event) { // Sesuai id form HTML: tambahBpsMember atau tambahBpdMember
+async function tambahBpdMember(event) {
   event.preventDefault();
   const nama = document.getElementById('bpd-nama').value;
   const jabatan = document.getElementById('bpd-jabatan').value;
   const foto = document.getElementById('bpd-foto').value;
 
   const { error } = await supabase.from('bpd').insert([{ nama, jabatan, foto }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Anggota BPD ditambahkan!');
     event.target.reset();
     loadBpdList();
@@ -119,8 +142,9 @@ async function tambahPetugasBaru(event) {
   const password = document.getElementById('petugas-pass').value;
 
   const { error } = await supabase.from('petugas').insert([{ nama, username, password }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Petugas baru berhasil didaftarkan!');
     event.target.reset();
   }
@@ -138,8 +162,9 @@ async function tambahArsipSurat(event) {
   const pihak = document.getElementById('arsip-pihak').value;
 
   const { error } = await supabase.from('surat').insert([{ kategori, nomor, perihal, pihak }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Arsip surat berhasil disimpan!');
     event.target.reset();
   }
@@ -149,7 +174,7 @@ async function tambahArsipSurat(event) {
 // ==========================================
 // 7. PENGADUAN MASYARAKAT
 // ==========================================
-// (Biasanya bersifat publik dari halaman utama, ditampilkan di admin)
+// Ditangani secara publik melalui formulir pengunjung
 
 
 // ==========================================
@@ -161,8 +186,9 @@ async function publikasiBerita(event) {
   const isi = document.getElementById('admin-isi-berita').value;
 
   const { error } = await supabase.from('berita').insert([{ judul, isi, tanggal: new Date().toISOString().split('T')[0] }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Berita berhasil dipublikasikan!');
     event.target.reset();
     loadBeritaList();
@@ -200,8 +226,11 @@ async function updateStatistikPenduduk(event) {
   const { error } = await supabase.from('adminduk').upsert([
     { id: 1, pria, wanita, kk, ktp, kia, akta, ikd }
   ]);
-  if (error) alert('Gagal: ' + error.message);
-  else alert('Data Adminduk berhasil diperbarui!');
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
+    alert('Data Adminduk berhasil diperbarui!');
+  }
 }
 
 
@@ -214,8 +243,9 @@ async function tambahTautanIklan(event) {
   const url = document.getElementById('tautan-url').value;
 
   const { error } = await supabase.from('tautan').insert([{ nama, url }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Tautan berhasil disimpan!');
     event.target.reset();
     loadTautanList();
@@ -248,8 +278,11 @@ async function updateWebSettings(event) {
   const { error } = await supabase.from('kontak').upsert([
     { id: 1, telepon, email, map_url }
   ]);
-  if (error) alert('Gagal: ' + error.message);
-  else alert('Kontak & Peta berhasil disimpan!');
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
+    alert('Kontak & Peta berhasil disimpan!');
+  }
 }
 
 
@@ -264,8 +297,11 @@ async function updateTotalAddox(event) {
   const { error } = await supabase.from('anggaran').upsert([
     { id: 1, total_add, total_dds }
   ]);
-  if (error) alert('Gagal: ' + error.message);
-  else alert('Total Anggaran berhasil diperbarui!');
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
+    alert('Total Anggaran berhasil diperbarui!');
+  }
 }
 
 async function tambahProgramKegiatan(event) {
@@ -276,8 +312,9 @@ async function tambahProgramKegiatan(event) {
   const keterangan = document.getElementById('prog-ket').value;
 
   const { error } = await supabase.from('kegiatan').insert([{ sumber, nama, anggaran, keterangan }]);
-  if (error) alert('Gagal: ' + error.message);
-  else {
+  if (error) {
+    alert('Gagal: ' + error.message);
+  } else {
     alert('Program berhasil ditambahkan!');
     event.target.reset();
     loadAddDds();
