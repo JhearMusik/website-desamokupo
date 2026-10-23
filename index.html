@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Desa (SID) Terpadu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .dropdown:hover .dropdown-menu { display: block; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-emerald-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center font-bold text-xl border-2 border-amber-400">
+                        <i class="fa-solid me-0.5 fa-building-columns"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight uppercase tracking-wider">Desa Makmur Jaya</h1>
+                        <p class="text-xs text-emerald-200">Sistem Informasi & Service Portal Desa</p>
+                    </div>
+                </div>
+
+                <!-- NAV MENU (Desktop) -->
+                <nav class="hidden md:flex space-x-1 font-medium text-sm">
+                    <button onclick="switchTab('beranda')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">BERANDA</button>
+                    
+                    <!-- DROPDOWN PROFIL -->
+                    <div class="relative dropdown">
+                        <button class="px-3 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
+                            PROFIL <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu hidden absolute left-0 w-56 bg-white text-slate-800 shadow-xl rounded-md py-2 border">
+                            <button onclick="switchTab('profil-sejarah')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Sejarah</button>
+                            <button onclick="switchTab('profil-visimisi')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Visi dan Misi</button>
+                            <button onclick="switchTab('profil-struktur')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Struktur Organisasi</button>
+                            <button onclick="switchTab('profil-sambutan')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Sambutan Kepala Desa</button>
+                        </div>
+                    </div>
+
+                    <button onclick="switchTab('aparat')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">APARAT DESA & TUPOKSI</button>
+                    
+                    <!-- DROPDOWN LAYANAN -->
+                    <div class="relative dropdown">
+                        <button class="px-3 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
+                            LAYANAN <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu hidden absolute left-0 w-64 bg-white text-slate-800 shadow-xl rounded-md py-2 border">
+                            <button onclick="switchTab('layanan-surat')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Surat Masuk / Keluar</button>
+                            <button onclick="switchTab('layanan-pengaduan')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Form Pengaduan Online</button>
+                        </div>
+                    </div>
+
+                    <button onclick="switchTab('keuangan')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">ADD & DDS</button>
+                    <button onclick="switchTab('adminduk')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">DATA ADMINDUK</button>
+                    <button onclick="switchTab('portal-petugas')" class="nav-btn px-3 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold ml-2"><i class="fa-solid fa-user-shield mr-1"></i> PORTAL PETUGAS</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB BERANDA -->
+        <section id="beranda" class="tab-content active space-y-8">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-8 text-white shadow-xl flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">Selamat Datang di Portal Resmi Desa</h2>
+                    <p class="text-emerald-100 max-w-xl">Pelayanan publik transparan, akuntabel, dan terintegrasi secara digital untuk seluruh lapisan masyarakat.</p>
+                </div>
+            </div>
+
+            <!-- RINGKASAN ADMINDUK SUMMARY -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase text-slate-500 font-semibold">Total Penduduk</p>
+                        <h3 id="stat-total" class="text-3xl font-bold text-slate-800">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase text-slate-500 font-semibold">Laki-Laki</p>
+                        <h3 id="stat-laki" class="text-3xl font-bold text-blue-600">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-mars"></i></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase text-slate-500 font-semibold">Perempuan</p>
+                        <h3 id="stat-perempuan" class="text-3xl font-bold text-pink-600">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-pink-50 text-pink-500 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-venus"></i></div>
+                </div>
+            </div>
+
+            <!-- BERITA & INFORMASI -->
+            <div class="bg-white rounded-xl border p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2"><i class="fa-regular fa-newspaper text-emerald-600 mr-2"></i>Informasi & Berita Terbaru</h3>
+                <div id="berita-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <p class="text-slate-400">Memuat berita dari database...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB PROFIL: SEJARAH -->
+        <section id="profil-sejarah" class="tab-content bg-white p-8 rounded-xl border shadow-sm">
+            <h2 class="text-2xl font-bold text-emerald-800 mb-4 border-b pb-2">Sejarah Desa</h2>
+            <p class="text-slate-600 leading-relaxed">Desa Makmur Jaya didirikan pada tahun 1982. Berawal dari pemukiman swadaya, kini berkembang menjadi pusat pelayanan publik berbasis teknologi yang mandiri dan sejahtera.</p>
+        </section>
+
+        <!-- TAB PROFIL: VISI MISI -->
+        <section id="profil-visimisi" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Visi & Misi</h2>
+            <div>
+                <h3 class="font-bold text-slate-700">VISI:</h3>
+                <p class="text-slate-600 italic">"Terwujudnya Desa Digital, Mandiri, Sejahtera, dan Berprestasi dalam Pelayanan Publik."</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-slate-700">MISI:</h3>
+                <ul class="list-disc list-inside text-slate-600 space-y-1 mt-2">
+                    <li>Transparansi tata kelola Anggaran Dana Desa (ADD & DDS).</li>
+                    <li>Digitalisasi layanan administrasi kependudukan.</li>
+                    <li>Peningkatan sarana prasarana serta ekonomi kemasyarakatan.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TAB LAYANAN SURAT -->
+        <section id="layanan-surat" class="tab-content bg-white p-8 rounded-xl border shadow-sm">
+            <h2 class="text-2xl font-bold text-emerald-800 mb-6 border-b pb-2"><i class="fa-solid fa-envelope-open-text mr-2"></i>Layanan Persurat-an</h2>
+            <form id="form-surat" onsubmit="simpanSurat(event)" class="space-y-4 max-w-2xl bg-slate-50 p-6 rounded-lg border">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Kategori Surat</label>
+                    <select id="surat-kategori" class="w-full mt-1 p-2 border rounded-md">
+                        <option value="Keluar">Surat Keluar (Pengajuan Penduduk)</option>
+                        <option value="Masuk">Surat Masuk (Dokumen Eksternal)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Jenis Surat</label>
+                    <input type="text" id="surat-jenis" placeholder="Contoh: Surat Keterangan Usaha / Undangan" required class="w-full mt-1 p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Pengirim / Penerima</label>
+                    <input type="text" id="surat-pihak" placeholder="Nama Warga atau Instansi" required class="w-full mt-1 p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Keterangan / Perihal</label>
+                    <textarea id="surat-ket" rows="3" class="w-full mt-1 p-2 border rounded-md"></textarea>
+                </div>
+                <button type="submit" class="bg-emerald-700 text-white px-6 py-2 rounded-md hover:bg-emerald-800 font-medium">Proses & Simpan ke Supabase</button>
+            </form>
+        </section>
+
+        <!-- TAB PORTAL PETUGAS (ADMIN) -->
+        <section id="portal-petugas" class="tab-content space-y-6">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl flex justify-between items-center shadow-md">
+                <div>
+                    <h2 class="text-2xl font-bold"><i class="fa-solid fa-user-gear mr-2"></i>Portal Petugas & Admin Desa</h2>
+                    <p class="text-sm font-medium">Kelola Data Penduduk, Berita, & Pengaduan secara Realtime.</p>
+                </div>
+            </div>
+
+            <!-- FORM PROSES PENAMBAHAN PENDUDUK -->
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Input Data Penduduk Baru</h3>
+                <form id="form-penduduk" onsubmit="tambahPenduduk(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" id="p-nik" placeholder="NIK (16 Digit)" required maxlength="16" class="p-2 border rounded-md">
+                    <input type="text" id="p-nama" placeholder="Nama Lengkap" required class="p-2 border rounded-md">
+                    <select id="p-jk" class="p-2 border rounded-md">
+                        <option value="Laki-Laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                    <button type="submit" class="md:col-span-3 bg-emerald-700 text-white py-2 rounded-md font-bold hover:bg-emerald-800">Simpan Penduduk</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            <p>&copy; 2026 Pemerintah Desa Makmur Jaya. Integrated with Supabase & GitHub.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT & SUPABASE INTEGRATION -->
+    <script>
+        // 1. KONEKSI SUPABASE
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL'; 
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 2. NAVIGASI TAB
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if(target) target.classList.add('active');
+        }
+
+        // 3. AMBIL DATA ADMINDUK DARI SUPABASE
+        async function loadAdmindukStats() {
+            const { data, error } = await supabaseClient.from('penduduk').select('*');
+            if (error) { console.error(error); return; }
+
+            const total = data.length;
+            const laki = data.filter(p => p.jenis_kelamin === 'Laki-Laki').length;
+            const perempuan = data.filter(p => p.jenis_kelamin === 'Perempuan').length;
+
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-laki').innerText = laki;
+            document.getElementById('stat-perempuan').innerText = perempuan;
+        }
+
+        // 4. SIMPAN SURAT KE SUPABASE
+        async function simpanSurat(e) {
+            e.preventDefault();
+            const kategori = document.getElementById('surat-kategori').value;
+            const jenis = document.getElementById('surat-jenis').value;
+            const pihak = document.getElementById('surat-pihak').value;
+            const ket = document.getElementById('surat-ket').value;
+
+            const nomorOtomatis = `470/${Math.floor(1000 + Math.random() * 9000)}/2026`;
+
+            const { data, error } = await supabaseClient.from('surat').insert([
+                { nomor_surat: nomorOtomatis, index_surat: '470', jenis_surat: jenis, pengirim_penerima: pihak, keterangan: ket, kategori: kategori }
+            ]);
+
+            if (error) {
+                alert('Gagal menyimpan surat: ' + error.message);
+            } else {
+                alert('Surat Berhasil Diproses! Nomor Surat: ' + nomorOtomatis);
+                document.getElementById('form-surat').reset();
+            }
+        }
+
+        // 5. TAMBAH PENDUDUK BARU DARI PORTAL PETUGAS
+        async function tambahPenduduk(e) {
+            e.preventDefault();
+            const nik = document.getElementById('p-nik').value;
+            const nama = document.getElementById('p-nama').value;
+            const jk = document.getElementById('p-jk').value;
+
+            const { data, error } = await supabaseClient.from('penduduk').insert([
+                { nik: nik, nama: nama, jenis_kelamin: jk }
+            ]);
+
+            if (error) {
+                alert('Gagal menambahkan penduduk: ' + error.message);
+            } else {
+                alert('Penduduk Berhasil Ditambahkan!');
+                document.getElementById('form-penduduk').reset();
+                loadAdmindukStats();
+            }
+        }
+
+        // INITIAL LOAD
+        window.onload = () => {
+            loadAdmindukStats();
+        };
+    </script>
+</body>
+</html>
