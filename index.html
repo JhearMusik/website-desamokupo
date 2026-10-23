@@ -30,7 +30,7 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <span><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> Desa Mokupo, Kec. Karamat, Kab. Buol</span>
-                <span><i class="fa-solid fa-envelope mr-1 text-amber-400"></i> pemdesmokupo@buolkab.go.id</span>
+                <span id="topbar-email"><i class="fa-solid fa-envelope mr-1 text-amber-400"></i> pemdesmokupo@buolkab.go.id</span>
             </div>
             <span class="font-semibold text-amber-300">PORTAL RESMI PEMDES MOKUPO</span>
         </div>
@@ -47,7 +47,7 @@
                     </div>
                     <div>
                         <h1 id="app-title" class="font-bold text-sm md:text-base leading-tight uppercase tracking-wider">DESA MOKUPO KECAMATAN KARAMAT</h1>
-                        <p class="text-xs text-emerald-200">Sistem Informasi & Portal Pelayanan Publik</p>
+                        <p id="app-slogan" class="text-xs text-emerald-200">Sistem Informasi & Portal Pelayanan Publik</p>
                     </div>
                 </div>
 
@@ -87,24 +87,9 @@
                     <button onclick="switchTab('tautan')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">TAUTAN</button>
                     <button onclick="switchTab('adminduk')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">DATA ADMINDUK</button>
                     
-                    <!-- PORTAL PETUGAS DROPDOWN -->
-                    <div class="relative dropdown">
-                        <button class="px-3 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold flex items-center gap-1 ml-1 shadow">
-                            <i class="fa-solid fa-user-shield"></i> PORTAL PETUGAS <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                        </button>
-                        <div class="dropdown-menu hidden absolute right-0 w-64 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
-                            <button onclick="switchTab('admin-beranda')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs font-semibold">Edit Data Beranda & Logo</button>
-                            <button onclick="switchTab('admin-profil')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Edit Profil & Sub</button>
-                            <button onclick="switchTab('admin-aparat')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Aparat Desa & Tupoksi dan Sub</button>
-                            <button onclick="switchTab('admin-petugas')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Tambah Petugas</button>
-                            <button onclick="switchTab('admin-surat')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Proses Surat Menyurat</button>
-                            <button onclick="switchTab('admin-pengaduan')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Kelola Pengaduan</button>
-                            <button onclick="switchTab('admin-berita')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Informasi dan Berita</button>
-                            <button onclick="switchTab('admin-penduduk')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Kelola Jumlah Penduduk</button>
-                            <button onclick="switchTab('admin-tautan')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Kelola Tautan</button>
-                            <button onclick="switchTab('admin-kontak')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Edit Kontak</button>
-                        </div>
-                    </div>
+                    <button onclick="switchTab('portal-petugas')" class="nav-btn px-3 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold flex items-center gap-1 ml-1 shadow">
+                        <i class="fa-solid fa-user-shield"></i> PORTAL PETUGAS
+                    </button>
 
                     <button onclick="switchTab('kontak')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">KONTAK</button>
                 </nav>
@@ -133,28 +118,28 @@
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-xs uppercase text-slate-500 font-semibold">Total Penduduk</p>
-                        <h3 id="home-total" class="text-3xl font-bold text-slate-800 mt-1">0</h3>
+                        <h3 id="home-total" class="text-3xl font-bold text-slate-800 mt-1">4830</h3>
                     </div>
                     <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
                 </div>
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Laki-Laki</p>
-                        <h3 id="home-laki" class="text-3xl font-bold text-blue-600 mt-1">0</h3>
+                        <p class="text-xs uppercase text-slate-500 font-semibold">Laki-Laki (Pria)</p>
+                        <h3 id="home-laki" class="text-3xl font-bold text-blue-600 mt-1">2450</h3>
                     </div>
                     <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-mars"></i></div>
                 </div>
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Perempuan</p>
-                        <h3 id="home-perempuan" class="text-3xl font-bold text-pink-600 mt-1">0</h3>
+                        <p class="text-xs uppercase text-slate-500 font-semibold">Perempuan (Wanita)</p>
+                        <h3 id="home-perempuan" class="text-3xl font-bold text-pink-600 mt-1">2380</h3>
                     </div>
                     <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-venus"></i></div>
                 </div>
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-xs uppercase text-slate-500 font-semibold">Kepala Keluarga (KK)</p>
-                        <h3 id="home-kk" class="text-3xl font-bold text-teal-600 mt-1">0</h3>
+                        <h3 id="home-kk" class="text-3xl font-bold text-teal-600 mt-1">1210</h3>
                     </div>
                     <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-house-chimney"></i></div>
                 </div>
@@ -223,7 +208,7 @@
         <!-- 6. APARAT DESA DAN TUPOKSI -->
         <section id="aparat" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
             <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Aparat Desa Dan Tupoksi</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="aparat-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3">
                     <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border">
                         <i class="fa-solid fa-user"></i>
@@ -237,13 +222,6 @@
                     </div>
                     <h3 class="font-bold text-lg text-slate-800">Sekretaris Desa</h3>
                     <p class="text-xs text-slate-500">Tugas Pokok: Membantu Kepala Desa dalam bidang administrasi pemerintahan dan pelayanan kesekretariatan.</p>
-                </div>
-                <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3">
-                    <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-slate-800">Kasi Pemerintahan</h3>
-                    <p class="text-xs text-slate-500">Tugas Pokok: Melaksanakan penataan administrasi kependudukan dan pertanahan desa.</p>
                 </div>
             </div>
         </section>
@@ -290,14 +268,14 @@
             </div>
         </section>
 
-        <!-- 9. LAYANAN: BUAT & CETAK SURAT (LAYOUT PERSIS GAMBAR) -->
+        <!-- 9. LAYANAN: BUAT & CETAK SURAT -->
         <section id="layanan-buat-surat" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Layanan Pembuatan & Cetak Surat Mandiri</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- FORM INPUT -->
                 <div class="bg-white p-6 rounded-xl border shadow-sm space-y-4">
                     <h3 class="font-bold text-slate-800 text-lg border-b pb-2">Formulir Pengisian Surat</h3>
-                    <form id="form-surat-mandiri" onsubmit="generateSuratPreview(event)" class="space-y-4">
+                    <form onsubmit="generateSuratPreview(event)" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700">JENIS SURAT</label>
                             <select id="s-jenis" class="w-full mt-1 p-2.5 border rounded-lg bg-white">
@@ -438,99 +416,196 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="p-5 border rounded-xl bg-slate-50 text-center">
                     <p class="text-xs text-slate-500 font-semibold">JUMLAH KK</p>
-                    <h3 id="adm-kk" class="text-2xl font-bold text-slate-800 mt-1">0</h3>
+                    <h3 id="adm-kk" class="text-2xl font-bold text-slate-800 mt-1">1210</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center">
                     <p class="text-xs text-slate-500 font-semibold">MEMILIKI KTP-EL</p>
-                    <h3 id="adm-ktp" class="text-2xl font-bold text-blue-600 mt-1">0</h3>
+                    <h3 id="adm-ktp" class="text-2xl font-bold text-blue-600 mt-1">3620</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center">
                     <p class="text-xs text-slate-500 font-semibold">ANAK MEMILIKI KIA</p>
-                    <h3 id="adm-kia" class="text-2xl font-bold text-emerald-600 mt-1">0</h3>
+                    <h3 id="adm-kia" class="text-2xl font-bold text-emerald-600 mt-1">965</h3>
                 </div>
                 <div class="p-5 border rounded-xl bg-slate-50 text-center">
                     <p class="text-xs text-slate-500 font-semibold">MEMILIKI AKTA KELAHIRAN</p>
-                    <h3 id="adm-akta" class="text-2xl font-bold text-pink-600 mt-1">0</h3>
+                    <h3 id="adm-akta" class="text-2xl font-bold text-pink-600 mt-1">4340</h3>
                 </div>
             </div>
         </section>
 
-        <!-- 14. PORTAL PETUGAS: EDIT BERANDA & LOGO -->
-        <section id="admin-beranda" class="tab-content space-y-6">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold flex justify-between items-center shadow">
-                <span><i class="fa-solid fa-image mr-2"></i> Edit Data Beranda & Logo Desa</span>
-            </div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm space-y-4">
-                <form onsubmit="simpanPengaturanLogo(event)" class="space-y-4 max-w-xl">
+        <!-- 14. PORTAL PETUGAS (DENGAN SISTEM LOGIN & DASHBOARD GAMBAR 1) -->
+        <section id="portal-petugas" class="tab-content space-y-6">
+            
+            <!-- GATE LOGIN PETUGAS -->
+            <div id="auth-login-box" class="max-w-md mx-auto bg-white p-8 rounded-2xl border shadow-xl space-y-6 mt-10">
+                <div class="text-center space-y-2">
+                    <div class="w-16 h-16 bg-amber-500 text-slate-900 rounded-full flex items-center justify-center text-2xl mx-auto shadow">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Login Portal Petugas</h2>
+                    <p class="text-xs text-slate-500">Masukkan akun admin desa untuk mengakses panel pengaturan.</p>
+                </div>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">URL Logo Desa (Link Gambar / PNG / JPG)</label>
-                        <input type="url" id="input-logo-url" placeholder="https://example.com/logo.png" class="w-full mt-1 p-2.5 border rounded-lg">
-                        <p class="text-xs text-slate-500 mt-1">Atau masukkan tautan gambar logo resmi desa Anda.</p>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+                        <input type="text" id="login-user" placeholder="admin" required class="w-full p-3 border rounded-lg text-sm bg-slate-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Nama Desa / Instansi</label>
-                        <input type="text" id="input-nama-desa" value="DESA MOKUPO KECAMATAN KARAMAT" class="w-full mt-1 p-2.5 border rounded-lg">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                        <input type="password" id="login-pass" placeholder="••••••••" required class="w-full p-3 border rounded-lg text-sm bg-slate-50">
                     </div>
-                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2.5 rounded-lg shadow">
-                        Simpan & Perbarui Logo
+                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg shadow transition">
+                        Masuk Dashboard
                     </button>
+                    <p class="text-[11px] text-center text-slate-400">Default Demo: username <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">admin</code> | password <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">admin123</code></p>
                 </form>
             </div>
-        </section>
 
-        <section id="admin-profil" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Edit Profil & Sub-menu</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Perbarui sejarah, visi misi, dan struktur organisasi desa.</p></div>
-        </section>
+            <!-- DASHBOARD PANEL (SESUAI GAMBAR 1) -->
+            <div id="admin-dashboard-box" class="hidden space-y-6 bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-2xl">
+                <!-- TOP HEADER DASHBOARD -->
+                <div class="flex flex-col md:flex-row justify-between items-center bg-slate-800 p-6 rounded-xl border border-slate-700 gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-user-gear text-amber-400 text-2xl"></i>
+                            <h2 class="text-2xl font-bold text-white tracking-wide">PORTAL PETUGAS (ADMIN DASHBOARD)</h2>
+                        </div>
+                        <p class="text-xs text-slate-400">Panel Pengelolaan Situs Desa, Layanan Surat, Informasi, Kontak & Adminduk</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1.5 rounded-lg">Status: Admin Logged In</span>
+                        <button onclick="handleLogout()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow transition">
+                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+                        </button>
+                    </div>
+                </div>
 
-        <section id="admin-aparat" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Aparat Desa dan Tupoksi dan Sub</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Kelola data pegawai, jabatan, foto, serta uraian tugas pokok dan fungsi.</p></div>
-        </section>
+                <!-- GRID KARTU DASHBOARD SESUAI GAMBAR 1 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- KARTU 1: EDIT DATA BERANDA & LOGO -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider flex items-center gap-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-image"></i> Edit Data Beranda & Logo
+                        </h3>
+                        <form onsubmit="updateBerandaSettings(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Desa</label>
+                                <input type="text" id="admin-nama-desa" value="DESA MOKUPO KECAMATAN KARAMAT" class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Slogan Desa</label>
+                                <input type="text" id="admin-slogan-desa" value="Sistem Informasi & Portal Pelayanan Publik" class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">URL Logo Desa (Opsional)</label>
+                                <input type="url" id="admin-logo-url" placeholder="https://..." class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded text-xs shadow">
+                                Update Beranda
+                            </button>
+                        </form>
+                    </div>
 
-        <section id="admin-petugas" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Tambah Petugas Admin</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Daftarkan akun operator desa baru untuk mengelola sistem.</p></div>
-        </section>
+                    <!-- KARTU 2: KELOLA INFORMASI & BERITA -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider flex items-center gap-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-newspaper"></i> Kelola Informasi & Berita
+                        </h3>
+                        <form onsubmit="publikasiBerita(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Judul Berita</label>
+                                <input type="text" id="admin-judul-berita" placeholder="Judul Berita..." required class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Ringkasan Isi Berita</label>
+                                <textarea id="admin-isi-berita" rows="3" placeholder="Ringkasan isi berita..." required class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-xs shadow">
+                                Publikasikan Berita
+                            </button>
+                        </form>
+                    </div>
 
-        <section id="admin-surat" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Proses Surat Menyurat</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Verifikasi dan setujui permohonan surat masuk dan keluar.</p></div>
-        </section>
+                    <!-- KARTU 3: UPDATE DATA PENDUDUK -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider flex items-center gap-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-users"></i> Update Data Penduduk
+                        </h3>
+                        <form onsubmit="updateStatistikPenduduk(event)" class="space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Pria (Laki-Laki)</label>
+                                    <input type="number" id="admin-jml-pria" value="2450" class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Wanita (Perempuan)</label>
+                                    <input type="number" id="admin-jml-wanita" value="2380" class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-xs shadow">
+                                Update Statistik Penduduk
+                            </button>
+                        </form>
+                    </div>
 
-        <section id="admin-pengaduan" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Kelola Pengaduan Masyarakat</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Tanggapi dan ubah status laporan pengaduan warga.</p></div>
-        </section>
+                    <!-- KARTU 4: TAMBAH APARAT & TUPOKSI -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider flex items-center gap-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-user-tie"></i> Tambah Aparat & Tupoksi
+                        </h3>
+                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Aparat</label>
+                                <input type="text" id="admin-nama-aparat" placeholder="Nama lengkap & gelar" required class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Jabatan</label>
+                                <input type="text" id="admin-jabatan-aparat" placeholder="Contoh: Kasi Pelayanan" required class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-xs shadow">
+                                Simpan Aparat Baru
+                            </button>
+                        </form>
+                    </div>
 
-        <section id="admin-berita" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Informasi dan Berita</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Publikasikan pengumuman dan kegiatan terbaru desa.</p></div>
-        </section>
+                    <!-- KARTU 5: EDIT KONTAK & TAUTAN -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider flex items-center gap-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-address-book"></i> Edit Kontak & Tautan
+                        </h3>
+                        <form onsubmit="updateKontakSettings(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Nomor Telepon / WhatsApp</label>
+                                <input type="text" id="admin-phone" value="+62 821-xxxx-xxxx" class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Email Resmi Desa</label>
+                                <input type="email" id="admin-email" value="pemdesmokupo@buolkab.go.id" class="w-full p-2 bg-slate-900 border border-slate-700 text-white rounded text-xs">
+                            </div>
+                            <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded text-xs shadow">
+                                Simpan Kontak
+                            </button>
+                        </form>
+                    </div>
 
-        <section id="admin-penduduk" class="tab-content space-y-6">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Kelola Jumlah Penduduk & Adminduk</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm">
-                <form onsubmit="tambahPenduduk(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input type="text" id="p-nik" placeholder="NIK (16 Digit)" required class="p-2 border rounded-md">
-                    <input type="text" id="p-nama" placeholder="Nama Lengkap" required class="p-2 border rounded-md">
-                    <select id="p-jk" class="p-2 border rounded-md">
-                        <option value="Laki-Laki">Laki-Laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
-                    <button type="submit" class="md:col-span-3 bg-emerald-700 text-white py-2.5 rounded-lg font-bold hover:bg-emerald-800">Simpan Penduduk ke Database</button>
-                </form>
+                    <!-- KARTU 6: LOG AKTIVITAS SISTEM -->
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow flex flex-col justify-between">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider flex items-center gap-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-terminal"></i> Log Aktivitas Sistem
+                        </h3>
+                        <div id="system-log-box" class="bg-black/50 p-3 rounded border border-slate-700 text-[11px] font-mono text-emerald-400 h-28 overflow-y-auto space-y-1">
+                            <p>[SYSTEM] Sistem Informasi Desa berjalan normal.</p>
+                            <p>[AUTH] Sesi keamanan admin aktif.</p>
+                        </div>
+                        <button onclick="bersihkanLog()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-1.5 rounded text-xs">
+                            Bersihkan Log
+                        </button>
+                    </div>
+
+                </div>
             </div>
-        </section>
 
-        <section id="admin-tautan" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Kelola Tautan</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Tambah atau hapus link instansi terkait.</p></div>
-        </section>
-
-        <section id="admin-kontak" class="tab-content space-y-4">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Edit Kontak</div>
-            <div class="bg-white p-6 rounded-xl border shadow-sm"><p class="text-slate-600">Perbarui alamat kantor desa, email, dan nomor telepon layanan.</p></div>
         </section>
 
         <!-- 15. KONTAK -->
@@ -539,8 +614,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-600">
                 <div class="space-y-3">
                     <p><i class="fa-solid fa-location-dot text-emerald-700 mr-2"></i> Jl. Trans Sulawesi, Desa Mokupo, Kec. Karamat, Kab. Buol</p>
-                    <p><i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> pemdesmokupo@buolkab.go.id</p>
-                    <p><i class="fa-solid fa-phone text-emerald-700 mr-2"></i> +62 821-xxxx-xxxx</p>
+                    <p id="display-email"><i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> pemdesmokupo@buolkab.go.id</p>
+                    <p id="display-phone"><i class="fa-solid fa-phone text-emerald-700 mr-2"></i> +62 821-xxxx-xxxx</p>
                 </div>
                 <div class="space-y-3">
                     <p class="font-bold text-slate-800">Jam Pelayanan Kantor:</p>
@@ -554,7 +629,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-sm">
-        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Terintegrasi Supabase & GitHub.</p>
+        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undang-undang.</p>
     </footer>
 
     <!-- JAVASCRIPT & LOGIC -->
@@ -570,6 +645,178 @@
             const target = document.getElementById(tabId);
             if(target) target.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (tabId === 'portal-petugas') {
+                checkAuthStatus();
+            }
+        }
+
+        // SISTEM LOGIN PETUGAS
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('login-user').value;
+            const p = document.getElementById('login-pass').value;
+
+            if (u === 'admin' && p === 'admin123') {
+                sessionStorage.setItem('admin_logged', 'true');
+                checkAuthStatus();
+                appendLog('Login petugas berhasil.');
+            } else {
+                alert('Username atau Password salah! Gunakan admin / admin123');
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('admin_logged');
+            checkAuthStatus();
+            appendLog('Admin melakukan logout.');
+        }
+
+        function checkAuthStatus() {
+            const isLogged = sessionStorage.getItem('admin_logged');
+            const loginBox = document.getElementById('auth-login-box');
+            const dashBox = document.getElementById('admin-dashboard-box');
+
+            if (isLogged === 'true') {
+                loginBox.classList.add('hidden');
+                dashBox.classList.remove('hidden');
+            } else {
+                loginBox.classList.remove('hidden');
+                dashBox.classList.add('hidden');
+            }
+        }
+
+        function appendLog(msg) {
+            const box = document.getElementById('system-log-box');
+            if(box) {
+                const time = new Date().toLocaleTimeString();
+                box.innerHTML += `<p>[${time}] ${msg}</p>`;
+                box.scrollTop = box.scrollHeight;
+            }
+        }
+
+        function bersihkanLog() {
+            document.getElementById('system-log-box').innerHTML = '<p>[SYSTEM] Log dibersihkan.</p>';
+        }
+
+        // FITUR DASHBOARD PETUGAS (GAMBAR 1)
+        function updateBerandaSettings(e) {
+            e.preventDefault();
+            const nama = document.getElementById('admin-nama-desa').value;
+            const slogan = document.getElementById('admin-slogan-desa').value;
+            const logo = document.getElementById('admin-logo-url').value;
+
+            localStorage.setItem('desa_nama', nama);
+            localStorage.setItem('desa_slogan', slogan);
+            if(logo) localStorage.setItem('desa_logo', logo);
+
+            applySettings();
+            alert('Pengaturan beranda dan logo berhasil diperbarui!');
+            appendLog(`Update Beranda: ${nama}`);
+        }
+
+        function publikasiBerita(e) {
+            e.preventDefault();
+            const judul = document.getElementById('admin-judul-berita').value;
+            const isi = document.getElementById('admin-isi-berita').value;
+
+            const grid = document.getElementById('beranda-berita-grid');
+            const newCard = document.createElement('div');
+            newCard.className = 'border p-4 rounded-xl space-y-2 bg-slate-50';
+            newCard.innerHTML = `
+                <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">TERBARU</span>
+                <h4 class="font-bold text-slate-800 text-base">${judul}</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">${isi}</p>
+                <p class="text-[10px] text-slate-400"><i class="fa-regular fa-calendar mr-1"></i> Hari ini</p>
+            `;
+            grid.prepend(newCard);
+            document.getElementById('admin-judul-berita').value = '';
+            document.getElementById('admin-isi-berita').value = '';
+            alert('Berita berhasil dipublikasikan ke beranda!');
+            appendLog(`Berita dipublikasikan: ${judul}`);
+        }
+
+        function updateStatistikPenduduk(e) {
+            e.preventDefault();
+            const pria = parseInt(document.getElementById('admin-jml-pria').value);
+            const wanita = parseInt(document.getElementById('admin-jml-wanita').value);
+            const total = pria + wanita;
+            const kk = Math.round(total / 4);
+
+            document.getElementById('home-total').innerText = total;
+            document.getElementById('home-laki').innerText = pria;
+            document.getElementById('home-perempuan').innerText = wanita;
+            document.getElementById('home-kk').innerText = kk;
+
+            document.getElementById('adm-kk').innerText = kk;
+            document.getElementById('adm-ktp').innerText = Math.round(total * 0.75);
+            document.getElementById('adm-kia').innerText = Math.round(total * 0.20);
+            document.getElementById('adm-akta').innerText = Math.round(total * 0.90);
+
+            alert('Statistik penduduk berhasil diperbarui!');
+            appendLog(`Update Penduduk: Pria ${pria}, Wanita ${wanita}`);
+        }
+
+        function tambahAparatDesa(e) {
+            e.preventDefault();
+            const nama = document.getElementById('admin-nama-aparat').value;
+            const jabatan = document.getElementById('admin-jabatan-aparat').value;
+
+            const container = document.getElementById('aparat-container');
+            const card = document.createElement('div');
+            card.className = 'border rounded-xl p-5 bg-slate-50 text-center space-y-3';
+            card.innerHTML = `
+                <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 class="font-bold text-lg text-slate-800">${nama}</h3>
+                <p class="text-xs text-emerald-700 font-semibold">${jabatan}</p>
+                <p class="text-xs text-slate-500">Tugas Pokok: Melaksanakan tugas sesuai bidang ${jabatan} di Pemerintahan Desa Mokupo.</p>
+            `;
+            container.appendChild(card);
+            document.getElementById('admin-nama-aparat').value = '';
+            document.getElementById('admin-jabatan-aparat').value = '';
+            alert('Aparat desa berhasil ditambahkan!');
+            appendLog(`Tambah aparat: ${nama} (${jabatan})`);
+        }
+
+        function updateKontakSettings(e) {
+            e.preventDefault();
+            const phone = document.getElementById('admin-phone').value;
+            const email = document.getElementById('admin-email').value;
+
+            document.getElementById('display-phone').innerHTML = `<i class="fa-solid fa-phone text-emerald-700 mr-2"></i> ${phone}`;
+            document.getElementById('display-email').innerHTML = `<i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> ${email}`;
+            document.getElementById('topbar-email').innerHTML = `<i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ${email}`;
+
+            alert('Kontak dan email desa berhasil diperbarui!');
+            appendLog(`Update Kontak: ${phone} | ${email}`);
+        }
+
+        function applySettings() {
+            const nama = localStorage.getItem('desa_nama');
+            const slogan = localStorage.getItem('desa_slogan');
+            const logo = localStorage.getItem('desa_logo');
+
+            if(nama) {
+                document.getElementById('app-title').innerText = nama;
+                const adminNama = document.getElementById('admin-nama-desa');
+                if(adminNama) adminNama.value = nama;
+            }
+            if(slogan) {
+                document.getElementById('app-slogan').innerText = slogan;
+                const adminSlogan = document.getElementById('admin-slogan-desa');
+                if(adminSlogan) adminSlogan.value = slogan;
+            }
+            if(logo) {
+                const imgEl = document.getElementById('nav-logo-img');
+                const iconEl = document.getElementById('nav-logo-icon');
+                imgEl.src = logo;
+                imgEl.classList.remove('hidden');
+                iconEl.classList.add('hidden');
+                const adminLogo = document.getElementById('admin-logo-url');
+                if(adminLogo) adminLogo.value = logo;
+            }
         }
 
         // GENERATE PREVIEW SURAT MANDIRI
@@ -589,87 +836,18 @@
             document.getElementById('out-ket').innerText = ket;
 
             alert('Surat berhasil digenerate dengan nomor dan TTD Digital Verified!');
+            appendLog(`Surat diterbitkan: ${jenis} untuk ${nama}`);
         }
 
-        // PENGATURAN LOGO DESA DARI PORTAL PETUGAS
-        function simpanPengaturanLogo(e) {
-            e.preventDefault();
-            const url = document.getElementById('input-logo-url').value;
-            const namaDesa = document.getElementById('input-nama-desa').value;
-
-            if (url) {
-                localStorage.setItem('desa_logo', url);
-                localStorage.setItem('desa_nama', namaDesa);
-                applyLogo(url, namaDesa);
-                alert('Logo dan nama desa berhasil diperbarui!');
-            } else {
-                alert('Silakan masukkan URL gambar logo yang valid.');
-            }
-        }
-
-        function applyLogo(url, nama) {
-            const imgEl = document.getElementById('nav-logo-img');
-            const iconEl = document.getElementById('nav-logo-icon');
-            const titleEl = document.getElementById('app-title');
-
-            if (url) {
-                imgEl.src = url;
-                imgEl.classList.remove('hidden');
-                iconEl.classList.add('hidden');
-            }
-            if (nama) {
-                titleEl.innerText = nama;
-            }
-        }
-
-        // AMBIL DATA STATISTIK PENDUDUK
-        async function loadDataPenduduk() {
-            const { data, error } = await supabaseClient.from('penduduk').select('*');
-            if (error) { console.error('Gagal memuat penduduk:', error); return; }
-
-            const total = data.length;
-            const laki = data.filter(p => p.jenis_kelamin === 'Laki-Laki').length;
-            const perempuan = data.filter(p => p.jenis_kelamin === 'Perempuan').length;
-            const kk = Math.round(total / 3.5);
-
-            document.getElementById('home-total').innerText = total;
-            document.getElementById('home-laki').innerText = laki;
-            document.getElementById('home-perempuan').innerText = perempuan;
-            document.getElementById('home-kk').innerText = kk;
-
-            document.getElementById('adm-kk').innerText = kk;
-            document.getElementById('adm-ktp').innerText = Math.round(total * 0.75);
-            document.getElementById('adm-kia').innerText = Math.round(total * 0.20);
-            document.getElementById('adm-akta').innerText = Math.round(total * 0.90);
-        }
-
-        // TAMBAH PENDUDUK
-        async function tambahPenduduk(e) {
-            e.preventDefault();
-            const nik = document.getElementById('p-nik').value;
-            const nama = document.getElementById('p-nama').value;
-            const jk = document.getElementById('p-jk').value;
-
-            const { error } = await supabaseClient.from('penduduk').insert([{ nik, nama, jenis_kelamin: jk }]);
-            if (error) {
-                alert('Gagal menyimpan: ' + error.message);
-            } else {
-                alert('Data penduduk berhasil disimpan!');
-                loadDataPenduduk();
-            }
-        }
-
-        // KIRIM PENGADUAN
         function kirimPengaduan(e) {
             e.preventDefault();
             alert('Pengaduan Anda berhasil dikirim ke sistem admin desa.');
+            appendLog('Pengaduan baru diterima dari warga.');
         }
 
         window.onload = () => {
-            loadDataPenduduk();
-            const savedLogo = localStorage.getItem('desa_logo');
-            const savedNama = localStorage.getItem('desa_nama');
-            if (savedLogo) applyLogo(savedLogo, savedNama);
+            applySettings();
+            checkAuthStatus();
         };
     </script>
 </body>
