@@ -1,15 +1,23 @@
-// app.js - Optimized Asynchronous Upload & Direct Supabase Storage Integrator
+// app.js - Safe & Optimized Supabase Integrator
 
 document.addEventListener('DOMContentLoaded', () => {
-  applySettings();
-  checkAuthStatus();
-  renderPublicBpd();
-  loadHeaderSettings();
+  // Cek apakah Supabase siap, beri jeda jika perlu
+  setTimeout(() => {
+    applySettings();
+    checkAuthStatus();
+    renderPublicBpd();
+    loadHeaderSettings();
+  }, 500);
 });
 
-// Helper Upload Universal File dari Komputer/HP ke Supabase Storage Bucket 'desa-media'
+// Helper Upload Universal yang Aman
 async function uploadFileKeSupabase(fileInput) {
   if (!fileInput || !fileInput.files || fileInput.files.length === 0) return null;
+  
+  if (!window.supabase || typeof window.supabase.storage === 'undefined') {
+    throw new Error("Koneksi Supabase belum terinisialisasi. Periksa kembali file supabase-config.js");
+  }
+
   const file = fileInput.files[0];
   const cleanName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
 
@@ -30,6 +38,11 @@ async function uploadFileKeSupabase(fileInput) {
 async function updateBerandaSettings(e) {
   e.preventDefault();
   
+  if (!window.supabase) {
+    alert('Kesalahan: Objek Supabase belum terhubung.');
+    return;
+  }
+
   const statusBar = document.getElementById('upload-status-bar');
   const statusText = document.getElementById('upload-status-text');
   const btnSave = document.getElementById('btn-save-beranda');
@@ -45,19 +58,16 @@ async function updateBerandaSettings(e) {
     let logo_url = document.getElementById('admin-logo-url-lama')?.value || '';
     let video_url = document.getElementById('admin-video-url-lama')?.value || '';
 
-    // Parallel Fast Upload jika ada file baru
     const logoFileEl = document.getElementById('admin-logo-file');
     const videoFileEl = document.getElementById('admin-video-file');
 
-    const [uploadedLogo, uploadedVideo] = await Promise.all([
-      uploadFileKeSupabase(logoFileEl),
-      uploadFileKeSupabase(videoFileEl)
-    ]);
+    const uploadedLogo = await uploadFileKeSupabase(logoFileEl);
+    const uploadedVideo = await uploadFileKeSupabase(videoFileEl);
 
     if (uploadedLogo) logo_url = uploadedLogo;
     if (uploadedVideo) video_url = uploadedVideo;
 
-    // Simpan ke Database
+    // Simpan ke Database Tabel 'settings'
     const { error } = await window.supabase
       .from('settings')
       .upsert([{ id: 1, nama_desa, slogan, logo_url, video_url }], { onConflict: 'id' });
@@ -66,6 +76,7 @@ async function updateBerandaSettings(e) {
 
     if (statusText) statusText.innerText = "Berhasil disimpan secara permanen!";
     setTimeout(() => { if (statusBar) statusBar.classList.add('hidden'); }, 3000);
+    alert('Data Beranda, Logo & Video berhasil disimpan!');
 
     loadHeaderSettings();
   } catch (err) {
@@ -76,9 +87,9 @@ async function updateBerandaSettings(e) {
   }
 }
 
-// 2. LOAD DATA HEADER UNTUK PUBLIK & ADMIN
+// 2. LOAD DATA HEADER
 async function loadHeaderSettings() {
-  if (typeof window.supabase === 'undefined') return;
+  if (!window.supabase) return;
 
   const { data, error } = await window.supabase
     .from('settings')
@@ -122,7 +133,7 @@ async function loadHeaderSettings() {
   }
 }
 
-// 3. TAMBAH APARAT DESA (DENGAN UPLOAD FOTO)
+// 3. TAMBAH APARAT DESA
 async function tambahAparatDesa(e) {
   e.preventDefault();
   try {
@@ -142,7 +153,7 @@ async function tambahAparatDesa(e) {
   }
 }
 
-// 4. TAMBAH BPD MEMBER (DENGAN UPLOAD FOTO)
+// 4. TAMBAH BPD MEMBER
 async function tambahBpdMember(e) {
   e.preventDefault();
   try {
@@ -163,7 +174,7 @@ async function tambahBpdMember(e) {
   }
 }
 
-// NAVIGASI UTAMA
+// NAVIGASI UTAMA & ADMIN
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   const target = document.getElementById(tabId);
@@ -220,7 +231,7 @@ function checkAuthStatus() {
 
 async function renderPublicBpd() {
   const container = document.getElementById('bpd-public-container');
-  if (!container || typeof window.supabase === 'undefined') return;
+  if (!container || !window.supabase) return;
   const { data } = await window.supabase.from('bpd').select('*');
   if (!data) return;
   container.innerHTML = data.map(item => `
