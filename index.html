@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Informasi Desa Mokupo - Kec. Karamat</title>
+    <title>Sistem Informasi Pemerintah Desa Mokupo - Kec. Karamat</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -31,10 +31,10 @@
     <div class="bg-emerald-900 text-emerald-100 text-xs py-1.5 px-4 hidden md:block">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <span><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> Desa Mokupo, Kec. Karamat, Kab. Buol</span>
+                <span><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> Pemerintah Desa Mokupo, Kec. Karamat, Kab. Buol</span>
                 <span id="topbar-email"><i class="fa-solid fa-envelope mr-1 text-amber-400"></i> pemdesmokupo@buolkab.go.id</span>
             </div>
-            <span class="font-semibold text-amber-300">PORTAL RESMI PEMDES MOKUPO</span>
+            <span class="font-semibold text-amber-300">PORTAL RESMI PEMERINTAH DESA MOKUPO</span>
         </div>
     </div>
 
@@ -131,16 +131,13 @@
         </div>
     </header>
 
-    <!-- BANNER HERO FULL SCREEN / FULL WIDTH (BERADA DI LUAR CONTAINER UTAMA) -->
+    <!-- BANNER HERO FULL SCREEN / FULL WIDTH -->
     <div id="beranda-hero-fullscreen" class="relative w-full min-h-[360px] sm:min-h-[480px] bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white flex items-center overflow-hidden shadow-2xl">
-        <!-- BACKGROUND VIDEO / GAMBAR COVER FULL SCREEN -->
         <div id="hero-video-container" class="absolute inset-0 w-full h-full z-0 overflow-hidden">
             <video id="hero-video-bg" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
-            <!-- Overlay Gelap Kustom -->
             <div class="absolute inset-0 bg-slate-950/60 bg-gradient-to-t from-slate-950/80 via-emerald-950/50 to-transparent"></div>
         </div>
 
-        <!-- KONTEN TEKS BANNER (CENTERED CONTAINER) -->
         <div class="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div class="space-y-4 max-w-3xl">
                 <span class="inline-block bg-amber-400 text-slate-900 text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow">Official Portal</span>
@@ -158,7 +155,6 @@
 
         <!-- 1. BERANDA -->
         <section id="beranda" class="tab-content active space-y-6">
-            <!-- STATISTIK RINGKASAN -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
                     <div>
@@ -244,7 +240,7 @@
         <section id="profil-sambutan" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
             <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Sambutan Kepala Desa Mokupo</h2>
             <div class="flex flex-col md:flex-row gap-6 items-center">
-                <div id="sambutan-foto-container" class="w-36 h-44 sm:w-40 sm:h-48 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-3xl border shrink-0 overflow-hidden shadow">
+                <div id="sambutan-foto-container" class="w-36 h-48 sm:w-40 sm:h-56 bg-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-3xl shrink-0 overflow-hidden shadow-md">
                     <i class="fa-solid fa-user-tie" id="sambutan-icon"></i>
                     <img id="sambutan-img" src="" alt="Kepala Desa" class="w-full h-full object-cover hidden">
                 </div>
@@ -255,26 +251,38 @@
             </div>
         </section>
 
-        <!-- 6. APARAT DESA DAN TUPOKSI -->
-        <section id="aparat" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Aparat Desa Dan Tupoksi</h2>
-            <div id="aparat-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3 relative shadow-sm">
-                    <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border overflow-hidden">
+        <!-- 6. APARAT DESA DAN TUPOKSI (DESAIN MENYATU & FOTO 4x6) -->
+        <section id="aparat" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-8">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-3">Aparat Desa Dan Tupoksi</h2>
+            
+            <div id="aparat-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                
+                <!-- CARD APARAT 1: KEPALA DESA -->
+                <div class="flex flex-col items-center text-center space-y-3 group">
+                    <!-- BINGKAI PAS FOTO 4x6 TERINTEGRASI -->
+                    <div class="w-40 aspect-[4/6] bg-slate-100 rounded-xl flex items-center justify-center text-slate-300 text-4xl overflow-hidden shadow-sm transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-md">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base sm:text-lg text-slate-800 tracking-tight">Ahlan Mokupo, S.IP</h3>
+                        <p class="text-xs text-emerald-700 font-bold uppercase tracking-wider">Kepala Desa</p>
+                        <p class="text-[11px] sm:text-xs text-slate-500 mt-1 max-w-xs leading-relaxed">Menyelenggarakan pemerintahan desa, pembangunan, pembinaan kemasyarakatan, dan pemberdayaan.</p>
+                    </div>
+                </div>
+
+                <!-- CARD APARAT 2: SEKRETARIS DESA -->
+                <div class="flex flex-col items-center text-center space-y-3 group">
+                    <!-- BINGKAI PAS FOTO 4x6 TERINTEGRASI -->
+                    <div class="w-40 aspect-[4/6] bg-slate-100 rounded-xl flex items-center justify-center text-slate-300 text-4xl overflow-hidden shadow-sm transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-md">
                         <i class="fa-solid fa-user"></i>
                     </div>
-                    <h3 class="font-bold text-base sm:text-lg text-slate-800">Kepala Desa</h3>
-                    <p class="text-xs text-emerald-700 font-semibold uppercase">KEPALA DESA</p>
-                    <p class="text-[11px] sm:text-xs text-slate-500">Tugas Pokok: Menyelenggarakan pemerintahan desa, pembangunan, pembinaan kemasyarakatan, dan pemberdayaan.</p>
-                </div>
-                <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3 relative shadow-sm">
-                    <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border overflow-hidden">
-                        <i class="fa-solid fa-user"></i>
+                    <div>
+                        <h3 class="font-bold text-base sm:text-lg text-slate-800 tracking-tight">Sekretaris Desa</h3>
+                        <p class="text-xs text-emerald-700 font-bold uppercase tracking-wider">Sekretaris Desa</p>
+                        <p class="text-[11px] sm:text-xs text-slate-500 mt-1 max-w-xs leading-relaxed">Membantu Kepala Desa dalam bidang administrasi pemerintahan dan pelayanan kesekretariatan.</p>
                     </div>
-                    <h3 class="font-bold text-base sm:text-lg text-slate-800">Sekretaris Desa</h3>
-                    <p class="text-xs text-emerald-700 font-semibold uppercase">SEKRETARIS DESA</p>
-                    <p class="text-[11px] sm:text-xs text-slate-500">Tugas Pokok: Membantu Kepala Desa dalam bidang administrasi pemerintahan dan pelayanan kesekretariatan.</p>
                 </div>
+
             </div>
         </section>
 
@@ -359,7 +367,7 @@
                         <div class="text-center border-b-2 border-slate-900 pb-4 space-y-1">
                             <h4 class="font-bold text-[10px] sm:text-xs tracking-wider uppercase">PEMERINTAH KABUPATEN BUOL</h4>
                             <h4 class="font-bold text-[10px] sm:text-xs tracking-wider uppercase">KECAMATAN KARAMAT</h4>
-                            <h3 class="font-bold text-sm sm:text-base tracking-wide uppercase text-emerald-900">KANTOR KEPALA DESA MOKUPO</h3>
+                            <h3 class="font-bold text-sm sm:text-base tracking-wide uppercase text-emerald-900">PEMERINTAH DESA MOKUPO</h3>
                             <p class="text-[9px] sm:text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 40123</p>
                         </div>
                         <div class="text-center space-y-1 pt-2">
@@ -639,7 +647,7 @@
 
                     <!-- SUB 3: APARAT -->
                     <div id="sub-aparat" class="admin-sub-content space-y-4">
-                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa & Foto</h3>
+                        <h3 class="text-base sm:text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa & Foto (Ukuran Pas Foto 4x6)</h3>
                         <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
                             <div>
                                 <label class="block font-semibold mb-1">Nama Aparat & Gelar</label>
@@ -650,7 +658,7 @@
                                 <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan..." required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">URL Foto Aparat</label>
+                                <label class="block font-semibold mb-1">URL Foto Aparat (Pas Foto 4x6)</label>
                                 <input type="url" id="admin-foto-aparat" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
@@ -904,8 +912,8 @@
                 <div class="text-center border-b-2 border-slate-900 pb-4 space-y-1">
                     <h4 class="font-bold text-[10px] sm:text-xs uppercase tracking-wider">PEMERINTAH KABUPATEN BUOL</h4>
                     <h4 class="font-bold text-[10px] sm:text-xs uppercase tracking-wider">KECAMATAN KARAMAT</h4>
-                    <h3 class="font-bold text-sm sm:text-base uppercase text-emerald-900">KANTOR KEPALA DESA MOKUPO</h3>
-                    <p class="text-[9px] sm:text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 40123</p>
+                    <h3 class="font-bold text-sm sm:text-base uppercase text-emerald-900">PEMERINTAH DESA MOKUPO</h3>
+                    <p class="text-[9px] sm:text-[10px] text-slate-600 italic">Jl. Trans Sulawesi Desa Mokupo No. 01 Kode Pos 94572</p>
                 </div>
                 <div class="text-center space-y-1 pt-2">
                     <h3 class="font-bold text-sm sm:text-base underline uppercase">SURAT UNDANGAN MEDIASI / KLARIFIKASI</h3>
@@ -1196,7 +1204,7 @@
                     
                     <div class="space-y-2 pt-2 border-t border-slate-800">
                         <label class="block text-[11px] font-semibold text-slate-300">Tulis Jawaban / Solusi:</label>
-                        <textarea id="jawab-${index}" rows="2" class="w-full p-2 bg-slate-950 border border-slate-700 text-white rounded text-xs">${item.jawaban || ''}</textarea>
+                        <textarea id="jawab-${index}" rows="2" class="w-full p-2 bg-slate-950 border border-slate-700 text-white rounded-xs">${item.jawaban || ''}</textarea>
                         
                         <div class="flex flex-wrap gap-2 pt-1">
                             <button onclick="simpanJawaban(${index})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow">
@@ -1431,20 +1439,22 @@
 
             const container = document.getElementById('aparat-container');
             const card = document.createElement('div');
-            card.className = 'border rounded-xl p-5 bg-slate-50 text-center space-y-3 relative group shadow-sm';
+            card.className = 'flex flex-col items-center text-center space-y-3 group relative';
             
             let avatarContent = foto 
                 ? `<img src="${foto}" alt="${nama}" class="w-full h-full object-cover">`
                 : `<i class="fa-solid fa-user"></i>`;
 
             card.innerHTML = `
-                <button onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-rose-500 hover:text-rose-700 bg-white p-1.5 rounded shadow text-xs" title="Hapus"><i class="fa-solid fa-trash"></i></button>
-                <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border overflow-hidden">
+                <button onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 z-10 text-rose-500 hover:text-rose-700 bg-white p-1.5 rounded-full shadow text-xs" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                <div class="w-40 aspect-[4/6] bg-slate-100 rounded-xl flex items-center justify-center text-slate-300 text-4xl overflow-hidden shadow-sm transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-md">
                     ${avatarContent}
                 </div>
-                <h3 class="font-bold text-lg text-slate-800">${nama}</h3>
-                <p class="text-xs text-emerald-700 font-semibold uppercase">${jabatan}</p>
-                <p class="text-xs text-slate-500">Tugas Pokok: ${tupoksi}</p>
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-800 tracking-tight">${nama}</h3>
+                    <p class="text-xs text-emerald-700 font-bold uppercase tracking-wider">${jabatan}</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-1 max-w-xs leading-relaxed">Tugas Pokok: ${tupoksi}</p>
+                </div>
             `;
             container.appendChild(card);
             document.getElementById('admin-nama-aparat').value = '';
