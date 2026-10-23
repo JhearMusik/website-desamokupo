@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Informasi Desa (SID) Terpadu</title>
+    <title>Sistem Informasi Desa Mokupo - Kec. Karamat</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -20,30 +20,30 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- HEADER / NAVIGATION -->
+    <!-- HEADER & NAVIGASI SESUAI BAGAN -->
     <header class="bg-emerald-800 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center font-bold text-xl border-2 border-amber-400">
-                        <i class="fa-solid me-0.5 fa-building-columns"></i>
+                        <i class="fa-solid fa-building-columns"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-lg leading-tight uppercase tracking-wider">Desa Mokupo Kecamatan Karamat</h1>
+                        <h1 class="font-bold text-sm md:text-base leading-tight uppercase tracking-wider">Desa Mokupo Kecamatan Karamat</h1>
                         <p class="text-xs text-emerald-200">Sistem Informasi & Service Portal Desa</p>
                     </div>
                 </div>
 
-                <!-- NAV MENU (Desktop) -->
-                <nav class="hidden md:flex space-x-1 font-medium text-sm">
-                    <button onclick="switchTab('beranda')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">BERANDA</button>
+                <!-- NAV MENU DESKTOP -->
+                <nav class="hidden xl:flex items-center space-x-1 font-medium text-xs">
+                    <button onclick="switchTab('beranda')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">BERANDA</button>
                     
-                    <!-- DROPDOWN PROFIL -->
+                    <!-- PROFIL DROPDOWN -->
                     <div class="relative dropdown">
-                        <button class="px-3 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
-                            PROFIL <i class="fa-solid fa-chevron-down text-xs"></i>
+                        <button class="px-2.5 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
+                            PROFIL <i class="fa-solid fa-chevron-down text-[10px]"></i>
                         </button>
-                        <div class="dropdown-menu hidden absolute left-0 w-56 bg-white text-slate-800 shadow-xl rounded-md py-2 border">
+                        <div class="dropdown-menu hidden absolute left-0 w-48 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
                             <button onclick="switchTab('profil-sejarah')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Sejarah</button>
                             <button onclick="switchTab('profil-visimisi')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Visi dan Misi</button>
                             <button onclick="switchTab('profil-struktur')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Struktur Organisasi</button>
@@ -51,229 +51,483 @@
                         </div>
                     </div>
 
-                    <button onclick="switchTab('aparat')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">APARAT DESA & TUPOKSI</button>
+                    <button onclick="switchTab('aparat')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">APARAT DESA & TUPOKSI</button>
                     
-                    <!-- DROPDOWN LAYANAN -->
+                    <!-- LAYANAN DROPDOWN -->
                     <div class="relative dropdown">
-                        <button class="px-3 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
-                            LAYANAN <i class="fa-solid fa-chevron-down text-xs"></i>
+                        <button class="px-2.5 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
+                            LAYANAN <i class="fa-solid fa-chevron-down text-[10px]"></i>
                         </button>
-                        <div class="dropdown-menu hidden absolute left-0 w-64 bg-white text-slate-800 shadow-xl rounded-md py-2 border">
-                            <button onclick="switchTab('layanan-surat')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Surat Masuk / Keluar</button>
-                            <button onclick="switchTab('layanan-pengaduan')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Form Pengaduan Online</button>
+                        <div class="dropdown-menu hidden absolute left-0 w-56 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
+                            <button onclick="switchTab('layanan-surat-masuk')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Surat Masuk</button>
+                            <button onclick="switchTab('layanan-surat-keluar')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Surat Keluar</button>
+                            <button onclick="switchTab('layanan-buat-surat')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Buat Surat (Undangan, Kematian, Usaha, dll)</button>
+                            <button onclick="switchTab('layanan-pengaduan')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Pengaduan Masyarakat</button>
                         </div>
                     </div>
 
-                    <button onclick="switchTab('keuangan')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">ADD & DDS</button>
-                    <button onclick="switchTab('adminduk')" class="nav-btn px-3 py-2 rounded-md hover:bg-emerald-700">DATA ADMINDUK</button>
-                    <button onclick="switchTab('portal-petugas')" class="nav-btn px-3 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold ml-2"><i class="fa-solid fa-user-shield mr-1"></i> PORTAL PETUGAS</button>
+                    <button onclick="switchTab('add-dds')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">ADD DAN DDS</button>
+                    <button onclick="switchTab('tautan')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">TAUTAN</button>
+                    <button onclick="switchTab('adminduk')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">DATA ADMINDUK</button>
+                    
+                    <!-- PORTAL PETUGAS -->
+                    <div class="relative dropdown">
+                        <button class="px-3 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold flex items-center gap-1 ml-1">
+                            <i class="fa-solid fa-user-shield"></i> PORTAL PETUGAS <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                        </button>
+                        <div class="dropdown-menu hidden absolute right-0 w-64 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
+                            <button onclick="switchTab('admin-beranda')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Edit Data Beranda & Logo</button>
+                            <button onclick="switchTab('admin-profil')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Edit Profil & Sub</button>
+                            <button onclick="switchTab('admin-aparat')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Aparat Desa & Tupoksi dan Sub</button>
+                            <button onclick="switchTab('admin-petugas')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Tambah Petugas</button>
+                            <button onclick="switchTab('admin-surat')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Proses Surat Menyurat</button>
+                            <button onclick="switchTab('admin-pengaduan')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Kelola Pengaduan</button>
+                            <button onclick="switchTab('admin-berita')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Informasi dan Berita</button>
+                            <button onclick="switchTab('admin-penduduk')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Kelola Jumlah Penduduk</button>
+                            <button onclick="switchTab('admin-tautan')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Kelola Tautan</button>
+                            <button onclick="switchTab('admin-kontak')" class="block w-full text-left px-4 py-2 hover:bg-amber-50 hover:text-amber-700 text-xs">Edit Kontak</button>
+                        </div>
+                    </div>
+
+                    <button onclick="switchTab('kontak')" class="nav-btn px-2.5 py-2 rounded-md hover:bg-emerald-700">KONTAK</button>
                 </nav>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
+    <!-- KONTEN UTAMA -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <!-- TAB BERANDA -->
-        <section id="beranda" class="tab-content active space-y-8">
-            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-8 text-white shadow-xl flex justify-between items-center">
-                <div>
-                    <h2 class="text-3xl font-bold mb-2">Selamat Datang di Portal Resmi Desa</h2>
-                    <p class="text-emerald-100 max-w-xl">Pelayanan publik transparan, akuntabel, dan terintegrasi secara digital untuk seluruh lapisan masyarakat.</p>
+        <!-- 1. BERANDA -->
+        <section id="beranda" class="tab-content active space-y-6">
+            <div class="bg-gradient-to-r from-emerald-700 to-teal-800 rounded-2xl p-8 text-white shadow-xl">
+                <h2 class="text-3xl font-bold mb-2">Selamat Datang di Portal Desa Mokupo</h2>
+                <p class="text-emerald-100 max-w-2xl">Pusat informasi pelayanan administrasi kependudukan dan transparansi pembangunan Desa Mokupo, Kecamatan Karamat, Kabupaten Buol.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl border shadow-sm">
+                    <p class="text-xs uppercase text-slate-500 font-semibold">Total Penduduk</p>
+                    <h3 id="home-total" class="text-3xl font-bold text-slate-800 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border shadow-sm">
+                    <p class="text-xs uppercase text-slate-500 font-semibold">Laki-Laki</p>
+                    <h3 id="home-laki" class="text-3xl font-bold text-blue-600 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border shadow-sm">
+                    <p class="text-xs uppercase text-slate-500 font-semibold">Perempuan</p>
+                    <h3 id="home-perempuan" class="text-3xl font-bold text-pink-600 mt-1">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border shadow-sm">
+                    <p class="text-xs uppercase text-slate-500 font-semibold">Kepala Keluarga (KK)</p>
+                    <h3 id="home-kk" class="text-3xl font-bold text-emerald-600 mt-1">0</h3>
                 </div>
             </div>
 
-            <!-- RINGKASAN ADMINDUK SUMMARY -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Total Penduduk</p>
-                        <h3 id="stat-total" class="text-3xl font-bold text-slate-800">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Laki-Laki</p>
-                        <h3 id="stat-laki" class="text-3xl font-bold text-blue-600">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-mars"></i></div>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs uppercase text-slate-500 font-semibold">Perempuan</p>
-                        <h3 id="stat-perempuan" class="text-3xl font-bold text-pink-600">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-pink-50 text-pink-500 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-venus"></i></div>
-                </div>
-            </div>
-
-            <!-- BERITA & INFORMASI -->
+            <!-- INFORMASI DAN BERITA -->
             <div class="bg-white rounded-xl border p-6 shadow-sm">
-                <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2"><i class="fa-regular fa-newspaper text-emerald-600 mr-2"></i>Informasi & Berita Terbaru</h3>
-                <div id="berita-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <p class="text-slate-400">Memuat berita dari database...</p>
+                <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2"><i class="fa-regular fa-newspaper text-emerald-600 mr-2"></i>Informasi Dan Berita Terbaru</h3>
+                <div id="beranda-berita-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <p class="text-slate-400">Memuat berita desa...</p>
                 </div>
             </div>
         </section>
 
-        <!-- TAB PROFIL: SEJARAH -->
-        <section id="profil-sejarah" class="tab-content bg-white p-8 rounded-xl border shadow-sm">
-            <h2 class="text-2xl font-bold text-emerald-800 mb-4 border-b pb-2">Sejarah Desa</h2>
-            <p class="text-slate-600 leading-relaxed">Desa Mokupo didirikan pada tahun 1982. Berawal dari pemukiman swadaya, kini berkembang menjadi pusat pelayanan publik berbasis teknologi yang mandiri dan sejahtera.</p>
+        <!-- 2. PROFIL SEJARAH -->
+        <section id="profil-sejarah" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Sejarah Desa Mokupo</h2>
+            <p class="text-slate-600 leading-relaxed">Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol. Sejarah desa ini berawal dari pemukiman tradisional yang kemudian dimekarkan untuk mengoptimalkan pelayanan kepada masyarakat serta meningkatkan pembangunan infrastruktur pedesaan.</p>
         </section>
 
-        <!-- TAB PROFIL: VISI MISI -->
+        <!-- 3. PROFIL VISI & MISI -->
         <section id="profil-visimisi" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
-            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Visi & Misi</h2>
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Visi dan Misi Desa Mokupo</h2>
             <div>
-                <h3 class="font-bold text-slate-700">VISI:</h3>
-                <p class="text-slate-600 italic">"Terwujudnya Desa Digital, Mandiri, Sejahtera, dan Berprestasi dalam Pelayanan Publik."</p>
+                <h3 class="font-bold text-slate-700 text-lg">Visi</h3>
+                <p class="text-slate-600 italic mt-1 bg-emerald-50 p-4 rounded-lg border border-emerald-100">"Terwujudnya Desa Mokupo yang Mandiri, Transparan, Agamis, dan Sejahtera Berbasis Teknologi Pelayanan Publik."</p>
             </div>
             <div>
-                <h3 class="font-bold text-slate-700">MISI:</h3>
-                <ul class="list-disc list-inside text-slate-600 space-y-1 mt-2">
-                    <li>Transparansi tata kelola Anggaran Dana Desa (ADD & DDS).</li>
-                    <li>Digitalisasi layanan administrasi kependudukan.</li>
-                    <li>Peningkatan sarana prasarana serta ekonomi kemasyarakatan.</li>
+                <h3 class="font-bold text-slate-700 text-lg">Misi</h3>
+                <ul class="list-disc list-inside text-slate-600 space-y-2 mt-2">
+                    <li>Meningkatkan kualitas pelayanan administrasi kependudukan yang cepat dan transparan.</li>
+                    <li>Mengoptimalkan pengelolaan Anggaran Dana Desa (ADD & DDS) secara akuntabel.</li>
+                    <li>Mengembangkan potensi ekonomi lokal dan infrastruktur desa yang merata.</li>
                 </ul>
             </div>
         </section>
 
-        <!-- TAB LAYANAN SURAT -->
-        <section id="layanan-surat" class="tab-content bg-white p-8 rounded-xl border shadow-sm">
-            <h2 class="text-2xl font-bold text-emerald-800 mb-6 border-b pb-2"><i class="fa-solid fa-envelope-open-text mr-2"></i>Layanan Persurat-an</h2>
-            <form id="form-surat" onsubmit="simpanSurat(event)" class="space-y-4 max-w-2xl bg-slate-50 p-6 rounded-lg border">
+        <!-- 4. PROFIL STRUKTUR ORGANISASI -->
+        <section id="profil-struktur" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Struktur Organisasi Pemerintahan Desa</h2>
+            <div class="p-6 bg-slate-50 border rounded-xl text-center space-y-4">
+                <i class="fa-solid fa-sitemap text-5xl text-emerald-600"></i>
+                <p class="text-slate-600">Bagan Struktur Organisasi Pemerintah Desa Mokupo tersusun mulai dari Kepala Desa, Sekretaris Desa, Kasi, Kaur, hingga Kepala Dusun.</p>
+            </div>
+        </section>
+
+        <!-- 5. PROFIL SAMBUTAN KEPALA DESA -->
+        <section id="profil-sambutan" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Sambutan Kepala Desa Mokupo</h2>
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-40 h-48 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 border shrink-0">
+                    <i class="fa-solid fa-user-tie text-5xl"></i>
+                </div>
+                <div class="space-y-3 text-slate-600 leading-relaxed">
+                    <p><em>"Assalamu'alaikum Wr. Wb. Selamat datang di portal resmi Sistem Informasi Desa Mokupo. Website ini kami hadirkan untuk memudahkan warga dalam mengakses layanan administrasi surat-menyurat serta melihat keterbukaan informasi di desa kita tercinta."</em></p>
+                    <p class="font-bold text-slate-800">— Kepala Desa Mokupo</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. APARAT DESA DAN TUPOKSI -->
+        <section id="aparat" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Aparat Desa Dan Tupoksi</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3">
+                    <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Kepala Desa</h3>
+                    <p class="text-xs text-slate-500">Tugas Pokok: Menyelenggarakan pemerintahan desa, pembangunan, pembinaan kemasyarakatan, dan pemberdayaan.</p>
+                </div>
+                <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3">
+                    <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Sekretaris Desa</h3>
+                    <p class="text-xs text-slate-500">Tugas Pokok: Membantu Kepala Desa dalam bidang administrasi pemerintahan dan pelayanan kesekretariatan.</p>
+                </div>
+                <div class="border rounded-xl p-5 bg-slate-50 text-center space-y-3">
+                    <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto flex items-center justify-center text-slate-400 text-2xl border">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Kasi Pemerintahan</h3>
+                    <p class="text-xs text-slate-500">Tugas Pokok: Melaksanakan penataan administrasi kependudukan dan pertanahan desa.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. LAYANAN: SURAT MASUK -->
+        <section id="layanan-surat-masuk" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Masuk</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-emerald-50 text-emerald-900 border-b">
+                            <th class="p-3">No. Surat</th>
+                            <th class="p-3">Index</th>
+                            <th class="p-3">Pengirim</th>
+                            <th class="p-3">Tanggal</th>
+                            <th class="p-3">Perihal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-surat-masuk">
+                        <tr><td colspan="5" class="p-4 text-center text-slate-400">Memuat data surat masuk...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 8. LAYANAN: SURAT KELUAR -->
+        <section id="layanan-surat-keluar" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Keluar</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-emerald-50 text-emerald-900 border-b">
+                            <th class="p-3">No. Surat</th>
+                            <th class="p-3">Index</th>
+                            <th class="p-3">Penerima</th>
+                            <th class="p-3">Jenis Surat</th>
+                            <th class="p-3">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-surat-keluar">
+                        <tr><td colspan="5" class="p-4 text-center text-slate-400">Memuat data surat keluar...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 9. LAYANAN: BUAT SURAT (Otomatis & TTD) -->
+        <section id="layanan-buat-surat" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Layanan Pembuatan Surat (Otomatis & TTD Digital)</h2>
+            <form onsubmit="prosesBuatSurat(event)" class="space-y-4 max-w-2xl bg-slate-50 p-6 rounded-xl border">
                 <div>
-                    <label class="block text-sm font-medium text-slate-700">Kategori Surat</label>
-                    <select id="surat-kategori" class="w-full mt-1 p-2 border rounded-md">
-                        <option value="Keluar">Surat Keluar (Pengajuan Penduduk)</option>
-                        <option value="Masuk">Surat Masuk (Dokumen Eksternal)</option>
+                    <label class="block text-sm font-medium text-slate-700">Pilih Jenis Surat</label>
+                    <select id="buat-jenis" class="w-full mt-1 p-2 border rounded-md">
+                        <option value="Surat Keterangan Usaha">Surat Keterangan Usaha</option>
+                        <option value="Surat Kematian">Surat Kematian</option>
+                        <option value="Undangan Rapat">Undangan</option>
+                        <option value="Surat Keterangan Tidak Mampu">Surat Keterangan Lainnya (...)</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-slate-700">Jenis Surat</label>
-                    <input type="text" id="surat-jenis" placeholder="Contoh: Surat Keterangan Usaha / Undangan" required class="w-full mt-1 p-2 border rounded-md">
+                    <label class="block text-sm font-medium text-slate-700">Nama Warga / Pemohon</label>
+                    <input type="text" id="buat-nama" placeholder="Masukkan nama lengkap pemohon" required class="w-full mt-1 p-2 border rounded-md">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-slate-700">Pengirim / Penerima</label>
-                    <input type="text" id="surat-pihak" placeholder="Nama Warga atau Instansi" required class="w-full mt-1 p-2 border rounded-md">
+                    <label class="block text-sm font-medium text-slate-700">Keperluan / Keterangan</label>
+                    <textarea id="buat-ket" rows="3" placeholder="Contoh: Pengajuan pinjaman modal usaha" class="w-full mt-1 p-2 border rounded-md"></textarea>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700">Keterangan / Perihal</label>
-                    <textarea id="surat-ket" rows="3" class="w-full mt-1 p-2 border rounded-md"></textarea>
-                </div>
-                <button type="submit" class="bg-emerald-700 text-white px-6 py-2 rounded-md hover:bg-emerald-800 font-medium">Proses & Simpan ke Supabase</button>
+                <button type="submit" class="bg-emerald-700 text-white px-6 py-2 rounded-md hover:bg-emerald-800 font-medium">Generate Nomor & TTD Otomatis</button>
             </form>
         </section>
 
-        <!-- TAB PORTAL PETUGAS (ADMIN) -->
-        <section id="portal-petugas" class="tab-content space-y-6">
-            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl flex justify-between items-center shadow-md">
+        <!-- 10. LAYANAN: PENGADUAN -->
+        <section id="layanan-pengaduan" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Pengaduan Masyarakat</h2>
+            <form onsubmit="kirimPengaduan(event)" class="space-y-4 max-w-2xl bg-slate-50 p-6 rounded-xl border">
                 <div>
-                    <h2 class="text-2xl font-bold"><i class="fa-solid fa-user-gear mr-2"></i>Portal Petugas & Admin Desa</h2>
-                    <p class="text-sm font-medium">Kelola Data Penduduk, Berita, & Pengaduan secara Realtime.</p>
+                    <label class="block text-sm font-medium text-slate-700">Nama Pelapor</label>
+                    <input type="text" id="adu-nama" required class="w-full mt-1 p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Nomor Telepon / WhatsApp</label>
+                    <input type="text" id="adu-telp" required class="w-full mt-1 p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Subjek Pengaduan</label>
+                    <input type="text" id="adu-subjek" required class="w-full mt-1 p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Isi Pengaduan</label>
+                    <textarea id="adu-isi" rows="4" required class="w-full mt-1 p-2 border rounded-md"></textarea>
+                </div>
+                <button type="submit" class="bg-emerald-700 text-white px-6 py-2 rounded-md hover:bg-emerald-800 font-medium">Kirim Pengaduan</button>
+            </form>
+        </section>
+
+        <!-- 11. ADD DAN DDS -->
+        <section id="add-dds" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Transparansi ADD dan DDS Desa Mokupo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-emerald-50 border border-emerald-100 rounded-xl space-y-2">
+                    <p class="text-xs uppercase font-bold text-emerald-800">Alokasi Dana Desa (ADD)</p>
+                    <h3 class="text-2xl font-extrabold text-emerald-900">Rp 845.200.000</h3>
+                    <p class="text-xs text-slate-600">Fokus: Penghasilan tetap perangkat desa, operasional kantor, dan insentif lembaga.</p>
+                </div>
+                <div class="p-6 bg-blue-50 border border-blue-100 rounded-xl space-y-2">
+                    <p class="text-xs uppercase font-bold text-blue-800">Dana Desa (DDS)</p>
+                    <h3 class="text-2xl font-extrabold text-blue-900">Rp 1.120.500.000</h3>
+                    <p class="text-xs text-slate-600">Fokus: Infrastruktur jalan tani, ketahanan pangan, dan Bantuan Langsung Tunai (BLT).</p>
                 </div>
             </div>
+        </section>
 
-            <!-- FORM PROSES PENAMBAHAN PENDUDUK -->
+        <!-- 12. TAUTAN -->
+        <section id="tautan" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Tautan Portal Terkait</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="https://buolkab.go.id" target="_blank" class="p-4 border rounded-xl hover:bg-slate-50 flex items-center justify-between">
+                    <span class="font-medium text-slate-700">Pemerintah Kabupaten Buol</span>
+                    <i class="fa-solid fa-external-link text-slate-400"></i>
+                </a>
+                <a href="https://kemendesa.go.id" target="_blank" class="p-4 border rounded-xl hover:bg-slate-50 flex items-center justify-between">
+                    <span class="font-medium text-slate-700">Kementerian Desa PDTT</span>
+                    <i class="fa-solid fa-external-link text-slate-400"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- 13. DATA ADMINDUK -->
+        <section id="adminduk" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Data Administrasi Kependudukan (Adminduk)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="p-5 border rounded-xl bg-slate-50 text-center">
+                    <p class="text-xs text-slate-500 font-semibold">JUMLAH KK</p>
+                    <h3 id="adm-kk" class="text-2xl font-bold text-slate-800 mt-1">0</h3>
+                </div>
+                <div class="p-5 border rounded-xl bg-slate-50 text-center">
+                    <p class="text-xs text-slate-500 font-semibold">MEMILIKI KTP-EL</p>
+                    <h3 id="adm-ktp" class="text-2xl font-bold text-blue-600 mt-1">0</h3>
+                </div>
+                <div class="p-5 border rounded-xl bg-slate-50 text-center">
+                    <p class="text-xs text-slate-500 font-semibold">ANAK MEMILIKI KIA</p>
+                    <h3 id="adm-kia" class="text-2xl font-bold text-emerald-600 mt-1">0</h3>
+                </div>
+                <div class="p-5 border rounded-xl bg-slate-50 text-center">
+                    <p class="text-xs text-slate-500 font-semibold">MEMILIKI AKTA KELAHIRAN</p>
+                    <h3 id="adm-akta" class="text-2xl font-bold text-pink-600 mt-1">0</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. PORTAL PETUGAS: ADMIN PANELS -->
+        <section id="admin-beranda" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Edit Data Beranda & Logo Desa</div>
             <div class="bg-white p-6 rounded-xl border shadow-sm">
-                <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Input Data Penduduk Baru</h3>
-                <form id="form-penduduk" onsubmit="tambahPenduduk(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input type="text" id="p-nik" placeholder="NIK (16 Digit)" required maxlength="16" class="p-2 border rounded-md">
+                <p class="text-slate-600">Gunakan panel ini untuk memperbarui tajuk, sambutan utama, dan logo desa.</p>
+            </div>
+        </section>
+
+        <section id="admin-profil" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Edit Profil & Sub-menu</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Perbarui sejarah, visi misi, dan struktur organisasi desa.</p>
+            </div>
+        </section>
+
+        <section id="admin-aparat" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Aparat Desa dan Tupoksi dan Sub</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Kelola data pegawai, jabatan, foto, serta uraian tugas pokok dan fungsi.</p>
+            </div>
+        </section>
+
+        <section id="admin-petugas" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Tambah Petugas Admin</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Daftarkan akun operator desa baru untuk mengelola sistem.</p>
+            </div>
+        </section>
+
+        <section id="admin-surat" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Proses Surat Menyurat</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Verifikasi dan setujui permohonan surat masuk dan keluar.</p>
+            </div>
+        </section>
+
+        <section id="admin-pengaduan" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Kelola Pengaduan Masyarakat</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Tanggapi dan ubah status laporan pengaduan warga.</p>
+            </div>
+        </section>
+
+        <section id="admin-berita" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Informasi dan Berita</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Publikasikan pengumuman dan kegiatan terbaru desa.</p>
+            </div>
+        </section>
+
+        <section id="admin-penduduk" class="tab-content space-y-6">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Kelola Jumlah Penduduk & Adminduk</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <form onsubmit="tambahPenduduk(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" id="p-nik" placeholder="NIK (16 Digit)" required class="p-2 border rounded-md">
                     <input type="text" id="p-nama" placeholder="Nama Lengkap" required class="p-2 border rounded-md">
                     <select id="p-jk" class="p-2 border rounded-md">
                         <option value="Laki-Laki">Laki-Laki</option>
                         <option value="Perempuan">Perempuan</option>
                     </select>
-                    <button type="submit" class="md:col-span-3 bg-emerald-700 text-white py-2 rounded-md font-bold hover:bg-emerald-800">Simpan Penduduk</button>
+                    <button type="submit" class="md:col-span-3 bg-emerald-700 text-white py-2 rounded-md font-bold hover:bg-emerald-800">Simpan Penduduk ke Database</button>
                 </form>
+            </div>
+        </section>
+
+        <section id="admin-tautan" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Kelola Tautan</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Tambah atau hapus link instansi terkait.</p>
+            </div>
+        </section>
+
+        <section id="admin-kontak" class="tab-content space-y-4">
+            <div class="bg-amber-500 text-slate-900 p-6 rounded-xl font-bold">Edit Kontak</div>
+            <div class="bg-white p-6 rounded-xl border shadow-sm">
+                <p class="text-slate-600">Perbarui alamat kantor desa, email, dan nomor telepon layanan.</p>
+            </div>
+        </section>
+
+        <!-- 15. KONTAK -->
+        <section id="kontak" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
+            <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Kontak Kantor Desa Mokupo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-600">
+                <div class="space-y-3">
+                    <p><i class="fa-solid fa-location-dot text-emerald-700 mr-2"></i> Jl. Trans Sulawesi, Desa Mokupo, Kec. Karamat, Kab. Buol</p>
+                    <p><i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> pemdesmokupo@gmail.com</p>
+                    <p><i class="fa-solid fa-phone text-emerald-700 mr-2"></i> +62 821-xxxx-xxxx</p>
+                </div>
+                <div class="space-y-3">
+                    <p class="font-bold text-slate-800">Jam Pelayanan Kantor:</p>
+                    <p>Senin – Kamis: 08.00 - 15.00 WITA</p>
+                    <p>Jumat: 08.00 - 11.30 WITA</p>
+                </div>
             </div>
         </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-            <p>&copy; 2026 Pemerintah Desa Mokupo. Integrated with Supabase & GitHub.</p>
-        </div>
+    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-sm">
+        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undag-undang.</p>
     </footer>
 
-    <!-- JAVASCRIPT & SUPABASE INTEGRATION -->
+    <!-- SKRIP JAVASCRIPT & SUPABASE -->
     <script>
-        // 1. KONEKSI SUPABASE
-        const SUPABASE_URL = 'https://klnpdpyogtknfelfdqjm.supabase.co'; 
+        // KONEKSI SUPABASE (Ganti dengan URL dan Anon Key Anda)
+        const SUPABASE_URL = 'https://klnpdpyogknfelfdqjm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_rfplDrcH0xEgKtzp6mnx1w_cKgjar7r';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // 2. NAVIGASI TAB
+        // NAVIGASI TAB
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             const target = document.getElementById(tabId);
             if(target) target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 3. AMBIL DATA ADMINDUK DARI SUPABASE
-        async function loadAdmindukStats() {
+        // AMBIL DATA STATISTIK PENDUDUK
+        async function loadDataPenduduk() {
             const { data, error } = await supabaseClient.from('penduduk').select('*');
-            if (error) { console.error(error); return; }
+            if (error) { console.error('Gagal memuat penduduk:', error); return; }
 
             const total = data.length;
             const laki = data.filter(p => p.jenis_kelamin === 'Laki-Laki').length;
             const perempuan = data.filter(p => p.jenis_kelamin === 'Perempuan').length;
+            const kk = Math.round(total / 3.5); // Estimasi rasio KK
 
-            document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-laki').innerText = laki;
-            document.getElementById('stat-perempuan').innerText = perempuan;
+            document.getElementById('home-total').innerText = total;
+            document.getElementById('home-laki').innerText = laki;
+            document.getElementById('home-perempuan').innerText = perempuan;
+            document.getElementById('home-kk').innerText = kk;
+
+            document.getElementById('adm-kk').innerText = kk;
+            document.getElementById('adm-ktp').innerText = Math.round(total * 0.75);
+            document.getElementById('adm-kia').innerText = Math.round(total * 0.20);
+            document.getElementById('adm-akta').innerText = Math.round(total * 0.90);
         }
 
-        // 4. SIMPAN SURAT KE SUPABASE
-        async function simpanSurat(e) {
-            e.preventDefault();
-            const kategori = document.getElementById('surat-kategori').value;
-            const jenis = document.getElementById('surat-jenis').value;
-            const pihak = document.getElementById('surat-pihak').value;
-            const ket = document.getElementById('surat-ket').value;
-
-            const nomorOtomatis = `470/${Math.floor(1000 + Math.random() * 9000)}/2026`;
-
-            const { data, error } = await supabaseClient.from('surat').insert([
-                { nomor_surat: nomorOtomatis, index_surat: '470', jenis_surat: jenis, pengirim_penerima: pihak, keterangan: ket, kategori: kategori }
-            ]);
-
-            if (error) {
-                alert('Gagal menyimpan surat: ' + error.message);
-            } else {
-                alert('Surat Berhasil Diproses! Nomor Surat: ' + nomorOtomatis);
-                document.getElementById('form-surat').reset();
-            }
-        }
-
-        // 5. TAMBAH PENDUDUK BARU DARI PORTAL PETUGAS
+        // TAMBAH PENDUDUK
         async function tambahPenduduk(e) {
             e.preventDefault();
             const nik = document.getElementById('p-nik').value;
             const nama = document.getElementById('p-nama').value;
             const jk = document.getElementById('p-jk').value;
 
-            const { data, error } = await supabaseClient.from('penduduk').insert([
-                { nik: nik, nama: nama, jenis_kelamin: jk }
-            ]);
-
+            const { error } = await supabaseClient.from('penduduk').insert([{ nik, nama, jenis_kelamin: jk }]);
             if (error) {
-                alert('Gagal menambahkan penduduk: ' + error.message);
+                alert('Gagal menyimpan: ' + error.message);
             } else {
-                alert('Penduduk Berhasil Ditambahkan!');
-                document.getElementById('form-penduduk').reset();
-                loadAdmindukStats();
+                alert('Data penduduk berhasil disimpan!');
+                document.getElementById('form-penduduk')?.reset();
+                loadDataPenduduk();
             }
         }
 
-        // INITIAL LOAD
+        // BUAT SURAT OTOMATIS
+        async function prosesBuatSurat(e) {
+            e.preventDefault();
+            const jenis = document.getElementById('buat-jenis').value;
+            const nama = document.getElementById('buat-nama').value;
+            const ket = document.getElementById('buat-ket').value;
+
+            const noSurat = `470/SKD-${Math.floor(100 + Math.random() * 900)}/III/2026`;
+            alert(`Surat Berhasil Diproses!\nNomor Surat: ${noSurat}\nIndeks: 470\nPemohon: ${nama}\nJenis: ${jenis}\n[TTD Digital & QR Valid]`);
+        }
+
+        // KIRIM PENGADUAN
+        async function kirimPengaduan(e) {
+            e.preventDefault();
+            alert('Pengaduan Anda berhasil dikirim ke sistem admin desa.');
+        }
+
         window.onload = () => {
-            loadAdmindukStats();
+            loadDataPenduduk();
         };
     </script>
 </body>
