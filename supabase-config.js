@@ -1,8 +1,10 @@
 // supabase-config.js - Versi Bersih & Aman Tanpa Konflik
-const SUPABAS_URL = 'https://klnpdpyogknfelfdqjm.supabase.co';
-const SUPABAS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsbnBkcHlvZ2tuZmVsZmRxam0iLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc1NzM5NDM2MSwiZXhwIjoyMDczOTcwMzYxfQ.eyJz...'; // Pastikan key lengkap Anda
+const SUPABASE_URL = 'https://klnpdpyogknfelfdqjm.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInI1cCI6IkpXVCJ9.eyJpcGM3MiOiJzdDXBhYmFmZzZSIsInJlZmlwbGVzaNImtsnBkN-1ImtsnBkN2tuMVsZmRxam0iLCJyb2xlIjoiaW5vY2IsImlhdCI6MTcNzM5NDM2MSwZXhwIjoyMDczMzMzYXfQ.eyJz...';
 
-// Inisialisasi global aman ke window agar bisa diakses app.js tanpa deklarasi ulang
-if (!window.supabase) {
-  window.supabase = window.supabaseClient = window.supabase.createClient(SUPABAS_URL, SUPABAS_KEY);
+// Inisialisasi global aman ke window
+if (typeof supabase !== 'undefined') {
+    window.supabase = window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} else {
+    console.error("Library Supabase JS SDK belum dimuat di HTML!");
 }
