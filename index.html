@@ -409,19 +409,40 @@
             </div>
         </section>
 
-        <!-- 11. ADD DAN DDS -->
+        <!-- 11. ADD DAN DDS (TRANSPARANSI & PROGRAM DINAMIS) -->
         <section id="add-dds" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
             <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Transparansi ADD dan DDS Desa Mokupo</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="p-6 bg-emerald-50 border border-emerald-100 rounded-xl space-y-2">
                     <p class="text-xs uppercase font-bold text-emerald-800">Alokasi Dana Desa (ADD)</p>
-                    <h3 class="text-2xl font-extrabold text-emerald-900">Rp 845.200.000</h3>
+                    <h3 id="display-add-total" class="text-2xl font-extrabold text-emerald-900">Rp 845.200.000</h3>
                     <p class="text-xs text-slate-600">Fokus: Penghasilan tetap perangkat desa, operasional kantor, dan insentif lembaga.</p>
                 </div>
                 <div class="p-6 bg-blue-50 border border-blue-100 rounded-xl space-y-2">
                     <p class="text-xs uppercase font-bold text-blue-800">Dana Desa (DDS)</p>
-                    <h3 class="text-2xl font-extrabold text-blue-900">Rp 1.120.500.000</h3>
+                    <h3 id="display-dds-total" class="text-2xl font-extrabold text-blue-900">Rp 1.120.500.000</h3>
                     <p class="text-xs text-slate-600">Fokus: Infrastruktur jalan tani, ketahanan pangan, dan Bantuan Langsung Tunai (BLT).</p>
+                </div>
+            </div>
+
+            <!-- TABEL DAFTAR PROGRAM & KEGIATAN -->
+            <div class="space-y-4 pt-4 border-t">
+                <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-list-check text-emerald-700 mr-2"></i>Daftar Program & Kegiatan Berdasarkan Sumber Dana</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-emerald-50 text-emerald-900 border-b">
+                                <th class="p-3">Sumber Dana</th>
+                                <th class="p-3">Nama Program / Kegiatan</th>
+                                <th class="p-3">Anggaran</th>
+                                <th class="p-3">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="public-add-dds-table">
+                            <tr class="border-b"><td class="p-3"><span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-xs">ADD</span></td><td class="p-3">Penghasilan Tetap & Tunjangan Kepala Desa dan Perangkat</td><td class="p-3">Rp 450.000.000</td><td class="p-3">Rutin Bulanan</td></tr>
+                            <tr class="border-b"><td class="p-3"><span class="bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded text-xs">DDS</span></td><td class="p-3">Pembangunan Jalan Usaha Tani Dusun II</td><td class="p-3">Rp 350.000.000</td><td class="p-3">Fisik / Infrastruktur</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -464,7 +485,7 @@
             </div>
         </section>
 
-        <!-- 14. PORTAL PETUGAS (DENGAN 10 SUB-MENU ADMIN) -->
+        <!-- 14. PORTAL PETUGAS (DENGAN 11 SUB-MENU ADMIN + KELOLA ADD & DDS) -->
         <section id="portal-petugas" class="tab-content space-y-6">
             
             <!-- GATE LOGIN PETUGAS -->
@@ -502,7 +523,7 @@
                             <i class="fa-solid fa-user-gear text-amber-400 text-2xl"></i>
                             <h2 class="text-2xl font-bold text-white tracking-wide">PORTAL PETUGAS (ADMIN DASHBOARD)</h2>
                         </div>
-                        <p class="text-xs text-slate-400">Kelola Seluruh Menu, Peta Desa, Pengaduan & Surat Mediasi</p>
+                        <p class="text-xs text-slate-400">Kelola Seluruh Menu, Anggaran ADD & DDS, Program, & Mediasi</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1.5 rounded-lg">Status: Admin Logged In</span>
@@ -514,7 +535,7 @@
 
                 <!-- SUB-MENU NAVIGASI ADMIN -->
                 <div class="flex flex-wrap gap-2 bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs font-semibold">
-                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-3 py-2 rounded bg-amber-500 text-slate-900 transition"><i class="fa-solid fa-image mr-1"></i> 1. Beranda & Video</button>
+                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-3 py-2 rounded bg-amber-500 text-slate-900 transition"><i class="fa-solid fa-image mr-1"></i> 1. Beranda</button>
                     <button onclick="switchAdminSub('sub-profil')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-id-card mr-1"></i> 2. Profil</button>
                     <button onclick="switchAdminSub('sub-aparat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-user-tie mr-1"></i> 3. Aparat</button>
                     <button onclick="switchAdminSub('sub-petugas')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-users-gear mr-1"></i> 4. Petugas</button>
@@ -523,7 +544,8 @@
                     <button onclick="switchAdminSub('sub-berita')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-newspaper mr-1"></i> 7. Berita</button>
                     <button onclick="switchAdminSub('sub-penduduk')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-chart-pie mr-1"></i> 8. Penduduk</button>
                     <button onclick="switchAdminSub('sub-tautan')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-link mr-1"></i> 9. Tautan</button>
-                    <button onclick="switchAdminSub('sub-kontak')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-address-book mr-1"></i> 10. Edit Kontak & Peta</button>
+                    <button onclick="switchAdminSub('sub-kontak')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-address-book mr-1"></i> 10. Kontak</button>
+                    <button onclick="switchAdminSub('sub-add-dds')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-wallet mr-1"></i> 11. ADD & DDS</button>
                 </div>
 
                 <!-- KONTEN SUB-MENU ADMIN -->
@@ -553,7 +575,7 @@
                         </form>
                     </div>
 
-                    <!-- SUB 2: PROFIL & FOTO SAMBUTAN -->
+                    <!-- SUB 2: PROFIL -->
                     <div id="sub-profil" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil, Sambutan & Foto Kepala Desa</h3>
                         <form onsubmit="updateProfilSettings(event)" class="space-y-4 max-w-xl">
@@ -573,7 +595,7 @@
                         </form>
                     </div>
 
-                    <!-- SUB 3: APARAT & FOTO -->
+                    <!-- SUB 3: APARAT -->
                     <div id="sub-aparat" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa & Foto</h3>
                         <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl">
@@ -597,7 +619,7 @@
                         </form>
                     </div>
 
-                    <!-- SUB 4: TAMBAH PETUGAS -->
+                    <!-- SUB 4: PETUGAS -->
                     <div id="sub-petugas" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Petugas / Admin</h3>
                         <form onsubmit="tambahPetugasBaru(event)" class="space-y-3 max-w-xl">
@@ -617,7 +639,7 @@
                         </form>
                     </div>
 
-                    <!-- SUB 5: SURAT MENYURAT -->
+                    <!-- SUB 5: SURAT -->
                     <div id="sub-surat" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Arsip Surat Masuk & Keluar</h3>
                         <form onsubmit="tambahArsipSurat(event)" class="space-y-3 max-w-xl">
@@ -648,7 +670,7 @@
                         </form>
                     </div>
 
-                    <!-- SUB 6: KELOLA PENGADUAN -->
+                    <!-- SUB 6: PENGADUAN -->
                     <div id="sub-pengaduan" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Daftar Pengaduan Masyarakat & Respon Mediasi</h3>
                         <div id="admin-pengaduan-list" class="space-y-4">
@@ -706,7 +728,7 @@
                         </form>
                     </div>
 
-                    <!-- SUB 10: EDIT KONTAK & PETA DESA -->
+                    <!-- SUB 10: KONTAK -->
                     <div id="sub-kontak" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Kontak Desa & URL Peta (Google Maps Embed)</h3>
                         <form onsubmit="updateKontakSettings(event)" class="space-y-3 max-w-xl">
@@ -721,10 +743,63 @@
                             <div>
                                 <label class="block text-xs font-semibold mb-1">URL Embed Google Maps (Link src iframenya)</label>
                                 <input type="text" id="admin-map-url" placeholder="https://www.google.com/maps/embed?pb=..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs">
-                                <p class="text-[10px] text-slate-400 mt-1">Salin link bagian <code>src="..."</code> dari Google Maps Embed.</p>
                             </div>
                             <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded text-xs shadow">Simpan Kontak & Peta</button>
                         </form>
+                    </div>
+
+                    <!-- SUB 11: ADD & DDS (PENGELOLAAN ANGGARAN & PROGRAM) -->
+                    <div id="sub-add-dds" class="admin-sub-content space-y-6">
+                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Anggaran & Program ADD & DDS</h3>
+                        
+                        <!-- Form Edit Total Anggaran -->
+                        <form onsubmit="updateTotalAddDds(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700">
+                            <h4 class="font-bold text-sm text-amber-300">Total Pagu Anggaran Desa</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold mb-1">Total ADD (Rp)</label>
+                                    <input type="text" id="input-total-add" value="Rp 845.200.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold mb-1">Total DDS (Rp)</label>
+                                    <input type="text" id="input-total-dds" value="Rp 1.120.500.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                </div>
+                            </div>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded text-xs shadow">Simpan Total Anggaran</button>
+                        </form>
+
+                        <!-- Form Tambah Program / Kegiatan Baru -->
+                        <form onsubmit="tambahProgramKegiatan(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700">
+                            <h4 class="font-bold text-sm text-emerald-400">Tambah Program / Kegiatan Berdasarkan Sumber Dana</h4>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Sumber Dana</label>
+                                <select id="prog-sumber" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                                    <option value="ADD">ADD (Alokasi Dana Desa)</option>
+                                    <option value="DDS">DDS (Dana Desa)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Nama Program / Kegiatan</label>
+                                <input type="text" id="prog-nama" placeholder="Contoh: Pembangunan Jembatan Tani" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Besaran Anggaran (Rp)</label>
+                                <input type="text" id="prog-anggaran" placeholder="Contoh: Rp 150.000.000" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Keterangan / Fokus Kegiatan</label>
+                                <input type="text" id="prog-ket" placeholder="Contoh: Fisik / Insentif / Rutin" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs text-white">
+                            </div>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded text-xs shadow">Tambah Program</button>
+                        </form>
+
+                        <!-- Daftar Program Tersimpan -->
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-sm text-slate-300">Daftar Program / Kegiatan Saat Ini:</h4>
+                            <div id="admin-add-dds-list" class="space-y-2">
+                                <!-- Rendered via JS -->
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -733,7 +808,7 @@
 
         </section>
 
-        <!-- 15. KONTAK (DENGAN PETA DESA) -->
+        <!-- 15. KONTAK -->
         <section id="kontak" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
             <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Kontak Kantor Desa Mokupo</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-600">
@@ -749,7 +824,6 @@
                 </div>
             </div>
 
-            <!-- KOTAK TAMPILAN PETA DESA -->
             <div class="space-y-2 pt-4 border-t">
                 <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-map-location-dot text-emerald-700 mr-2"></i>Peta Lokasi Kantor Desa Mokupo</h3>
                 <div class="w-full h-96 rounded-xl overflow-hidden border shadow-inner bg-slate-100">
@@ -830,6 +904,19 @@
             localStorage.setItem('desa_pengaduan', JSON.stringify(list));
         }
 
+        // DATA STORE ADD & DDS PROGRAM
+        function getAddDdsPrograms() {
+            let data = localStorage.getItem('desa_add_dds_programs');
+            return data ? JSON.parse(data) : [
+                { sumber: 'ADD', nama: 'Penghasilan Tetap & Tunjangan Kepala Desa dan Perangkat', anggaran: 'Rp 450.000.000', ket: 'Rutin Bulanan' },
+                { sumber: 'DDS', nama: 'Pembangunan Jalan Usaha Tani Dusun II', anggaran: 'Rp 350.000.000', ket: 'Fisik / Infrastruktur' }
+            ];
+        }
+
+        function saveAddDdsPrograms(list) {
+            localStorage.setItem('desa_add_dds_programs', JSON.stringify(list));
+        }
+
         // NAVIGASI UTAMA TAB
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -842,6 +929,9 @@
             }
             if (tabId === 'layanan-pengaduan') {
                 renderAdminPengaduanList();
+            }
+            if (tabId === 'add-dds') {
+                renderPublicAddDds();
             }
         }
 
@@ -859,6 +949,9 @@
 
             if (subId === 'sub-pengaduan') {
                 renderAdminPengaduanList();
+            }
+            if (subId === 'sub-add-dds') {
+                renderAdminAddDds();
             }
         }
 
@@ -890,6 +983,7 @@
                 loginBox.classList.add('hidden');
                 dashBox.classList.remove('hidden');
                 renderAdminPengaduanList();
+                renderAdminAddDds();
             } else {
                 loginBox.classList.remove('hidden');
                 dashBox.classList.add('hidden');
@@ -1047,6 +1141,101 @@
                 savePengaduanList(list);
                 renderAdminPengaduanList();
             }
+        }
+
+        // KELOLA ADD & DDS (TOTAL & PROGRAM)
+        function updateTotalAddDds(e) {
+            e.preventDefault();
+            const totalAdd = document.getElementById('input-total-add').value;
+            const totalDds = document.getElementById('input-total-dds').value;
+
+            localStorage.setItem('desa_total_add', totalAdd);
+            localStorage.setItem('desa_total_dds', totalDds);
+
+            applySettings();
+            alert('Total anggaran ADD & DDS berhasil diperbarui!');
+        }
+
+        function tambahProgramKegiatan(e) {
+            e.preventDefault();
+            const sumber = document.getElementById('prog-sumber').value;
+            const nama = document.getElementById('prog-nama').value;
+            const anggaran = document.getElementById('prog-anggaran').value;
+            const ket = document.getElementById('prog-ket').value;
+
+            let list = getAddDdsPrograms();
+            list.push({ sumber, nama, anggaran, ket });
+            saveAddDdsPrograms(list);
+
+            document.getElementById('prog-nama').value = '';
+            document.getElementById('prog-anggaran').value = '';
+            document.getElementById('prog-ket').value = '';
+
+            renderAdminAddDds();
+            renderPublicAddDds();
+            alert('Program / kegiatan berhasil ditambahkan!');
+        }
+
+        function hapusProgramAddDds(index) {
+            if (confirm('Hapus program ini?')) {
+                let list = getAddDdsPrograms();
+                list.splice(index, 1);
+                saveAddDdsPrograms(list);
+                renderAdminAddDds();
+                renderPublicAddDds();
+            }
+        }
+
+        function renderPublicAddDds() {
+            const tableBody = document.getElementById('public-add-dds-table');
+            if (!tableBody) return;
+
+            let list = getAddDdsPrograms();
+            tableBody.innerHTML = '';
+            if (list.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">Belum ada program / kegiatan terdaftar.</td></tr>`;
+                return;
+            }
+
+            list.forEach(item => {
+                let badgeClass = item.sumber === 'ADD' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800';
+                let row = document.createElement('tr');
+                row.className = 'border-b';
+                row.innerHTML = `
+                    <td class="p-3"><span class="${badgeClass} font-bold px-2 py-0.5 rounded text-xs">${item.sumber}</span></td>
+                    <td class="p-3 font-medium text-slate-800">${item.nama}</td>
+                    <td class="p-3 font-semibold text-slate-700">${item.anggaran}</td>
+                    <td class="p-3 text-slate-600 text-xs">${item.ket}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function renderAdminAddDds() {
+            const container = document.getElementById('admin-add-dds-list');
+            if (!container) return;
+
+            let list = getAddDdsPrograms();
+            container.innerHTML = '';
+            if (list.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400">Belum ada program.</p>`;
+                return;
+            }
+
+            list.forEach((item, index) => {
+                let badgeClass = item.sumber === 'ADD' ? 'bg-emerald-900 text-emerald-300' : 'bg-blue-900 text-blue-300';
+                let card = document.createElement('div');
+                card.className = 'bg-slate-900 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <span class="${badgeClass} font-bold px-2 py-0.5 rounded text-[10px]">${item.sumber}</span>
+                        <p class="font-bold text-white">${item.nama}</p>
+                        <p class="text-slate-400">${item.anggaran} | ${item.ket}</p>
+                    </div>
+                    <button onclick="hapusProgramAddDds(${index})" class="bg-rose-600 hover:bg-rose-700 text-white p-2 rounded shadow"><i class="fa-solid fa-trash"></i></button>
+                `;
+                container.appendChild(card);
+            });
         }
 
         // BERANDA, PROFIL, APARAT, KONTAK & PETA
@@ -1228,6 +1417,8 @@
             const videoUrl = localStorage.getItem('desa_video');
             const fotoSambutan = localStorage.getItem('desa_foto_sambutan');
             const mapUrl = localStorage.getItem('desa_map_url');
+            const totalAdd = localStorage.getItem('desa_total_add');
+            const totalDds = localStorage.getItem('desa_total_dds');
 
             if(nama) document.getElementById('app-title').innerText = nama;
             if(slogan) document.getElementById('app-slogan').innerText = slogan;
@@ -1252,6 +1443,18 @@
                 const adminMap = document.getElementById('admin-map-url');
                 if(adminMap) adminMap.value = mapUrl;
             }
+            if(totalAdd) {
+                document.getElementById('display-add-total').innerText = totalAdd;
+                const inputAdd = document.getElementById('input-total-add');
+                if(inputAdd) inputAdd.value = totalAdd;
+            }
+            if(totalDds) {
+                document.getElementById('display-dds-total').innerText = totalDds;
+                const inputDds = document.getElementById('input-total-dds');
+                if(inputDds) inputDds.value = totalDds;
+            }
+
+            renderPublicAddDds();
         }
 
         function generateSuratPreview(e) {
@@ -1275,6 +1478,7 @@
         window.onload = () => {
             applySettings();
             checkAuthStatus();
+            renderPublicAddDds();
         };
     </script>
 </body>
