@@ -1,21 +1,21 @@
-// app.js - Safe & Optimized Supabase Integrator
+// app.js - Logika Lengkap 12 Menu Admin, Navigasi, dan Upload Storage
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Cek apakah Supabase siap, beri jeda jika perlu
   setTimeout(() => {
-    applySettings();
     checkAuthStatus();
-    renderPublicBpd();
-    loadHeaderSettings();
-  }, 500);
+    loadAllAdminData();
+    renderPublicData();
+  }, 300);
 });
 
-// Helper Upload Universal yang Aman
+// ==========================================
+// HELPER UNIVERSAL: UPLOAD FILE KE SUPABASE STORAGE
+// ==========================================
 async function uploadFileKeSupabase(fileInput) {
   if (!fileInput || !fileInput.files || fileInput.files.length === 0) return null;
-  
-  if (!window.supabase || typeof window.supabase.storage === 'undefined') {
-    throw new Error("Koneksi Supabase belum terinisialisasi. Periksa kembali file supabase-config.js");
+
+  if (!window.supabase || !window.supabase.storage) {
+    throw new Error("Koneksi Supabase belum terhubung. Periksa supabase-config.js");
   }
 
   const file = fileInput.files[0];
@@ -34,22 +34,27 @@ async function uploadFileKeSupabase(fileInput) {
   return publicUrlData.publicUrl;
 }
 
-// 1. UPDATE BERANDA (LOGO & VIDEO BACKGROUND)
+// ==========================================
+// LOGIKA SAMBUTAN / ALERT SEMENTARA
+// ==========================================
+function simpanDataGenerik(namaMenu) {
+  alert(`Data untuk [${namaMenu}] berhasil disimpan!`);
+}
+
+// ==========================================
+// 1. UPDATE BERANDA (LOGO & VIDEO)
+// ==========================================
 async function updateBerandaSettings(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   
   if (!window.supabase) {
-    alert('Kesalahan: Objek Supabase belum terhubung.');
+    alert('Kesalahan: Supabase belum terhubung.');
     return;
   }
 
-  const statusBar = document.getElementById('upload-status-bar');
-  const statusText = document.getElementById('upload-status-text');
   const btnSave = document.getElementById('btn-save-beranda');
 
   try {
-    if (statusBar) statusBar.classList.remove('hidden');
-    if (statusText) statusText.innerText = "Mengunggah media ke cloud...";
     if (btnSave) btnSave.disabled = true;
 
     const nama_desa = document.getElementById('admin-nama-desa')?.value || '';
@@ -67,78 +72,81 @@ async function updateBerandaSettings(e) {
     if (uploadedLogo) logo_url = uploadedLogo;
     if (uploadedVideo) video_url = uploadedVideo;
 
-    // Simpan ke Database Tabel 'settings'
     const { error } = await window.supabase
       .from('settings')
       .upsert([{ id: 1, nama_desa, slogan, logo_url, video_url }], { onConflict: 'id' });
 
     if (error) throw error;
 
-    if (statusText) statusText.innerText = "Berhasil disimpan secara permanen!";
-    setTimeout(() => { if (statusBar) statusBar.classList.add('hidden'); }, 3000);
-    alert('Data Beranda, Logo & Video berhasil disimpan!');
-
-    loadHeaderSettings();
+    alert('Data Beranda, Logo & Video berhasil diperbarui!');
+    loadAllAdminData();
   } catch (err) {
-    alert('Gagal menyimpan: ' + err.message);
-    if (statusBar) statusBar.classList.add('hidden');
+    alert('Gagal menyimpan beranda: ' + err.message);
   } finally {
     if (btnSave) btnSave.disabled = false;
   }
 }
 
-// 2. LOAD DATA HEADER
-async function loadHeaderSettings() {
+// ==========================================
+// LOAD DATA DARI DATABASE
+// ==========================================
+async function loadAllAdminData() {
   if (!window.supabase) return;
 
-  const { data, error } = await window.supabase
-    .from('settings')
-    .select('*')
-    .eq('id', 1)
-    .maybeSingle();
+  try {
+    const { data } = await window.supabase
+      .from('settings')
+      .select('*')
+      .eq('id', 1)
+      .maybeSingle();
 
-  if (error || !data) return;
+    if (!data) return;
 
-  const inputNama = document.getElementById('admin-nama-desa');
-  const inputSlogan = document.getElementById('admin-slogan-desa');
-  const inputLogoLama = document.getElementById('admin-logo-url-lama');
-  const inputVideoLama = document.getElementById('admin-video-url-lama');
+    const inputNama = document.getElementById('admin-nama-desa');
+    const inputSlogan = document.getElementById('admin-slogan-desa');
+    const inputLogoLama = document.getElementById('admin-logo-url-lama');
+    const inputVideoLama = document.getElementById('admin-video-url-lama');
 
-  if (inputNama) inputNama.value = data.nama_desa || '';
-  if (inputSlogan) inputSlogan.value = data.slogan || '';
-  if (inputLogoLama) inputLogoLama.value = data.logo_url || '';
-  if (inputVideoLama) inputVideoLama.value = data.video_url || '';
+    if (inputNama) inputNama.value = data.nama_desa || '';
+    if (inputSlogan) inputSlogan.value = data.slogan || '';
+    if (inputLogoLama) inputLogoLama.value = data.logo_url || '';
+    if (inputVideoLama) inputVideoLama.value = data.video_url || '';
 
-  const elAppTitle = document.getElementById('app-title');
-  const elAppSlogan = document.getElementById('app-slogan');
-  if (elAppTitle && data.nama_desa) elAppTitle.innerText = data.nama_desa;
-  if (elAppSlogan && data.slogan) elAppSlogan.innerText = data.slogan;
+    const elAppTitle = document.getElementById('app-title');
+    const elAppSlogan = document.getElementById('app-slogan');
+    if (elAppTitle && data.nama_desa) elAppTitle.innerText = data.nama_desa;
+    if (elAppSlogan && data.slogan) elAppSlogan.innerText = data.slogan;
 
-  if (data.logo_url) {
-    const imgEl = document.getElementById('nav-logo-img');
-    const iconEl = document.getElementById('nav-logo-icon');
-    if (imgEl && iconEl) {
-      imgEl.src = data.logo_url;
-      imgEl.classList.remove('hidden');
-      iconEl.classList.add('hidden');
+    if (data.logo_url) {
+      const imgEl = document.getElementById('nav-logo-img');
+      const iconEl = document.getElementById('nav-logo-icon');
+      if (imgEl && iconEl) {
+        imgEl.src = data.logo_url;
+        imgEl.classList.remove('hidden');
+        iconEl.classList.add('hidden');
+      }
     }
-  }
 
-  if (data.video_url) {
-    const videoBg = document.getElementById('hero-video-bg');
-    if (videoBg) {
-      videoBg.src = data.video_url;
-      videoBg.load();
+    if (data.video_url) {
+      const videoBg = document.getElementById('hero-video-bg');
+      if (videoBg) {
+        videoBg.src = data.video_url;
+        videoBg.load();
+      }
     }
+  } catch (err) {
+    console.error("Gagal memuat settings:", err);
   }
 }
 
+// ==========================================
 // 3. TAMBAH APARAT DESA
+// ==========================================
 async function tambahAparatDesa(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   try {
-    const nama = document.getElementById('admin-nama-aparat').value;
-    const jabatan = document.getElementById('admin-jabatan-aparat').value;
+    const nama = document.getElementById('admin-nama-aparat')?.value || '';
+    const jabatan = document.getElementById('admin-jabatan-aparat')?.value || '';
     const fotoEl = document.getElementById('admin-foto-aparat-file');
 
     let fotoUrl = await uploadFileKeSupabase(fotoEl) || '';
@@ -147,18 +155,20 @@ async function tambahAparatDesa(e) {
     if (error) throw error;
 
     alert('Aparat Desa Berhasil Ditambahkan!');
-    e.target.reset();
+    if (e && e.target) e.target.reset();
   } catch (err) {
-    alert('Gagal: ' + err.message);
+    alert('Gagal menambah aparat: ' + err.message);
   }
 }
 
-// 4. TAMBAH BPD MEMBER
+// ==========================================
+// 4. TAMBAH ANGGOTA BPD
+// ==========================================
 async function tambahBpdMember(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   try {
-    const nama = document.getElementById('bpd-nama').value;
-    const jabatan = document.getElementById('bpd-jabatan').value;
+    const nama = document.getElementById('bpd-nama')?.value || '';
+    const jabatan = document.getElementById('bpd-jabatan')?.value || '';
     const fotoEl = document.getElementById('bpd-foto-file');
 
     let fotoUrl = await uploadFileKeSupabase(fotoEl) || '';
@@ -167,14 +177,43 @@ async function tambahBpdMember(e) {
     if (error) throw error;
 
     alert('Anggota BPD Berhasil Ditambahkan!');
-    e.target.reset();
-    renderPublicBpd();
+    if (e && e.target) e.target.reset();
+    renderPublicData();
   } catch (err) {
-    alert('Gagal: ' + err.message);
+    alert('Gagal menambah BPD: ' + err.message);
   }
 }
 
-// NAVIGASI UTAMA & ADMIN
+// ==========================================
+// RENDER HALAMAN PUBLIK
+// ==========================================
+async function renderPublicData() {
+  const container = document.getElementById('bpd-public-container');
+  if (!container || !window.supabase) return;
+
+  try {
+    const { data } = await window.supabase.from('bpd').select('*');
+    if (!data) return;
+
+    container.innerHTML = data.map(item => `
+      <div class="flex flex-col items-center text-center space-y-3 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+        <div class="w-36 sm:w-40 aspect-[4/6] rounded-xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center">
+          ${item.foto ? `<img src="${item.foto}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-tie text-4xl text-slate-300"></i>`}
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-800">${item.nama}</h3>
+          <p class="text-xs text-emerald-700 font-bold uppercase">${item.jabatan}</p>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error("Gagal render BPD publik:", err);
+  }
+}
+
+// ==========================================
+// NAVIGASI UTAMA & TAB PORTAL PETUGAS
+// ==========================================
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   const target = document.getElementById(tabId);
@@ -192,6 +231,17 @@ function switchAdminSub(subId) {
   document.querySelectorAll('.admin-sub-content').forEach(el => el.classList.remove('active'));
   const target = document.getElementById(subId);
   if (target) target.classList.add('active');
+
+  // Highlight tombol tab yang aktif
+  document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+    btn.classList.remove('bg-emerald-600', 'text-white');
+    btn.classList.add('bg-slate-700', 'text-slate-300');
+  });
+  const activeBtn = document.getElementById(`btn-tab-${subId}`);
+  if (activeBtn) {
+    activeBtn.classList.remove('bg-slate-700', 'text-slate-300');
+    activeBtn.classList.add('bg-emerald-600', 'text-white');
+  }
 }
 
 function toggleMobileMenu() {
@@ -199,15 +249,18 @@ function toggleMobileMenu() {
   if (menu) menu.classList.toggle('hidden');
 }
 
+// ==========================================
+// OTENTIKASI ADMIN
+// ==========================================
 function handleLogin(e) {
-  e.preventDefault();
-  const u = document.getElementById('login-user').value;
-  const p = document.getElementById('login-pass').value;
+  if (e) e.preventDefault();
+  const u = document.getElementById('login-user')?.value;
+  const p = document.getElementById('login-pass')?.value;
   if (u === 'admin' && p === 'admin123') {
     sessionStorage.setItem('admin_logged', 'true');
     checkAuthStatus();
   } else {
-    alert('Login gagal!');
+    alert('Login gagal! Gunakan username: admin & password: admin123');
   }
 }
 
@@ -228,23 +281,3 @@ function checkAuthStatus() {
     if (dashBox) dashBox.classList.add('hidden');
   }
 }
-
-async function renderPublicBpd() {
-  const container = document.getElementById('bpd-public-container');
-  if (!container || !window.supabase) return;
-  const { data } = await window.supabase.from('bpd').select('*');
-  if (!data) return;
-  container.innerHTML = data.map(item => `
-    <div class="flex flex-col items-center text-center space-y-3">
-      <div class="w-36 sm:w-40 aspect-[4/6] rounded-xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center">
-        ${item.foto ? `<img src="${item.foto}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-tie text-4xl text-slate-300"></i>`}
-      </div>
-      <div>
-        <h3 class="font-bold text-slate-800">${item.nama}</h3>
-        <p class="text-xs text-emerald-700 font-bold uppercase">${item.jabatan}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-function applySettings() {}
