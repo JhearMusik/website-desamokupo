@@ -1,309 +1,275 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Informasi Desa Mokupo - Kec. Karamat</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        .dropdown:hover .dropdown-menu { display: block; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .admin-sub-content { display: none; }
-        .admin-sub-content.active { display: block; }
-        @media print {
-            body * { visibility: hidden; }
-            #printable-letter, #printable-letter *, #printable-mediation, #printable-mediation * { visibility: visible; }
-            #printable-letter, #printable-mediation { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; background: white; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="app-title">PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT</title>
+  
+  <!-- Tailwind CSS & FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .admin-sub-content { display: none; }
+    .admin-sub-content.active { display: block; }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
 
-    <!-- TOP BAR INFORMASI -->
-    <div class="bg-emerald-900 text-emerald-100 text-xs py-1.5 px-4 hidden md:block">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <span><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> Pemerintah Desa Mokupo, Kec. Karamat, Kab. Buol</span>
-                <span id="topbar-email"><i class="fa-solid fa-envelope mr-1 text-amber-400"></i> pemdesmokupo@buolkab.go.id</span>
-            </div>
-            <span class="font-semibold text-amber-300">PORTAL RESMI PEMERINTAH DESA MOKUPO</span>
+  <!-- NAVBAR UTAMA -->
+  <header class="bg-emerald-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('beranda')">
+        <div id="nav-logo-icon" class="w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-landmark text-xl text-amber-400"></i>
         </div>
+        <img id="nav-logo-img" src="" class="w-10 h-10 rounded-full object-cover hidden" alt="Logo Desa">
+        <div>
+          <h1 class="font-bold text-sm sm:text-base leading-tight">PEMERINTAH DESA MOKUPO</h1>
+          <p id="app-slogan" class="text-xs text-emerald-300">Sistem Informasi & Portal Pelayanan Publik</p>
+        </div>
+      </div>
+
+      <!-- Menu Navigasi Desktop -->
+      <nav class="hidden md:flex space-x-2 text-sm font-semibold">
+        <button onclick="switchTab('beranda')" class="px-3 py-2 rounded-lg hover:bg-emerald-800 transition">1. Beranda</button>
+        <button onclick="switchTab('profil')" class="px-3 py-2 rounded-lg hover:bg-emerald-800 transition">2. Profil</button>
+        <button onclick="switchTab('aparat')" class="px-3 py-2 rounded-lg hover:bg-emerald-800 transition">3. Aparat</button>
+        <button onclick="switchTab('bpd')" class="px-3 py-2 rounded-lg hover:bg-emerald-800 transition">4. BPD</button>
+        <button onclick="switchTab('petugas')" class="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-lg font-bold transition flex items-center space-x-2">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>PORTAL PETUGAS</span>
+        </button>
+      </nav>
+
+      <!-- Tombol Hamburger Mobile -->
+      <button onclick="toggleMobileMenu()" class="md:hidden text-2xl focus:outline-none">
+        <i class="fa-solid fa-bars"></i>
+      </button>
     </div>
 
-    <!-- HEADER & NAVIGASI UTAMA -->
-    <header class="bg-emerald-800 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex items-center gap-3">
-                    <div id="nav-logo-container" class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center font-bold text-lg sm:text-xl border-2 border-amber-400 overflow-hidden shadow-inner shrink-0 p-0.5">
-                        <i class="fa-solid fa-building-columns text-emerald-800" id="nav-logo-icon"></i>
-                        <img id="nav-logo-img" src="" alt="Logo" class="w-full h-full object-contain hidden">
-                    </div>
-                    <div>
-                        <h1 id="app-title" class="font-bold text-xs sm:text-base leading-tight uppercase tracking-wider">PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT</h1>
-                        <p id="app-slogan" class="text-[10px] sm:text-xs text-emerald-200">Sistem Informasi & Portal Pelayanan Publik</p>
-                    </div>
-                </div>
+    <!-- Menu Mobile -->
+    <div id="mobile-menu" class="hidden md:hidden bg-emerald-950 px-4 py-3 space-y-2">
+      <button onclick="switchTab('beranda'); toggleMobileMenu()" class="block w-full text-left py-2 font-semibold">1. Beranda</button>
+      <button onclick="switchTab('profil'); toggleMobileMenu()" class="block w-full text-left py-2 font-semibold">2. Profil</button>
+      <button onclick="switchTab('aparat'); toggleMobileMenu()" class="block w-full text-left py-2 font-semibold">3. Aparat</button>
+      <button onclick="switchTab('bpd'); toggleMobileMenu()" class="block w-full text-left py-2 font-semibold">4. BPD</button>
+      <button onclick="switchTab('petugas'); toggleMobileMenu()" class="block w-full text-center bg-amber-500 text-slate-900 py-2 rounded-lg font-bold">PORTAL PETUGAS</button>
+    </div>
+  </header>
 
-                <!-- TOMBOL HAMBURGER MOBILE -->
-                <div class="xl:hidden flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-white p-2 focus:outline-none text-xl">
-                        <i id="mobile-menu-icon" class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
+  <!-- KONTEN UTAMA HALAMAN -->
+  <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
 
-                <!-- NAV MENU DESKTOP -->
-                <nav class="hidden xl:flex items-center space-x-1 font-medium text-xs">
-                    <button onclick="switchTab('beranda')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">BERANDA</button>
-                    <div class="relative dropdown">
-                        <button class="px-2 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">PROFIL <i class="fa-solid fa-chevron-down text-[10px]"></i></button>
-                        <div class="dropdown-menu hidden absolute left-0 w-48 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
-                            <button onclick="switchTab('profil-sejarah')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Sejarah</button>
-                            <button onclick="switchTab('profil-visimisi')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Visi dan Misi</button>
-                            <button onclick="switchTab('profil-struktur')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Struktur Organisasi</button>
-                            <button onclick="switchTab('profil-sambutan')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Sambutan Kepala Desa</button>
-                        </div>
-                    </div>
-                    <button onclick="switchTab('aparat')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">APARAT DESA</button>
-                    <button onclick="switchTab('bpd')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">BPD</button>
-                    <button onclick="switchTab('add-dds')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">ADD & DDS</button>
-                    <button onclick="switchTab('tautan')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">TAUTAN</button>
-                    <button onclick="switchTab('adminduk')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">ADMINDUK</button>
-                    <button onclick="switchTab('portal-petugas')" class="nav-btn px-2.5 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold flex items-center gap-1 ml-1 shadow"><i class="fa-solid fa-user-shield"></i> PORTAL PETUGAS</button>
-                    <button onclick="switchTab('kontak')" class="nav-btn px-2 py-2 rounded-md hover:bg-emerald-700">KONTAK</button>
-                </nav>
-            </div>
-        </div>
-
-        <!-- MENU DROPDOWN MOBILE (HP) -->
-        <div id="mobile-menu" class="hidden xl:hidden bg-emerald-900 border-t border-emerald-700 px-4 py-3 space-y-2 text-xs font-medium">
-            <button onclick="switchTab('beranda'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">BERANDA</button>
-            <button onclick="switchTab('profil-sejarah'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">PROFIL DESA</button>
-            <button onclick="switchTab('aparat'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">APARAT DESA</button>
-            <button onclick="switchTab('bpd'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">BPD</button>
-            <button onclick="switchTab('add-dds'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">ADD DAN DDS</button>
-            <button onclick="switchTab('tautan'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">TAUTAN</button>
-            <button onclick="switchTab('adminduk'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">DATA ADMINDUK</button>
-            <button onclick="switchTab('portal-petugas'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded bg-amber-500 text-slate-900 font-bold"><i class="fa-solid fa-user-shield mr-1"></i> PORTAL PETUGAS</button>
-            <button onclick="switchTab('kontak'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">KONTAK</button>
-        </div>
-    </header>
-
-    <!-- BANNER HERO FULL SCREEN -->
-    <div id="beranda-hero-fullscreen" class="relative w-full min-h-[360px] sm:min-h-[480px] bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white flex items-center overflow-hidden shadow-2xl">
-        <div id="hero-video-container" class="absolute inset-0 w-full h-full z-0 overflow-hidden">
-            <video id="hero-video-bg" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
-            <div class="absolute inset-0 bg-slate-950/60 bg-gradient-to-t from-slate-950/80 via-emerald-950/50 to-transparent"></div>
-        </div>
-
-        <div class="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div class="space-y-4 max-w-3xl">
-                <span class="inline-block bg-amber-400 text-slate-900 text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow">Official Portal</span>
-                <h2 id="banner-title" class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">Selamat Datang di Portal Resmi Pemerintah Desa Mokupo</h2>
-                <p id="banner-desc" class="text-sm sm:text-base text-emerald-100 leading-relaxed drop-shadow">Pusat pelayanan administrasi kependudukan, transparansi anggaran, dan pembuatan surat mandiri yang cepat, transparan, serta terintegrasi.</p>
-            </div>
-        </div>
+    <!-- HERO BANNER VIDEO FULLSCREEN (HANYA DI BERANDA) -->
+    <div id="beranda-hero-fullscreen" class="relative w-full h-[380px] sm:h-[480px] rounded-2xl overflow-hidden mb-8 shadow-2xl bg-black">
+      <video id="hero-video-bg" class="w-full h-full object-cover opacity-60" autoplay loop muted playsinline></video>
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent flex flex-col justify-end p-6 sm:p-10">
+        <h2 class="text-3xl sm:text-5xl font-black text-amber-400 drop-shadow-md">Selamat Datang di Desa Mokupo</h2>
+        <p class="text-slate-200 text-sm sm:text-lg mt-2 max-w-2xl">Pusat Informasi Transparan & Pelayanan Administrasi Publik Kecamatan Karamat.</p>
+      </div>
     </div>
 
-    <!-- KONTEN UTAMA -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <!-- 1. TAB BERANDA PUBLIK -->
+    <section id="beranda" class="tab-content active space-y-6">
+      <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+        <h3 class="text-2xl font-bold text-emerald-400 mb-4"><i class="fa-solid fa-bullhorn mr-2"></i>Pengumuman Terbaru</h3>
+        <p class="text-slate-300">Selamat datang di portal pelayanan resmi Desa Mokupo. Silakan manfaatkan layanan online kami dengan mudah dan cepat.</p>
+      </div>
+    </section>
 
-        <!-- 1. BERANDA -->
-        <section id="beranda" class="tab-content active space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Total Penduduk</p>
-                        <h3 id="home-total" class="text-2xl sm:text-3xl font-bold text-slate-800 mt-1">4830</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-users"></i></div>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Laki-Laki (Pria)</p>
-                        <h3 id="home-laki" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">2450</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-mars"></i></div>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Perempuan (Wanita)</p>
-                        <h3 id="home-perempuan" class="text-2xl sm:text-3xl font-bold text-pink-600 mt-1">2380</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-venus"></i></div>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] uppercase text-slate-500 font-semibold">Kepala Keluarga (KK)</p>
-                        <h3 id="home-kk" class="text-2xl sm:text-3xl font-bold text-teal-600 mt-1">1210</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-house-chimney"></i></div>
-                </div>
+    <!-- 2. TAB PROFIL PUBLIK -->
+    <section id="profil" class="tab-content space-y-6">
+      <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+        <h3 class="text-2xl font-bold text-emerald-400 mb-4"><i class="fa-solid fa-circle-info mr-2"></i>Profil Desa Mokupo</h3>
+        <p class="text-slate-300">Desa Mokupo terletak di Kecamatan Karamat, Kabupaten Buol. Kami terus berkomitmen mengedepankan transparansi tata kelola pemerintahan desa.</p>
+      </div>
+    </section>
+
+    <!-- 3. TAB APARAT PUBLIK -->
+    <section id="aparat" class="tab-content space-y-6">
+      <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+        <h3 class="text-2xl font-bold text-emerald-400 mb-4"><i class="fa-solid fa-users mr-2"></i>Aparat Pemerintah Desa</h3>
+        <p class="text-slate-300">Daftar perangkat desa yang siap melayani kebutuhan administrasi masyarakat Desa Mokupo.</p>
+      </div>
+    </section>
+
+    <!-- 4. TAB BPD PUBLIK -->
+    <section id="bpd" class="tab-content space-y-6">
+      <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+        <h3 class="text-2xl font-bold text-emerald-400 mb-4"><i class="fa-solid fa-user-shield mr-2"></i>Badan Permusyawaratan Desa (BPD)</h3>
+        <div id="bpd-public-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
+          <p class="text-slate-400 col-span-full">Memuat data BPD...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TAB PORTAL PETUGAS (DASHBOARD ADMIN LENGKAP) -->
+    <section id="petugas" class="tab-content space-y-6">
+
+      <!-- AUTH BOX LOGIN -->
+      <div id="auth-login-box" class="max-w-md mx-auto bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-2xl">
+        <div class="text-center mb-6">
+          <i class="fa-solid fa-lock text-4xl text-amber-400 mb-2"></i>
+          <h3 class="text-xl font-bold">Login Portal Petugas</h3>
+          <p class="text-xs text-slate-400">Masukkan kredensial admin Anda</p>
+        </div>
+        <form onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Username</label>
+            <input type="text" id="login-user" required class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg text-white">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Password</label>
+            <input type="password" id="login-pass" required class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg text-white">
+          </div>
+          <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg transition">MASUK DASHBOARD</button>
+        </form>
+      </div>
+
+      <!-- DASHBOARD ADMIN UTAMA -->
+      <div id="admin-dashboard-box" class="hidden space-y-6">
+        <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
+          <div>
+            <h3 class="font-bold text-lg text-amber-400"><i class="fa-solid fa-gauge mr-2"></i>Dashboard Panel Petugas</h3>
+            <p class="text-xs text-slate-400">Kelola 12 Modul Data Desa Mokupo</p>
+          </div>
+          <button onclick="handleLogout()" class="bg-rose-600 hover:bg-rose-700 px-4 py-2 rounded-lg text-xs font-bold transition">LOGOUT</button>
+        </div>
+
+        <!-- NAVIGASI TAB MENU ADMIN (12 KOLOM lengkap) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+          <button id="btn-tab-admin-beranda" onclick="switchAdminSub('admin-beranda')" class="admin-nav-btn bg-emerald-600 text-white p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">1. Beranda</button>
+          <button id="btn-tab-admin-profil" onclick="switchAdminSub('admin-profil')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">2. Profil</button>
+          <button id="btn-tab-admin-aparat" onclick="switchAdminSub('admin-aparat')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">3. Aparat</button>
+          <button id="btn-tab-admin-bpd" onclick="switchAdminSub('admin-bpd')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">4. BPD</button>
+          <button id="btn-tab-admin-layanan" onclick="switchAdminSub('admin-layanan')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">5. Layanan</button>
+          <button id="btn-tab-admin-berita" onclick="switchAdminSub('admin-berita')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">6. Berita</button>
+          <button id="btn-tab-admin-galeri" onclick="switchAdminSub('admin-galeri')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">7. Galeri</button>
+          <button id="btn-tab-admin-keuangan" onclick="switchAdminSub('admin-keuangan')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">8. Keuangan</button>
+          <button id="btn-tab-admin-potensi" onclick="switchAdminSub('admin-potensi')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">9. Potensi</button>
+          <button id="btn-tab-admin-peta" onclick="switchAdminSub('admin-peta')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">10. Peta</button>
+          <button id="btn-tab-admin-adminduk" onclick="switchAdminSub('admin-adminduk')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">11. Adminduk</button>
+          <button id="btn-tab-admin-kontak" onclick="switchAdminSub('admin-kontak')" class="admin-nav-btn bg-slate-700 text-slate-300 p-3 rounded-lg text-xs font-bold text-center hover:opacity-90 transition">12. Kontak</button>
+        </div>
+
+        <!-- 1. KONTEN ADMIN: BERANDA -->
+        <div id="admin-beranda" class="admin-sub-content active bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Edit Data Beranda, Logo & Video Background</h4>
+          <form onsubmit="updateBerandaSettings(event)" class="space-y-4">
+            <input type="hidden" id="admin-logo-url-lama">
+            <input type="hidden" id="admin-video-url-lama">
+            <div>
+              <label class="block text-xs font-bold mb-1">Nama Desa / Instansi</label>
+              <input type="text" id="admin-nama-desa" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg text-white">
             </div>
-        </section>
-
-        <!-- PROFIL SEJARAH -->
-        <section id="profil-sejarah" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-4">
-            <h2 class="text-xl font-bold text-emerald-800 border-b pb-2">Sejarah Desa</h2>
-            <div id="content-sejarah" class="text-sm text-slate-600">
-                <p>Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol.</p>
+            <div>
+              <label class="block text-xs font-bold mb-1">Slogan Beranda</label>
+              <input type="text" id="admin-slogan-desa" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg text-white">
             </div>
-        </section>
-
-        <!-- APARAT DESA -->
-        <section id="aparat" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-8">
-            <h2 class="text-xl font-bold text-emerald-800 border-b pb-3">Aparat Desa Dan Tupoksi</h2>
-            <div id="aparat-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
-        </section>
-
-        <!-- BPD -->
-        <section id="bpd" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-8">
-            <h2 class="text-xl font-bold text-emerald-800 border-b pb-3">Badan Permusyawaratan Desa (BPD)</h2>
-            <div id="bpd-public-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
-        </section>
-
-        <!-- PORTAL PETUGAS (PANEL ADMIN COMPLETE) -->
-        <section id="portal-petugas" class="tab-content space-y-6">
-            
-            <div id="auth-login-box" class="max-w-md mx-auto bg-white p-6 rounded-2xl border shadow-xl space-y-6 mt-6">
-                <h2 class="text-xl font-bold text-slate-800 text-center">Login Portal Petugas</h2>
-                <form onsubmit="handleLogin(event)" class="space-y-4 text-xs sm:text-sm">
-                    <div>
-                        <label class="block font-bold text-slate-700 uppercase mb-1">Username</label>
-                        <input type="text" id="login-user" placeholder="admin" required class="w-full p-3 border rounded-lg bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 uppercase mb-1">Password</label>
-                        <input type="password" id="login-pass" placeholder="••••••••" required class="w-full p-3 border rounded-lg bg-slate-50">
-                    </div>
-                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg shadow">Masuk Dashboard</button>
-                </form>
+            <div>
+              <label class="block text-xs font-bold mb-1">Upload Logo Desa (Pilih Gambar dari Perangkat)</label>
+              <input type="file" id="admin-logo-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 p-2 rounded-lg text-xs">
             </div>
-
-            <div id="admin-dashboard-box" class="hidden space-y-6 bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100 overflow-x-auto">
-                
-                <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
-                    <h2 class="text-lg font-bold text-white">PORTAL PETUGAS (ADMIN)</h2>
-                    <button onclick="handleLogout()" class="bg-rose-600 text-white text-xs font-bold px-3 py-2 rounded-lg">Logout</button>
-                </div>
-
-                <!-- NOTIFIKASI STATUS UPLOAD CEPAT -->
-                <div id="upload-status-bar" class="hidden p-3 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 flex items-center gap-2">
-                    <i class="fa-solid fa-spinner fa-spin"></i> <span id="upload-status-text">Memproses file...</span>
-                </div>
-
-                <!-- 12 SUB MENU TAB -->
-                <div class="flex flex-wrap gap-1.5 bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs font-semibold">
-                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-3 py-2 rounded bg-amber-500 text-slate-900">1. Beranda</button>
-                    <button onclick="switchAdminSub('sub-profil')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200">2. Profil</button>
-                    <button onclick="switchAdminSub('sub-aparat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200">3. Aparat</button>
-                    <button onclick="switchAdminSub('sub-bpd')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200">4. BPD</button>
-                </div>
-
-                <div class="bg-slate-800 p-4 sm:p-6 rounded-xl border border-slate-700">
-
-                    <!-- SUB 1: BERANDA -->
-                    <div id="sub-beranda" class="admin-sub-content active space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Data Beranda, Logo & Video</h3>
-                        <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl text-xs sm:text-sm">
-                            <div>
-                                <label class="block font-semibold mb-1">Nama Desa / Instansi</label>
-                                <input type="text" id="admin-nama-desa" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Slogan Beranda</label>
-                                <input type="text" id="admin-slogan-desa" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Upload Logo Desa (Pilih Gambar dari Perangkat)</label>
-                                <input type="file" id="admin-logo-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                                <input type="hidden" id="admin-logo-url-lama">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Upload Video Latar (.mp4 dari Perangkat)</label>
-                                <input type="file" id="admin-video-file" accept="video/mp4" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                                <input type="hidden" id="admin-video-url-lama">
-                            </div>
-                            <button type="submit" id="btn-save-beranda" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded shadow">Simpan & Unggah Langsung</button>
-                        </form>
-                    </div>
-
-                    <!-- SUB 2: PROFIL (SAMBUTAN & FOTO KADES) -->
-                    <div id="sub-profil" class="admin-sub-content space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil & Foto Kepala Desa</h3>
-                        <form onsubmit="updateProfilSettings(event)" class="space-y-4 max-w-xl text-xs sm:text-sm">
-                            <div>
-                                <label class="block font-semibold mb-1">Upload Foto Kades (Pilih dari Perangkat)</label>
-                                <input type="file" id="admin-foto-kades-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Teks Sejarah Desa</label>
-                                <textarea id="admin-sejarah" rows="3" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white"></textarea>
-                            </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded shadow">Simpan Profil</button>
-                        </form>
-                    </div>
-
-                    <!-- SUB 3: APARAT DESA -->
-                    <div id="sub-aparat" class="admin-sub-content space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa Baru</h3>
-                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs sm:text-sm">
-                            <div>
-                                <label class="block font-semibold mb-1">Nama Aparat</label>
-                                <input type="text" id="admin-nama-aparat" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Jabatan</label>
-                                <input type="text" id="admin-jabatan-aparat" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Upload Foto Aparat (Pilih dari Perangkat)</label>
-                                <input type="file" id="admin-foto-aparat-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                            </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Tambah Aparat</button>
-                        </form>
-                    </div>
-
-                    <!-- SUB 4: BPD -->
-                    <div id="sub-bpd" class="admin-sub-content space-y-6">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Anggota BPD Baru</h3>
-                        <form onsubmit="tambahBpdMember(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border border-slate-700 text-xs sm:text-sm">
-                            <div>
-                                <label class="block font-semibold mb-1">Nama BPD</label>
-                                <input type="text" id="bpd-nama" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Jabatan BPD</label>
-                                <input type="text" id="bpd-jabatan" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
-                            </div>
-                            <div>
-                                <label class="block font-semibold mb-1">Upload Foto BPD (Pilih dari Perangkat)</label>
-                                <input type="file" id="bpd-foto-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                            </div>
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded shadow">Tambah Anggota BPD</button>
-                        </form>
-                        <div id="admin-bpd-list" class="space-y-2"></div>
-                    </div>
-
-                </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Upload Video Latar (.mp4 dari Perangkat)</label>
+              <input type="file" id="admin-video-file" accept="video/*" class="w-full bg-slate-900 border border-slate-700 p-2 rounded-lg text-xs">
             </div>
-        </section>
+            <button id="btn-save-beranda" type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-3 rounded-lg transition">Simpan & Unggah Langsung</button>
+          </form>
+        </div>
 
-    </main>
+        <!-- 2. KONTEN ADMIN: PROFIL -->
+        <div id="admin-profil" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Edit Profil & Sejarah Desa</h4>
+          <button onclick="simpanDataGenerik('Profil')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Profil</button>
+        </div>
 
-    <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-xs sm:text-sm px-4">
-        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undang-undang.</p>
-    </footer>
+        <!-- 3. KONTEN ADMIN: APARAT -->
+        <div id="admin-aparat" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Tambah / Edit Aparat Desa</h4>
+          <form onsubmit="tambahAparatDesa(event)" class="space-y-4">
+            <input type="text" id="admin-nama-aparat" placeholder="Nama Aparat" required class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg">
+            <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan" required class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg">
+            <input type="file" id="admin-foto-aparat-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 p-2 rounded-lg text-xs">
+            <button type="submit" class="bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-lg">Tambah Aparat</button>
+          </form>
+        </div>
 
-    <!-- SKRIP EKSTERNAL -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
-<script src="app.js"></script>
+        <!-- 4. KONTEN ADMIN: BPD -->
+        <div id="admin-bpd" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Tambah Anggota BPD</h4>
+          <form onsubmit="tambahBpdMember(event)" class="space-y-4">
+            <input type="text" id="bpd-nama" placeholder="Nama Anggota BPD" required class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg">
+            <input type="text" id="bpd-jabatan" placeholder="Jabatan BPD" required class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg">
+            <input type="file" id="bpd-foto-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 p-2 rounded-lg text-xs">
+            <button type="submit" class="bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-lg">Tambah BPD</button>
+          </form>
+        </div>
+
+        <!-- 5. KONTEN ADMIN: LAYANAN -->
+        <div id="admin-layanan" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Pengaturan Layanan Surat Online</h4>
+          <button onclick="simpanDataGenerik('Layanan')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Layanan</button>
+        </div>
+
+        <!-- 6. KONTEN ADMIN: BERITA -->
+        <div id="admin-berita" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Kelola Berita & Pengumuman</h4>
+          <button onclick="simpanDataGenerik('Berita')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Berita</button>
+        </div>
+
+        <!-- 7. KONTEN ADMIN: GALERI -->
+        <div id="admin-galeri" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Galeri Dokumentasi Kegiatan</h4>
+          <button onclick="simpanDataGenerik('Galeri')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Galeri</button>
+        </div>
+
+        <!-- 8. KONTEN ADMIN: KEUANGAN -->
+        <div id="admin-keuangan" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Transparansi Keuangan (APBDes)</h4>
+          <button onclick="simpanDataGenerik('Keuangan')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Keuangan</button>
+        </div>
+
+        <!-- 9. KONTEN ADMIN: POTENSI -->
+        <div id="admin-potensi" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Potensi & Komoditas Desa</h4>
+          <button onclick="simpanDataGenerik('Potensi')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Potensi</button>
+        </div>
+
+        <!-- 10. KONTEN ADMIN: PETA -->
+        <div id="admin-peta" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Peta Wilayah & Poin Lokasi</h4>
+          <button onclick="simpanDataGenerik('Peta')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Peta</button>
+        </div>
+
+        <!-- 11. KONTEN ADMIN: ADMINDUK -->
+        <div id="admin-adminduk" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Statistik Kependudukan (Adminduk)</h4>
+          <button onclick="simpanDataGenerik('Adminduk')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Adminduk</button>
+        </div>
+
+        <!-- 12. KONTEN ADMIN: KONTAK -->
+        <div id="admin-kontak" class="admin-sub-content bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 class="text-lg font-bold text-amber-400 mb-4">Informasi Kontak & Alamat Kantor</h4>
+          <button onclick="simpanDataGenerik('Kontak')" class="bg-amber-500 text-slate-900 font-bold px-6 py-2 rounded-lg">Simpan Kontak</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 text-center py-4 text-xs text-slate-400">
+    <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undang-undang.</p>
+  </footer>
+
+  <!-- SKRIP EKSTERNAL & URUTAN PEMANGGILAN LENGKAP -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
