@@ -464,7 +464,7 @@
             </div>
         </section>
 
-        <!-- 14. PORTAL PETUGAS (DENGAN 10 SUB-MENU ADMIN + KELOLA PENGADUAN & CETAK SURAT MEDIASI) -->
+        <!-- 14. PORTAL PETUGAS (DENGAN 10 SUB-MENU ADMIN) -->
         <section id="portal-petugas" class="tab-content space-y-6">
             
             <!-- GATE LOGIN PETUGAS -->
@@ -502,7 +502,7 @@
                             <i class="fa-solid fa-user-gear text-amber-400 text-2xl"></i>
                             <h2 class="text-2xl font-bold text-white tracking-wide">PORTAL PETUGAS (ADMIN DASHBOARD)</h2>
                         </div>
-                        <p class="text-xs text-slate-400">Kelola Seluruh Menu, Tanggapan Pengaduan & Surat Mediasi</p>
+                        <p class="text-xs text-slate-400">Kelola Seluruh Menu, Peta Desa, Pengaduan & Surat Mediasi</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1.5 rounded-lg">Status: Admin Logged In</span>
@@ -514,16 +514,16 @@
 
                 <!-- SUB-MENU NAVIGASI ADMIN -->
                 <div class="flex flex-wrap gap-2 bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs font-semibold">
-                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-3 py-2 rounded bg-amber-500 text-slate-900 transition"><i class="fa-solid fa-image mr-1"></i> 1. Beranda & Logo & Video</button>
-                    <button onclick="switchAdminSub('sub-profil')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-id-card mr-1"></i> 2. Profil & Sambutan</button>
-                    <button onclick="switchAdminSub('sub-aparat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-user-tie mr-1"></i> 3. Aparat & Foto</button>
-                    <button onclick="switchAdminSub('sub-petugas')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-users-gear mr-1"></i> 4. Tambah Petugas</button>
-                    <button onclick="switchAdminSub('sub-surat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-envelope-open-text mr-1"></i> 5. Surat Menyurat</button>
-                    <button onclick="switchAdminSub('sub-pengaduan')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-comments mr-1"></i> 6. Kelola Pengaduan</button>
+                    <button onclick="switchAdminSub('sub-beranda')" class="admin-tab-btn px-3 py-2 rounded bg-amber-500 text-slate-900 transition"><i class="fa-solid fa-image mr-1"></i> 1. Beranda & Video</button>
+                    <button onclick="switchAdminSub('sub-profil')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-id-card mr-1"></i> 2. Profil</button>
+                    <button onclick="switchAdminSub('sub-aparat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-user-tie mr-1"></i> 3. Aparat</button>
+                    <button onclick="switchAdminSub('sub-petugas')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-users-gear mr-1"></i> 4. Petugas</button>
+                    <button onclick="switchAdminSub('sub-surat')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-envelope-open-text mr-1"></i> 5. Surat</button>
+                    <button onclick="switchAdminSub('sub-pengaduan')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-comments mr-1"></i> 6. Pengaduan</button>
                     <button onclick="switchAdminSub('sub-berita')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-newspaper mr-1"></i> 7. Berita</button>
                     <button onclick="switchAdminSub('sub-penduduk')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-chart-pie mr-1"></i> 8. Penduduk</button>
                     <button onclick="switchAdminSub('sub-tautan')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-link mr-1"></i> 9. Tautan</button>
-                    <button onclick="switchAdminSub('sub-kontak')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-address-book mr-1"></i> 10. Kontak</button>
+                    <button onclick="switchAdminSub('sub-kontak')" class="admin-tab-btn px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition"><i class="fa-solid fa-address-book mr-1"></i> 10. Edit Kontak & Peta</button>
                 </div>
 
                 <!-- KONTEN SUB-MENU ADMIN -->
@@ -648,11 +648,10 @@
                         </form>
                     </div>
 
-                    <!-- SUB 6: KELOLA PENGADUAN & BALASAN WA & CETAK SURAT MEDIASI -->
+                    <!-- SUB 6: KELOLA PENGADUAN -->
                     <div id="sub-pengaduan" class="admin-sub-content space-y-4">
                         <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Daftar Pengaduan Masyarakat & Respon Mediasi</h3>
                         <div id="admin-pengaduan-list" class="space-y-4">
-                            <!-- Daftar pengaduan dirender otomatis lewat JS -->
                             <p class="text-xs text-slate-400">Belum ada pengaduan baru.</p>
                         </div>
                     </div>
@@ -707,19 +706,24 @@
                         </form>
                     </div>
 
-                    <!-- SUB 10: KONTAK -->
+                    <!-- SUB 10: EDIT KONTAK & PETA DESA -->
                     <div id="sub-kontak" class="admin-sub-content space-y-4">
-                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Kontak Desa</h3>
+                        <h3 class="text-lg font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Kontak Desa & URL Peta (Google Maps Embed)</h3>
                         <form onsubmit="updateKontakSettings(event)" class="space-y-3 max-w-xl">
                             <div>
                                 <label class="block text-xs font-semibold mb-1">Telepon / WA</label>
                                 <input type="text" id="admin-phone" value="+62 821-xxxx-xxxx" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold mb-1">Email</label>
+                                <label class="block text-xs font-semibold mb-1">Email Resmi</label>
                                 <input type="email" id="admin-email" value="pemdesmokupo@buolkab.go.id" required class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs">
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded text-xs shadow">Simpan</button>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">URL Embed Google Maps (Link src iframenya)</label>
+                                <input type="text" id="admin-map-url" placeholder="https://www.google.com/maps/embed?pb=..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-xs">
+                                <p class="text-[10px] text-slate-400 mt-1">Salin link bagian <code>src="..."</code> dari Google Maps Embed.</p>
+                            </div>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2 rounded text-xs shadow">Simpan Kontak & Peta</button>
                         </form>
                     </div>
 
@@ -729,7 +733,7 @@
 
         </section>
 
-        <!-- 15. KONTAK -->
+        <!-- 15. KONTAK (DENGAN PETA DESA) -->
         <section id="kontak" class="tab-content bg-white p-8 rounded-xl border shadow-sm space-y-6">
             <h2 class="text-2xl font-bold text-emerald-800 border-b pb-2">Kontak Kantor Desa Mokupo</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-600">
@@ -744,11 +748,19 @@
                     <p>Jumat: 08.00 - 11.30 WITA</p>
                 </div>
             </div>
+
+            <!-- KOTAK TAMPILAN PETA DESA -->
+            <div class="space-y-2 pt-4 border-t">
+                <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-map-location-dot text-emerald-700 mr-2"></i>Peta Lokasi Kantor Desa Mokupo</h3>
+                <div class="w-full h-96 rounded-xl overflow-hidden border shadow-inner bg-slate-100">
+                    <iframe id="display-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.814529321523!2d121.417!3d1.083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMDUnMDAuMCJOIDEyMcKwMjUnMDAuMCJF!5e0!3m2!1sid!2sid!4v1600000000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
         </section>
 
     </main>
 
-    <!-- MODAL CETAK SURAT UNDANGAN MEDIASI (TERLAPOR / WARGA) -->
+    <!-- MODAL CETAK SURAT UNDANGAN MEDIASI -->
     <div id="modal-mediation" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-2xl rounded-2xl p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
             <button onclick="document.getElementById('modal-mediation').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -796,7 +808,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 py-6 mt-12 border-t border-slate-800 text-center text-sm">
-        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Oleh Unda-undang. Terintegrasi Supabase & GitHub.</p>
+        <p>&copy; 2026 Pemerintah Desa Mokupo Kecamatan Karamat. Hak Cipta Dilindungi Undang-undang.</p>
     </footer>
 
     <!-- JAVASCRIPT & LOGIC -->
@@ -806,7 +818,7 @@
         const SUPABASE_KEY = 'sb_publishable_rfplDrCh0xEgKtzp6mnx1w_cKgjar7r';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // DATA STORE PENGADUAN (LocalStorage)
+        // DATA STORE PENGADUAN
         function getPengaduanList() {
             let data = localStorage.getItem('desa_pengaduan');
             return data ? JSON.parse(data) : [
@@ -884,7 +896,7 @@
             }
         }
 
-        // --- FITUR PENGADUAN PUBLIK & CEK STATUS ---
+        // PENGADUAN PUBLIK & CEK STATUS
         function kirimPengaduanPublik(e) {
             e.preventDefault();
             const nama = document.getElementById('adu-nama').value;
@@ -946,7 +958,6 @@
             }
         }
 
-        // --- RENDER & KELOLA PENGADUAN DI ADMIN ---
         function renderAdminPengaduanList() {
             const container = document.getElementById('admin-pengaduan-list');
             if (!container) return;
@@ -989,7 +1000,7 @@
                                 <i class="fa-brands fa-whatsapp mr-1"></i> Kirim WA Pelapor
                             </button>
                             <button onclick="bukaSuratMediasi('${item.subjek}', '${item.nama}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3 py-1.5 rounded text-xs font-bold shadow">
-                                <i class="fa-solid fa-print mr-1"></i> Cetak Surat Mediasi Terlapor
+                                <i class="fa-solid fa-print mr-1"></i> Cetak Surat Mediasi
                             </button>
                             <button onclick="hapusPengaduan(${index})" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow ml-auto">
                                 <i class="fa-solid fa-trash"></i>
@@ -1038,7 +1049,7 @@
             }
         }
 
-        // --- FUNGSI PENGELOLAAN LAINNYA ---
+        // BERANDA, PROFIL, APARAT, KONTAK & PETA
         function updateBerandaSettings(e) {
             e.preventDefault();
             const nama = document.getElementById('admin-nama-desa').value;
@@ -1197,11 +1208,17 @@
             e.preventDefault();
             const phone = document.getElementById('admin-phone').value;
             const email = document.getElementById('admin-email').value;
+            const mapUrl = document.getElementById('admin-map-url').value;
 
             document.getElementById('display-phone').innerHTML = `<i class="fa-solid fa-phone text-emerald-700 mr-2"></i> ${phone}`;
             document.getElementById('display-email').innerHTML = `<i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> ${email}`;
             document.getElementById('topbar-email').innerHTML = `<i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ${email}`;
-            alert('Kontak diperbarui!');
+
+            if(mapUrl) {
+                localStorage.setItem('desa_map_url', mapUrl);
+                document.getElementById('display-map-iframe').src = mapUrl;
+            }
+            alert('Kontak dan Peta Desa berhasil diperbarui!');
         }
 
         function applySettings() {
@@ -1210,6 +1227,7 @@
             const logo = localStorage.getItem('desa_logo');
             const videoUrl = localStorage.getItem('desa_video');
             const fotoSambutan = localStorage.getItem('desa_foto_sambutan');
+            const mapUrl = localStorage.getItem('desa_map_url');
 
             if(nama) document.getElementById('app-title').innerText = nama;
             if(slogan) document.getElementById('app-slogan').innerText = slogan;
@@ -1228,6 +1246,11 @@
             }
             if(fotoSambutan) {
                 applySambutanFoto(fotoSambutan);
+            }
+            if(mapUrl) {
+                document.getElementById('display-map-iframe').src = mapUrl;
+                const adminMap = document.getElementById('admin-map-url');
+                if(adminMap) adminMap.value = mapUrl;
             }
         }
 
