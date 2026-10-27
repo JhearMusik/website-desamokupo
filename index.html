@@ -75,10 +75,10 @@
                         <button class="px-2 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-1">
                             LAYANAN <i class="fa-solid fa-chevron-down text-[10px]"></i>
                         </button>
-                        <div class="dropdown-menu hidden absolute left-0 w-56 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
+                        <div class="dropdown-menu hidden absolute left-0 w-60 bg-white text-slate-800 shadow-xl rounded-md py-2 border z-50">
                             <button onclick="switchTab('layanan-surat-masuk')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Surat Masuk</button>
                             <button onclick="switchTab('layanan-surat-keluar')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Surat Keluar</button>
-                            <button onclick="switchTab('layanan-buat-surat')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-emerald-800 bg-emerald-50">Buat & Cetak Surat</button>
+                            <button onclick="switchTab('layanan-buat-surat')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 font-semibold text-emerald-800 bg-emerald-50">Permohonan Penerbitan Surat</button>
                             <button onclick="switchTab('layanan-pengaduan')" class="block w-full text-left px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700">Pengaduan Masyarakat</button>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
             <button onclick="switchTab('profil-sejarah'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">PROFIL DESA</button>
             <button onclick="switchTab('aparat'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 border-t border-emerald-800">APARAT DESA</button>
             <button onclick="switchTab('bpd'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 border-t border-emerald-800">BPD</button>
-            <button onclick="switchTab('layanan-buat-surat'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">LAYANAN SURAT MANDIRI</button>
+            <button onclick="switchTab('layanan-buat-surat'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 font-semibold text-amber-300">PERMOHONAN PENERBITAN SURAT</button>
             <button onclick="switchTab('add-dds'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800 border-t border-emerald-800">ADD DAN DDS</button>
             <button onclick="switchTab('tautan'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">TAUTAN</button>
             <button onclick="switchTab('adminduk'); toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">DATA ADMINDUK</button>
@@ -119,10 +119,10 @@
             <div class="space-y-4 max-w-3xl">
                 <span class="inline-block bg-amber-400 text-slate-900 text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow">Official Portal</span>
                 <h2 id="banner-title" class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">Selamat Datang di Portal Resmi Pemerintah Desa Mokupo</h2>
-                <p id="banner-desc" class="text-sm sm:text-base text-emerald-100 leading-relaxed drop-shadow">Pusat pelayanan administrasi kependudukan, transparansi anggaran, dan pembuatan surat mandiri.</p>
+                <p id="banner-desc" class="text-sm sm:text-base text-emerald-100 leading-relaxed drop-shadow">Pusat pelayanan administrasi kependudukan, transparansi anggaran, dan permohonan penerbitan surat.</p>
             </div>
             <button onclick="switchTab('layanan-buat-surat')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-7 py-3.5 rounded-xl shadow-2xl shrink-0 text-xs sm:text-sm flex items-center gap-2 border border-amber-300/40">
-                <i class="fa-solid fa-file-pen text-base"></i> Buat Surat Mandiri
+                <i class="fa-solid fa-file-pen text-base"></i> Permohonan Surat
             </button>
         </div>
     </div>
@@ -205,7 +205,7 @@
             </div>
         </section>
 
-        <!-- 6. APARAT DESA (BERSIH DARI DATA HARDCODE BAWAAN) -->
+        <!-- 6. APARAT DESA -->
         <section id="aparat" class="tab-content bg-white p-6 sm:p-8 rounded-xl border shadow-sm space-y-8">
             <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-3">Aparat Desa Dan Tupoksi</h2>
             <div id="aparat-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
@@ -225,51 +225,77 @@
             <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Arsip Surat Keluar</h2>
         </section>
 
-        <!-- 10. BUAT SURAT -->
+        <!-- 10. PERMOHONAN PENERBITAN SURAT -->
         <section id="layanan-buat-surat" class="tab-content space-y-6">
-            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Layanan Pembuatan & Cetak Surat Mandiri</h2>
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Formulir Permohonan Penerbitan Surat</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-xl border shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-800 text-base sm:text-lg border-b pb-2">Formulir Pengisian Surat</h3>
-                    <form onsubmit="generateSuratPreview(event)" class="space-y-4 text-xs sm:text-sm">
+                    <h3 class="font-bold text-slate-800 text-base sm:text-lg border-b pb-2">Lengkapi Data & Upload Dokumen Syarat</h3>
+                    <form onsubmit="ajukanPermohonanSurat(event)" class="space-y-4 text-xs sm:text-sm">
                         <div>
-                            <label class="block font-medium text-slate-700">JENIS SURAT</label>
-                            <select id="s-jenis" class="w-full mt-1 p-2.5 border rounded-lg bg-white">
-                                <option value="SURAT IZIN USAHA MIKRO">Surat Izin Usaha Mikro</option>
-                                <option value="SURAT KETERANGAN TIDAK MAMPU">Surat Keterangan Tidak Mampu (SKTM)</option>
+                            <label class="block font-medium text-slate-700">PILIH JENIS SURAT KETERANGAN</label>
+                            <select id="s-jenis" onchange="updateSyaratLabel()" class="w-full mt-1 p-2.5 border rounded-lg bg-white font-medium">
+                                <option value="Surat Keterangan Kematian">Surat Keterangan Kematian</option>
+                                <option value="Surat Keterangan Usaha">Surat Keterangan Usaha</option>
+                                <option value="Surat Keterangan Kehilangan">Surat Keterangan Kehilangan</option>
+                                <option value="Surat Keterangan Domisili">Surat Keterangan Domisili</option>
+                                <option value="Surat Keterangan Kelahiran">Surat Keterangan Kelahiran</option>
+                                <option value="Surat Keterangan Tidak Mampu (SKTM)">Surat Keterangan Tidak Mampu (SKTM)</option>
+                                <option value="Surat Keterangan Lainnya">Surat Keterangan Lainnya</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block font-medium text-slate-700">NAMA PEMOHON</label>
-                            <input type="text" id="s-nama" required class="w-full mt-1 p-2.5 border rounded-lg">
+                            <label class="block font-medium text-slate-700">NAMA LENGKAP PEMOHON</label>
+                            <input type="text" id="s-nama" required class="w-full mt-1 p-2.5 border rounded-lg" placeholder="Sesuai KTP">
                         </div>
                         <div>
-                            <label class="block font-medium text-slate-700">NIK</label>
-                            <input type="text" id="s-nik" required maxlength="16" class="w-full mt-1 p-2.5 border rounded-lg">
+                            <label class="block font-medium text-slate-700">NIK (16 Digit)</label>
+                            <input type="text" id="s-nik" required maxlength="16" class="w-full mt-1 p-2.5 border rounded-lg" placeholder="Nomor Induk Kependudukan">
                         </div>
                         <div>
-                            <label class="block font-medium text-slate-700">KEPERLUAN</label>
-                            <textarea id="s-ket" rows="3" required class="w-full mt-1 p-2.5 border rounded-lg"></textarea>
+                            <label class="block font-medium text-slate-700">NOMOR WHATSAPP (Untuk Konfirmasi)</label>
+                            <input type="text" id="s-telp" required class="w-full mt-1 p-2.5 border rounded-lg" placeholder="Contoh: 0821xxxxxxxx">
                         </div>
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold shadow">Generate Surat</button>
+                        <div>
+                            <label class="block font-medium text-slate-700">KEPERLUAN / KETERANGAN</label>
+                            <textarea id="s-ket" rows="2" required class="w-full mt-1 p-2.5 border rounded-lg" placeholder="Jelaskan keperluan pembuatan surat ini..."></textarea>
+                        </div>
+                        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2">
+                            <label class="block font-bold text-emerald-900" id="label-dokumen-syarat"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Dokumen Pendukung (KTP / Pengantar RT / Bukti Terkait)</label>
+                            <input type="file" id="s-berkas" accept="image/*,.pdf" required class="w-full text-xs bg-white p-2 border rounded-lg">
+                            <p class="text-[11px] text-emerald-700">Format gambar (JPG/PNG) atau PDF.</p>
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold shadow">Kirim Permohonan Surat</button>
                     </form>
                 </div>
-                <div class="bg-slate-100 p-4 rounded-xl border flex flex-col items-center justify-between">
-                    <div id="printable-letter" class="bg-white w-full max-w-lg p-6 sm:p-8 rounded-lg shadow border space-y-6 text-slate-900 font-serif text-xs">
-                        <div class="text-center border-b-2 border-slate-900 pb-4">
-                            <h3 class="font-bold text-sm uppercase text-emerald-900">PEMERINTAH DESA MOKUPO</h3>
-                        </div>
-                        <div class="text-center space-y-1">
-                            <h3 id="preview-judul-surat" class="font-bold uppercase">SURAT IZIN USAHA MIKRO</h3>
-                            <p>Nomor : <span id="preview-no-surat">503 / 482 / DS-MKP / X / 2026</span></p>
-                        </div>
-                        <div class="space-y-3">
-                            <p>Nama: <span id="out-nama">...</span></p>
-                            <p>NIK: <span id="out-nik">...</span></p>
-                            <p>Keperluan: <span id="out-ket">...</span></p>
-                        </div>
+
+                <div class="bg-white p-6 rounded-xl border shadow-sm space-y-6">
+                    <h3 class="font-bold text-slate-800 text-base sm:text-lg border-b pb-2">Cek Status & Cetak Hasil Permohonan</h3>
+                    <div class="space-y-4">
+                        <input type="text" id="cek-kode-surat" placeholder="Masukkan Kode Permohonan (Contoh: SRT-8492)" class="w-full p-2.5 border rounded-lg uppercase font-bold tracking-wider">
+                        <button onclick="cekStatusPermohonanSurat()" class="w-full bg-slate-900 text-white py-3 rounded-lg font-bold">Cek Status Surat</button>
                     </div>
-                    <button onclick="window.print()" class="mt-4 w-full max-w-lg bg-slate-900 text-white py-3 rounded-xl font-bold">Cetak PDF</button>
+                    <div id="hasil-cek-surat-box" class="p-4 bg-slate-50 border rounded-xl hidden space-y-4">
+                        <div id="detail-permohonan-box" class="space-y-2 text-xs"></div>
+                        <div id="print-area-surat" class="bg-white p-6 rounded border shadow-inner hidden font-serif text-xs space-y-4">
+                            <div class="text-center border-b-2 border-slate-900 pb-3">
+                                <h4 class="font-bold uppercase text-emerald-900">PEMERINTAH DESA MOKUPO</h4>
+                                <p class="text-[10px]">Kecamatan Karamat, Kabupaten Buol</p>
+                            </div>
+                            <div class="text-center">
+                                <h4 id="out-jenis-surat" class="font-bold uppercase underline">SURAT KETERANGAN</h4>
+                                <p>Nomor: <span id="out-no-surat">400 / 01 / DS-MKP / X / 2026</span></p>
+                            </div>
+                            <div class="space-y-2 leading-relaxed">
+                                <p>Yang bertanda tangan di bawah ini Kepala Desa Mokupo Kecamatan Karamat Kabupaten Buol, menerangkan bahwa:</p>
+                                <p>Nama: <span id="out-nama" class="font-bold">...</span></p>
+                                <p>NIK: <span id="out-nik" class="font-bold">...</span></p>
+                                <p>Keperluan: <span id="out-ket" class="font-bold">...</span></p>
+                                <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.</p>
+                            </div>
+                        </div>
+                        <button id="btn-cetak-resmi" onclick="window.print()" class="w-full bg-emerald-700 text-white py-2.5 rounded-lg font-bold hidden"><i class="fa-solid fa-print mr-1"></i> Cetak Surat Resmi</button>
+                    </div>
                 </div>
             </div>
         </section>
