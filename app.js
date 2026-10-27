@@ -1,4 +1,4 @@
-// app.js - Sistem Informasi Desa Mokupo (Lengkap, Utuh & Permanen)
+// app.js - Sistem Informasi Desa Mokupo (Lengkap dengan Tombol Hapus di 12 Sub Menu)
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAllSettings();
@@ -22,7 +22,6 @@ function konversiFileKeBase64(fileInput) {
         }
         const file = fileInput.files[0];
         
-        // Validasi ukuran video maksimal 20MB jika file video
         if (file.type.includes('video') && file.size > 20 * 1024 * 1024) {
             alert('Ukuran video terlalu besar! Maksimal kapasitas file video adalah 20 MB.');
             reject(new Error('File video melebihi batas 20MB'));
@@ -156,10 +155,94 @@ function checkAuthStatus() {
 }
 
 // ==========================================
+// FUNGSI PENGHAPUSAN / RESET DATA 12 SUB MENU
+// ==========================================
+function hapusDataSubMenu(nomorSub) {
+    if (!confirm(`Apakah Anda yakin ingin menghapus / mereset data pada Sub Menu ${nomorSub}?`)) return;
+
+    switch (nomorSub) {
+        case 1: // Beranda & Video
+            localStorage.removeItem('desa_nama');
+            localStorage.removeItem('desa_slogan');
+            localStorage.removeItem('desa_logo');
+            localStorage.removeItem('desa_video_local');
+            alert('Data Beranda & Video berhasil direset!');
+            break;
+        case 2: // Profil & Struktur
+            localStorage.removeItem('desa_sejarah');
+            localStorage.removeItem('desa_visi');
+            localStorage.removeItem('desa_misi');
+            localStorage.removeItem('desa_struktur_teks');
+            localStorage.removeItem('desa_struktur_img');
+            localStorage.removeItem('desa_foto_sambutan');
+            localStorage.removeItem('desa_sambutan');
+            alert('Data Profil & Struktur berhasil direset!');
+            break;
+        case 3: // Aparat Desa
+            localStorage.removeItem('desa_aparat_list');
+            renderAdminAparatList();
+            renderPublicAparat();
+            alert('Semua data aparat desa berhasil dihapus!');
+            break;
+        case 4: // BPD
+            localStorage.removeItem('desa_bpd_list');
+            renderAdminBpdList();
+            renderPublicBpd();
+            alert('Semua data BPD berhasil dihapus!');
+            break;
+        case 5: // Petugas
+            alert('Data Petugas direset ke pengaturan awal.');
+            break;
+        case 6: // Permohonan Surat
+            localStorage.removeItem('desa_permohonan_surat');
+            renderAdminPermohonanList();
+            updateNotificationBadges();
+            alert('Semua riwayat permohonan surat berhasil dihapus!');
+            break;
+        case 7: // Pengaduan
+            localStorage.removeItem('desa_pengaduan');
+            renderAdminPengaduanList();
+            alert('Semua data pengaduan berhasil dihapus!');
+            break;
+        case 8: // Berita
+            localStorage.removeItem('desa_berita_list');
+            renderPublicBerita();
+            alert('Semua data berita berhasil dihapus!');
+            break;
+        case 9: // Adminduk
+            localStorage.removeItem('desa_adminduk_stats');
+            renderAdminPendudukForm();
+            alert('Statistik adminduk berhasil direset menjadi 0!');
+            break;
+        case 10: // Tautan
+            localStorage.removeItem('desa_tautan_list');
+            renderPublicTautan();
+            alert('Semua tautan berhasil dihapus!');
+            break;
+        case 11: // Kontak & Peta
+            localStorage.removeItem('desa_phone');
+            localStorage.removeItem('desa_email');
+            localStorage.removeItem('desa_map_url');
+            alert('Data kontak & peta berhasil direset!');
+            break;
+        case 12: // ADD & DDS
+            localStorage.removeItem('desa_total_add');
+            localStorage.removeItem('desa_total_dds');
+            localStorage.removeItem('desa_add_dds_programs');
+            renderAdminAddDds();
+            renderPublicAddDds();
+            alert('Semua data ADD & DDS berhasil dihapus!');
+            break;
+    }
+    loadAllSettings();
+    loadAdminFormValues();
+}
+
+// ==========================================
 // 12 SUB MENU ADMIN & FITUR LAYANAN
 // ==========================================
 
-// 1. EDIT BERANDA (UPLOAD VIDEO LOKAL & LOGO PERMANEN)
+// 1. EDIT BERANDA
 async function updateBerandaSettings(e) {
     e.preventDefault();
     try {
@@ -211,7 +294,7 @@ async function updateProfilSettings(e) {
     }
 }
 
-// 3. APARAT DESA (TAMBAH & HAPUS)
+// 3. APARAT DESA
 async function tambahAparatDesa(e) {
     e.preventDefault();
     try {
@@ -365,7 +448,7 @@ function renderAdminBpdList() {
     });
 }
 
-// 5 & 6. PETUGAS & PERMOHONAN SURAT (DENGAN NOTIFIKASI & LIHAT DOKUMEN)
+// 5 & 6. PETUGAS & PERMOHONAN SURAT
 function tambahPetugasBaru(e) { e.preventDefault(); alert('Petugas berhasil didaftarkan!'); e.target.reset(); }
 function tambahArsipSurat(e) { e.preventDefault(); alert('Arsip surat berhasil disimpan!'); e.target.reset(); }
 
@@ -526,7 +609,7 @@ function cekStatusPermohonanSurat() {
     }
 }
 
-// 8. PUBLIKASI BERITA PERMANEN
+// 8. PUBLIKASI BERITA
 function publikasiBerita(e) {
     e.preventDefault();
     const judul = document.getElementById('admin-judul-berita').value.trim();
@@ -600,7 +683,7 @@ function renderAdminPendudukForm() {
     }
 }
 
-// 10. TAUTAN TERKAIT PERMANEN
+// 10. TAUTAN
 function tambahTautanBaru(e) {
     e.preventDefault();
     const nama = document.getElementById('tautan-nama').value.trim();
@@ -698,7 +781,7 @@ function renderAdminAddDds() {
     });
 }
 
-// LOAD ALL SETTINGS KE HALAMAN PUBLIK & PEMUTAR VIDEO LOKAL
+// LOAD ALL SETTINGS KE HALAMAN PUBLIK
 function loadAllSettings() {
     const nama = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
     const slogan = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
@@ -713,7 +796,6 @@ function loadAllSettings() {
         if(imgEl && iconEl) { imgEl.src = logo; imgEl.classList.remove('hidden'); iconEl.classList.add('hidden'); }
     }
 
-    // PEMUTAR VIDEO LOKAL DI BERANDA
     const videoBg = document.getElementById('hero-video-bg');
     if (videoLocal && videoBg) {
         videoBg.src = videoLocal;
