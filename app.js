@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// HELPER: KONVERSI FILE KE BASE64 (LOKAL)
-// ==========================================
+// HELPER: KONVERSI FILE KE BASE64 DENGAN AMAN & BATASAN UKURAN
 function konversiFileKeBase64(fileInput) {
     return new Promise((resolve, reject) => {
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
@@ -17,9 +16,10 @@ function konversiFileKeBase64(fileInput) {
         }
         const file = fileInput.files[0];
         
-        if (file.type.includes('video') && file.size > 20 * 1024 * 1024) {
-            alert('Ukuran video terlalu besar! Maksimal kapasitas file video adalah 20 MB.');
-            reject(new Error('File video melebihi batas 20MB'));
+        // Batasi ukuran video maksimal 5 MB untuk database browser/supabase
+        if (file.type.includes('video') && file.size > 5 * 1024 * 1024) {
+            alert('File video terlalu besar untuk disimpan langsung! Harap gunakan video berukuran di bawah 5 MB atau gunakan link/URL video online.');
+            reject(new Error('File video melebihi batas aman 5MB'));
             return;
         }
 
