@@ -90,42 +90,26 @@ function switchAdminSub(subId, btnElement) {
         btnElement.classList.add('bg-amber-500', 'text-slate-900');
     }
 
+    if (subId === 'sub-aparat') renderAdminAparatList();
     if (subId === 'sub-bpd') renderAdminBpdList();
     if (subId === 'sub-pengaduan') renderAdminPengaduanList();
     if (subId === 'sub-add-dds') renderAdminAddDds();
     if (subId === 'sub-penduduk') renderAdminPendudukForm();
 }
 
-// AUTH PETUGAS
-function handleLogin(e) {
-    e.preventDefault();
-    if (document.getElementById('login-user').value === 'admin' && document.getElementById('login-pass').value === 'admin123') {
-        sessionStorage.setItem('admin_logged', 'true');
-        checkAuthStatus();
-    } else {
-        alert('Username atau Password salah! Gunakan admin / admin123');
-    }
-}
-function handleLogout() {
-    sessionStorage.removeItem('admin_logged');
-    checkAuthStatus();
-}
+// AUTH PETUGAS (LANGSUNG TERBUKA TANPA PERLU KETIK USER/PASS)
 function checkAuthStatus() {
-    const isLogged = sessionStorage.getItem('admin_logged');
-    const loginBox = document.getElementById('auth-login-box');
-    const dashBox = document.getElementById('admin-dashboard-box');
-    if (isLogged === 'true') {
-        if(loginBox) loginBox.classList.add('hidden');
-        if(dashBox) dashBox.classList.remove('hidden');
-        renderAdminBpdList();
-        renderAdminPengaduanList();
-        renderAdminAddDds();
-        renderAdminPendudukForm();
-        loadAdminFormValues();
-    } else {
-        if(loginBox) loginBox.classList.remove('hidden');
-        if(dashBox) dashBox.classList.add('hidden');
-    }
+    renderAdminAparatList();
+    renderAdminBpdList();
+    renderAdminPengaduanList();
+    renderAdminAddDds();
+    renderAdminPendudukForm();
+    loadAdminFormValues();
+}
+
+function handleLogout() {
+    alert('Anda keluar dari sesi admin.');
+    switchTab('beranda');
 }
 
 // ==========================================
@@ -182,7 +166,7 @@ async function updateProfilSettings(e) {
     }
 }
 
-// 3. TAMBAH APARAT DESA
+// 3. APARAT DESA (TAMBAH & HAPUS)
 async function tambahAparatDesa(e) {
     e.preventDefault();
     try {
@@ -196,10 +180,21 @@ async function tambahAparatDesa(e) {
         saveData('desa_aparat_list', aparatList);
 
         renderPublicAparat();
+        renderAdminAparatList();
         e.target.reset();
         alert('Aparat berhasil ditambahkan!');
     } catch (err) {
         alert('Gagal menambah aparat: ' + err.message);
+    }
+}
+
+function hapusAparatMember(index) {
+    if (confirm('Hapus data aparat desa ini?')) {
+        let list = getData('desa_aparat_list', []);
+        list.splice(index, 1);
+        saveData('desa_aparat_list', list);
+        renderPublicAparat();
+        renderAdminAparatList();
     }
 }
 
@@ -224,6 +219,29 @@ function renderPublicAparat() {
                 <p class="text-xs text-emerald-700 font-bold uppercase">${item.jabatan}</p>
                 <p class="text-[11px] sm:text-xs text-slate-500 mt-1 max-w-xs">Tupoksi: ${item.tupoksi}</p>
             </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function renderAdminAparatList() {
+    const container = document.getElementById('admin-aparat-list');
+    if(!container) return;
+    let list = getData('desa_aparat_list', []);
+    container.innerHTML = '';
+    if (list.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400">Belum ada data aparat.</p>`;
+        return;
+    }
+    list.forEach((item, index) => {
+        let card = document.createElement('div');
+        card.className = 'bg-slate-900 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
+        card.innerHTML = `
+            <div>
+                <p class="font-bold text-white text-sm">${item.nama}</p>
+                <p class="text-emerald-400 font-semibold uppercase">${item.jabatan}</p>
+            </div>
+            <button onclick="hapusAparatMember(${index})" class="bg-rose-600 text-white p-2 rounded shadow hover:bg-rose-700"><i class="fa-solid fa-trash"></i> Hapus</button>
         `;
         container.appendChild(card);
     });
