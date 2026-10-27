@@ -1,9 +1,14 @@
-// app.js - Sistem Informasi Desa Mokupo (Versi Lengkap Tanpa Ada yang Dihilangkan)
+// app.js - Sistem Informasi Desa Mokupo (Lengkap dengan Tombol Hapus di 12 Sub Menu)
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadAllDataFromSupabase();
+    loadAllSettings();
     checkAuthStatus();
     updateNotificationBadges();
+    renderPublicAddDds();
+    renderPublicBpd();
+    renderPublicAparat();
+    renderPublicBerita();
+    renderPublicTautan();
 });
 
 // ==========================================
@@ -60,6 +65,31 @@ document.addEventListener('click', function(event) {
         document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
     }
 });
+
+// LOCALSTORAGE HELPERS
+function saveData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+function getData(key, defaultValue) {
+    let data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : defaultValue;
+}
+
+function getBpdList() {
+    return getData('desa_bpd_list', [
+        { nama: 'Drs. H. Mansur', jabatan: 'Ketua BPD', foto: '' },
+        { nama: 'Siti Aminah, S.Pd', jabatan: 'Wakil Ketua BPD', foto: '' }
+    ]);
+}
+
+function getPengaduanList() { return getData('desa_pengaduan', []); }
+function getAddDdsPrograms() { return getData('desa_add_dds_programs', []); }
+function getBeritaList() { return getData('desa_berita_list', []); }
+function getTautanList() { return getData('desa_tautan_list', [
+    { nama: 'Pemerintah Kabupaten Buol', url: 'https://buolkab.go.id' }
+]); }
+
+function getAdmindukData() {
+    return getData('desa_adminduk_stats', { pria: 2450, wanita: 2380, kk: 1210, ktp: 3620, kia: 965, akta: 4340, ikd: 850 });
+}
 
 // SWITCH TAB PUBLIK
 function switchTab(tabId) {
@@ -147,69 +177,84 @@ function checkAuthStatus() {
 // ==========================================
 // FUNGSI PENGHAPUSAN / RESET DATA 12 SUB MENU
 // ==========================================
-async function hapusDataSubMenu(nomorSub) {
+function hapusDataSubMenu(nomorSub) {
     if (!confirm(`Apakah Anda yakin ingin menghapus / mereset data pada Sub Menu ${nomorSub}?`)) return;
-    if (!supabaseClient) { alert('Supabase belum terhubung!'); return; }
 
     switch (nomorSub) {
-        case 1:
-            await supabaseClient.from('settings').delete().in('key', ['desa_nama', 'desa_slogan', 'desa_logo', 'desa_video_local']);
+        case 1: // Beranda & Video
+            localStorage.removeItem('desa_nama');
+            localStorage.removeItem('desa_slogan');
+            localStorage.removeItem('desa_logo');
+            localStorage.removeItem('desa_video_local');
             alert('Data Beranda & Video berhasil direset!');
             break;
-        case 2:
-            await supabaseClient.from('settings').delete().in('key', ['desa_sejarah', 'desa_visi', 'desa_misi', 'desa_struktur_teks', 'desa_struktur_img', 'desa_foto_sambutan', 'desa_sambutan']);
+        case 2: // Profil & Struktur
+            localStorage.removeItem('desa_sejarah');
+            localStorage.removeItem('desa_visi');
+            localStorage.removeItem('desa_misi');
+            localStorage.removeItem('desa_struktur_teks');
+            localStorage.removeItem('desa_struktur_img');
+            localStorage.removeItem('desa_foto_sambutan');
+            localStorage.removeItem('desa_sambutan');
             alert('Data Profil & Struktur berhasil direset!');
             break;
-        case 3:
-            await supabaseClient.from('aparat').delete().neq('id', 0);
-            renderAdminAparatList(); renderPublicAparat();
+        case 3: // Aparat Desa
+            localStorage.removeItem('desa_aparat_list');
+            renderAdminAparatList();
+            renderPublicAparat();
             alert('Semua data aparat desa berhasil dihapus!');
             break;
-        case 4:
-            await supabaseClient.from('bpd').delete().neq('id', 0);
-            renderAdminBpdList(); renderPublicBpd();
+        case 4: // BPD
+            localStorage.removeItem('desa_bpd_list');
+            renderAdminBpdList();
+            renderPublicBpd();
             alert('Semua data BPD berhasil dihapus!');
             break;
-        case 5:
+        case 5: // Petugas
             alert('Data Petugas direset ke pengaturan awal.');
             break;
-        case 6:
-            await supabaseClient.from('surat').delete().neq('id', 0);
-            renderAdminPermohonanList(); updateNotificationBadges();
+        case 6: // Permohonan Surat
+            localStorage.removeItem('desa_permohonan_surat');
+            renderAdminPermohonanList();
+            updateNotificationBadges();
             alert('Semua riwayat permohonan surat berhasil dihapus!');
             break;
-        case 7:
-            await supabaseClient.from('pengaduan').delete().neq('id', 0);
+        case 7: // Pengaduan
+            localStorage.removeItem('desa_pengaduan');
             renderAdminPengaduanList();
             alert('Semua data pengaduan berhasil dihapus!');
             break;
-        case 8:
-            await supabaseClient.from('berita').delete().neq('id', 0);
+        case 8: // Berita
+            localStorage.removeItem('desa_berita_list');
             renderPublicBerita();
             alert('Semua data berita berhasil dihapus!');
             break;
-        case 9:
-            await supabaseClient.from('adminduk').upsert([{ id: 1, pria: 0, wanita: 0, kk: 0, ktp: 0, kia: 0, akta: 0, ikd: 0 }]);
+        case 9: // Adminduk
+            localStorage.removeItem('desa_adminduk_stats');
             renderAdminPendudukForm();
             alert('Statistik adminduk berhasil direset menjadi 0!');
             break;
-        case 10:
-            await supabaseClient.from('tautan').delete().neq('id', 0);
+        case 10: // Tautan
+            localStorage.removeItem('desa_tautan_list');
             renderPublicTautan();
             alert('Semua tautan berhasil dihapus!');
             break;
-        case 11:
-            await supabaseClient.from('settings').delete().in('key', ['desa_phone', 'desa_email', 'desa_map_url']);
+        case 11: // Kontak & Peta
+            localStorage.removeItem('desa_phone');
+            localStorage.removeItem('desa_email');
+            localStorage.removeItem('desa_map_url');
             alert('Data kontak & peta berhasil direset!');
             break;
-        case 12:
-            await supabaseClient.from('settings').delete().in('key', ['desa_total_add', 'desa_total_dds']);
-            await supabaseClient.from('anggaran').delete().neq('id', 0);
-            renderAdminAddDds(); renderPublicAddDds();
+        case 12: // ADD & DDS
+            localStorage.removeItem('desa_total_add');
+            localStorage.removeItem('desa_total_dds');
+            localStorage.removeItem('desa_add_dds_programs');
+            renderAdminAddDds();
+            renderPublicAddDds();
             alert('Semua data ADD & DDS berhasil dihapus!');
             break;
     }
-    loadAllDataFromSupabase();
+    loadAllSettings();
     loadAdminFormValues();
 }
 
@@ -224,18 +269,16 @@ async function updateBerandaSettings(e) {
         const nama = document.getElementById('admin-nama-desa').value;
         const slogan = document.getElementById('admin-slogan-desa').value;
         
-        let logoBase64 = await konversiFileKeBase64(document.getElementById('admin-logo-file'));
-        let videoBase64 = await konversiFileKeBase64(document.getElementById('admin-video-file'));
+        let logoBase64 = await konversiFileKeBase64(document.getElementById('admin-logo-file')) || getData('desa_logo', '');
+        let videoBase64 = await konversiFileKeBase64(document.getElementById('admin-video-file')) || getData('desa_video_local', '');
 
-        await supabaseClient.from('settings').upsert([
-            { key: 'desa_nama', value: nama },
-            { key: 'desa_slogan', value: slogan }
-        ]);
-        if(logoBase64) await supabaseClient.from('settings').upsert([{ key: 'desa_logo', value: logoBase64 }]);
-        if(videoBase64) await supabaseClient.from('settings').upsert([{ key: 'desa_video_local', value: videoBase64 }]);
+        saveData('desa_nama', nama);
+        saveData('desa_slogan', slogan);
+        if(logoBase64) saveData('desa_logo', logoBase64);
+        if(videoBase64) saveData('desa_video_local', videoBase64);
 
-        loadAllDataFromSupabase();
-        alert('Beranda, Logo & Video Latar berhasil diperbarui secara permanen dan sinkron ke HP!');
+        loadAllSettings();
+        alert('Beranda, Logo & Video Latar berhasil diperbarui secara permanen!');
     } catch (err) {
         if(err.message !== 'File video melebihi batas 20MB') {
             alert('Gagal memproses file: ' + err.message);
@@ -253,21 +296,19 @@ async function updateProfilSettings(e) {
         const strukturTeks = document.getElementById('admin-struktur-teks').value;
         const sambutan = document.getElementById('admin-sambutan').value;
 
-        let fotoKades = await konversiFileKeBase64(document.getElementById('admin-foto-sambutan-file'));
-        let fotoStruktur = await konversiFileKeBase64(document.getElementById('admin-struktur-file'));
+        let fotoKades = await konversiFileKeBase64(document.getElementById('admin-foto-sambutan-file')) || getData('desa_foto_sambutan', '');
+        let fotoStruktur = await konversiFileKeBase64(document.getElementById('admin-struktur-file')) || getData('desa_struktur_img', '');
 
-        await supabaseClient.from('settings').upsert([
-            { key: 'desa_sejarah', value: sejarah },
-            { key: 'desa_visi', value: visi },
-            { key: 'desa_misi', value: misi },
-            { key: 'desa_struktur_teks', value: strukturTeks },
-            { key: 'desa_sambutan', value: sambutan }
-        ]);
-        if(fotoKades) await supabaseClient.from('settings').upsert([{ key: 'desa_foto_sambutan', value: fotoKades }]);
-        if(fotoStruktur) await supabaseClient.from('settings').upsert([{ key: 'desa_struktur_img', value: fotoStruktur }]);
+        saveData('desa_sejarah', sejarah);
+        saveData('desa_visi', visi);
+        saveData('desa_misi', misi);
+        saveData('desa_struktur_teks', strukturTeks);
+        saveData('desa_sambutan', sambutan);
+        if(fotoKades) saveData('desa_foto_sambutan', fotoKades);
+        if(fotoStruktur) saveData('desa_struktur_img', fotoStruktur);
 
-        loadAllDataFromSupabase();
-        alert('Profil, Visi Misi, dan Struktur berhasil disimpan secara online!');
+        loadAllSettings();
+        alert('Profil, Visi Misi, dan Struktur berhasil disimpan!');
     } catch (err) {
         alert('Gagal memproses data: ' + err.message);
     }
@@ -282,7 +323,9 @@ async function tambahAparatDesa(e) {
         const tupoksi = document.getElementById('admin-tupoksi-aparat').value;
         let fotoUrl = await konversiFileKeBase64(document.getElementById('admin-foto-aparat-file')) || '';
 
-        await supabaseClient.from('aparat').insert([{ nama, jabatan, tupoksi, foto_url: fotoUrl }]);
+        let aparatList = getData('desa_aparat_list', []);
+        aparatList.push({ nama, jabatan, tupoksi, foto: fotoUrl });
+        saveData('desa_aparat_list', aparatList);
 
         renderPublicAparat();
         renderAdminAparatList();
@@ -293,20 +336,22 @@ async function tambahAparatDesa(e) {
     }
 }
 
-async function hapusAparatMember(id) {
+function hapusAparatMember(index) {
     if (confirm('Konfirmasi hapus data aparat desa ini?')) {
-        await supabaseClient.from('aparat').delete().eq('id', id);
+        let list = getData('desa_aparat_list', []);
+        list.splice(index, 1);
+        saveData('desa_aparat_list', list);
         renderPublicAparat();
         renderAdminAparatList();
     }
 }
 
-async function renderPublicAparat() {
+function renderPublicAparat() {
     const container = document.getElementById('aparat-container');
     if(!container) return;
-    let { data: list } = await supabaseClient.from('aparat').select('*');
+    let list = getData('desa_aparat_list', []);
     container.innerHTML = '';
-    if (!list || list.length === 0) {
+    if (list.length === 0) {
         container.innerHTML = `<p class="text-xs text-slate-500 italic col-span-full text-center py-4">Belum ada data aparat desa.</p>`;
         return;
     }
@@ -315,7 +360,7 @@ async function renderPublicAparat() {
         card.className = 'flex flex-col items-center text-center space-y-3 group';
         card.innerHTML = `
             <div class="w-36 sm:w-40 aspect-[4/6] rounded-xl flex items-center justify-center text-slate-300 text-4xl overflow-hidden shadow-md bg-slate-100">
-                ${item.foto_url ? `<img src="${item.foto_url}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-tie"></i>`}
+                ${item.foto ? `<img src="${item.foto}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-tie"></i>`}
             </div>
             <div>
                 <h3 class="font-bold text-base sm:text-lg text-slate-800">${item.nama}</h3>
@@ -327,16 +372,16 @@ async function renderPublicAparat() {
     });
 }
 
-async function renderAdminAparatList() {
+function renderAdminAparatList() {
     const container = document.getElementById('admin-aparat-list');
     if(!container) return;
-    let { data: list } = await supabaseClient.from('aparat').select('*');
+    let list = getData('desa_aparat_list', []);
     container.innerHTML = '';
-    if (!list || list.length === 0) {
+    if (list.length === 0) {
         container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada data aparat desa terdaftar.</p>`;
         return;
     }
-    list.forEach((item) => {
+    list.forEach((item, index) => {
         let card = document.createElement('div');
         card.className = 'bg-slate-950 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
         card.innerHTML = `
@@ -344,7 +389,7 @@ async function renderAdminAparatList() {
                 <p class="font-bold text-white text-sm">${item.nama}</p>
                 <p class="text-emerald-400 font-semibold uppercase">${item.jabatan}</p>
             </div>
-            <button onclick="hapusAparatMember(${item.id})" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-3 py-1.5 rounded shadow transition flex items-center gap-1">
+            <button onclick="hapusAparatMember(${index})" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-3 py-1.5 rounded shadow transition flex items-center gap-1">
                 <i class="fa-solid fa-trash"></i> Hapus
             </button>
         `;
@@ -360,7 +405,9 @@ async function tambahBpdMember(e) {
         const jabatan = document.getElementById('bpd-jabatan').value;
         let fotoUrl = await konversiFileKeBase64(document.getElementById('bpd-foto-file')) || '';
 
-        await supabaseClient.from('bpd').insert([{ nama, jabatan, foto_url: fotoUrl }]);
+        let list = getBpdList();
+        list.push({ nama, jabatan, foto: fotoUrl });
+        saveData('desa_bpd_list', list);
 
         e.target.reset();
         renderAdminBpdList();
@@ -371,26 +418,27 @@ async function tambahBpdMember(e) {
     }
 }
 
-async function hapusBpdMember(id) {
+function hapusBpdMember(index) {
     if (confirm('Hapus anggota BPD ini?')) {
-        await supabaseClient.from('bpd').delete().eq('id', id);
+        let list = getBpdList();
+        list.splice(index, 1);
+        saveData('desa_bpd_list', list);
         renderAdminBpdList();
         renderPublicBpd();
     }
 }
 
-async function renderPublicBpd() {
+function renderPublicBpd() {
     const container = document.getElementById('bpd-public-container');
     if(!container) return;
-    let { data: list } = await supabaseClient.from('bpd').select('*');
+    let list = getBpdList();
     container.innerHTML = '';
-    if(!list) return;
     list.forEach(item => {
         let card = document.createElement('div');
         card.className = 'flex flex-col items-center text-center space-y-3 group';
         card.innerHTML = `
             <div class="w-36 sm:w-40 aspect-[4/6] rounded-xl flex items-center justify-center text-slate-300 text-4xl overflow-hidden shadow-md bg-slate-100">
-                ${item.foto_url ? `<img src="${item.foto_url}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-tie"></i>`}
+                ${item.foto ? `<img src="${item.foto}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-tie"></i>`}
             </div>
             <div>
                 <h3 class="font-bold text-base sm:text-lg text-slate-800">${item.nama}</h3>
@@ -401,13 +449,12 @@ async function renderPublicBpd() {
     });
 }
 
-async function renderAdminBpdList() {
+function renderAdminBpdList() {
     const container = document.getElementById('admin-bpd-list');
     if(!container) return;
-    let { data: list } = await supabaseClient.from('bpd').select('*');
+    let list = getBpdList();
     container.innerHTML = '';
-    if(!list) return;
-    list.forEach(item => {
+    list.forEach((item, index) => {
         let card = document.createElement('div');
         card.className = 'bg-slate-950 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
         card.innerHTML = `
@@ -415,7 +462,7 @@ async function renderAdminBpdList() {
                 <p class="font-bold text-white text-sm">${item.nama}</p>
                 <p class="text-emerald-400 font-semibold uppercase">${item.jabatan}</p>
             </div>
-            <button onclick="hapusBpdMember(${item.id})" class="bg-rose-600 text-white p-2 rounded shadow"><i class="fa-solid fa-trash"></i> Hapus</button>
+            <button onclick="hapusBpdMember(${index})" class="bg-rose-600 text-white p-2 rounded shadow"><i class="fa-solid fa-trash"></i> Hapus</button>
         `;
         container.appendChild(card);
     });
@@ -451,13 +498,18 @@ async function ajukanPermohonanSurat(e) {
         let berkasBase64 = await konversiFileKeBase64(document.getElementById('s-berkas')) || '';
         const kodeUnik = 'SRT-' + Math.floor(1000 + Math.random() * 9000);
 
-        await supabaseClient.from('surat').insert([{
-            kode: kodeUnik, jenis, nama, nik, telp, ket,
-            berkas_url: berkasBase64, status: 'Baru', dibaca: false,
+        let permohonanList = getData('desa_permohonan_surat', []);
+        permohonanList.unshift({
+            kode: kodeUnik,
+            jenis, nama, nik, telp, ket,
+            berkas: berkasBase64,
+            status: 'Baru',
+            dibaca: false,
             tanggal: new Date().toLocaleDateString('id-ID')
-        }]);
-
+        });
+        saveData('desa_permohonan_surat', permohonanList);
         updateNotificationBadges();
+
         alert(`Permohonan Berhasil Dikirim!\n\nKode Unik Anda: ${kodeUnik}\n\nSilakan catat kode ini untuk mengecek status dan mencetak surat Anda.`);
         e.target.reset();
     } catch (err) {
@@ -465,9 +517,9 @@ async function ajukanPermohonanSurat(e) {
     }
 }
 
-async function updateNotificationBadges() {
-    let { data: list } = await supabaseClient.from('surat').select('*').eq('dibaca', false);
-    let unreadCount = list ? list.length : 0;
+function updateNotificationBadges() {
+    let list = getData('desa_permohonan_surat', []);
+    let unreadCount = list.filter(item => !item.dibaca).length;
 
     const navBadge = document.getElementById('badge-notif-nav');
     const mobBadge = document.getElementById('badge-notif-mobile');
@@ -487,23 +539,25 @@ async function updateNotificationBadges() {
     }
 }
 
-async function tandaiSemuaDibaca() {
-    await supabaseClient.from('surat').update({ dibaca: true }).eq('dibaca', false);
+function tandaiSemuaDibaca() {
+    let list = getData('desa_permohonan_surat', []);
+    list.forEach(item => item.dibaca = true);
+    saveData('desa_permohonan_surat', list);
     updateNotificationBadges();
     renderAdminPermohonanList();
     alert('Semua permohonan telah ditandai dibaca.');
 }
 
-async function renderAdminPermohonanList() {
+function renderAdminPermohonanList() {
     const container = document.getElementById('admin-permohonan-list');
     if (!container) return;
-    let { data: list } = await supabaseClient.from('surat').select('*').order('id', { ascending: false });
-    if (!list || list.length === 0) {
+    let list = getData('desa_permohonan_surat', []);
+    if (list.length === 0) {
         container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada permohonan surat masuk.</p>`;
         return;
     }
     container.innerHTML = '';
-    list.forEach(item => {
+    list.forEach((item, index) => {
         let badgeUnread = !item.dibaca ? `<span class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">BARU</span>` : `<span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-0.5 rounded">Dibaca</span>`;
         let card = document.createElement('div');
         card.className = `p-4 rounded-xl border space-y-3 ${!item.dibaca ? 'bg-slate-950 border-amber-500/50' : 'bg-slate-900 border-slate-700'}`;
@@ -521,31 +575,37 @@ async function renderAdminPermohonanList() {
                 </div>
             </div>
             <div class="flex gap-2 pt-2 border-t border-slate-800">
-                ${item.berkas_url ? `<a href="${item.berkas_url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1"><i class="fa-solid fa-eye"></i> Buka Dokumen Syarat</a>` : '<span class="text-xs text-slate-500 italic">Tidak ada dokumen diunggah</span>'}
-                <button onclick="hapusPermohonan(${item.id})" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded ml-auto flex items-center gap-1"><i class="fa-solid fa-trash"></i> Hapus</button>
+                ${item.berkas ? `<a href="${item.berkas}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1"><i class="fa-solid fa-eye"></i> Buka Dokumen Syarat</a>` : '<span class="text-xs text-slate-500 italic">Tidak ada dokumen diunggah</span>'}
+                <button onclick="hapusPermohonan(${index})" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded ml-auto flex items-center gap-1"><i class="fa-solid fa-trash"></i> Hapus</button>
             </div>
         `;
         container.appendChild(card);
     });
+
+    list.forEach(item => item.dibaca = true);
+    saveData('desa_permohonan_surat', list);
+    updateNotificationBadges();
 }
 
-async function hapusPermohonan(id) {
+function hapusPermohonan(index) {
     if(confirm('Hapus data permohonan surat ini?')) {
-        await supabaseClient.from('surat').delete().eq('id', id);
+        let list = getData('desa_permohonan_surat', []);
+        list.splice(index, 1);
+        saveData('desa_permohonan_surat', list);
         renderAdminPermohonanList();
         updateNotificationBadges();
     }
 }
 
-async function cekStatusPermohonanSurat() {
+function cekStatusPermohonanSurat() {
     const kode = document.getElementById('cek-kode-surat').value.trim().toUpperCase();
     const box = document.getElementById('hasil-cek-surat-box');
     const detailBox = document.getElementById('detail-permohonan-box');
     const printArea = document.getElementById('print-area-surat');
     const btnCetak = document.getElementById('btn-cetak-resmi');
 
-    let { data: list } = await supabaseClient.from('surat').select('*').eq('kode', kode);
-    let found = list && list.length > 0 ? list[0] : null;
+    let list = getData('desa_permohonan_surat', []);
+    let found = list.find(item => item.kode === kode);
 
     box.classList.remove('hidden');
     if (found) {
@@ -569,92 +629,32 @@ async function cekStatusPermohonanSurat() {
     }
 }
 
-// 7. PENGADUAN
-async function kirimPengaduanPublik(e) {
-    e.preventDefault();
-    const nama = document.getElementById('adu-nama').value;
-    const telp = document.getElementById('adu-telp').value;
-    const subjek = document.getElementById('adu-subjek').value;
-    const isi = document.getElementById('adu-isi').value;
-    const uniqueId = 'ADU-' + Math.floor(1000 + Math.random() * 9000);
-
-    await supabaseClient.from('pengaduan').insert([{ unique_id: uniqueId, nama, telp, subjek, isi, status: 'Pending', jawaban: 'Belum ditanggapi.' }]);
-    alert(`Pengaduan berhasil dikirim!\n\nKODE UNIK ANDA: ${uniqueId}`);
-    e.target.reset();
-}
-
-async function cekStatusPengaduan() {
-    const kode = document.getElementById('cek-kode').value.trim().toUpperCase();
-    const box = document.getElementById('hasil-cek-status');
-    const detailBox = document.getElementById('detail-status-box');
-    
-    let { data: list } = await supabaseClient.from('pengaduan').select('*').eq('unique_id', kode);
-    let found = list && list.length > 0 ? list[0] : null;
-
-    box.classList.remove('hidden');
-    if (found) {
-        detailBox.innerHTML = `
-            <p><b>Subjek:</b> ${found.subjek}</p>
-            <p><b>Status:</b> <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">${found.status}</span></p>
-            <p class="bg-slate-100 p-2 rounded mt-1"><b>Tanggapan Petugas:</b> ${found.jawaban}</p>
-        `;
-    } else {
-        detailBox.innerHTML = `<p class="text-rose-600 font-bold">Kode pengaduan tidak ditemukan.</p>`;
-    }
-}
-
-async function renderAdminPengaduanList() {
-    const container = document.getElementById('admin-pengaduan-list');
-    if (!container) return;
-    let { data: list } = await supabaseClient.from('pengaduan').select('*');
-    if (!list || list.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada data pengaduan.</p>`;
-        return;
-    }
-    container.innerHTML = '';
-    list.forEach(item => {
-        container.innerHTML += `
-            <div class="bg-slate-900 border border-slate-700 p-4 rounded-xl space-y-2 text-xs">
-                <span class="bg-amber-500/20 text-amber-400 font-bold px-2 py-0.5 rounded">${item.unique_id}</span>
-                <h4 class="font-bold text-white text-sm">${item.subjek}</h4>
-                <p class="text-slate-300"><b>Pelapor:</b> ${item.nama} (${item.telp})</p>
-                <p class="text-slate-400 bg-slate-950 p-2 rounded">${item.isi}</p>
-                <button onclick="hapusPengaduan(${item.id})" class="bg-rose-600 text-white px-3 py-1 rounded font-bold"><i class="fa-solid fa-trash mr-1"></i> Hapus</button>
-            </div>`;
-    });
-}
-
-async function hapusPengaduan(id) {
-    if(confirm('Hapus pengaduan ini?')) {
-        await supabaseClient.from('pengaduan').delete().eq('id', id);
-        renderAdminPengaduanList();
-    }
-}
-
 // 8. PUBLIKASI BERITA
-async function publikasiBerita(e) {
+function publikasiBerita(e) {
     e.preventDefault();
     const judul = document.getElementById('admin-judul-berita').value.trim();
     const isi = document.getElementById('admin-isi-berita').value.trim();
     
-    await supabaseClient.from('berita').insert([{
+    let list = getBeritaList();
+    list.unshift({
         judul,
         isi,
         tanggal: new Date().toLocaleDateString('id-ID')
-    }]);
+    });
+    saveData('desa_berita_list', list);
 
     renderPublicBerita();
     alert('Berita berhasil dipublikasikan secara permanen!');
     e.target.reset();
 }
 
-async function renderPublicBerita() {
+function renderPublicBerita() {
     const grid = document.getElementById('beranda-berita-grid');
     if (!grid) return;
-    let { data: list } = await supabaseClient.from('berita').select('*');
+    let list = getBeritaList();
     grid.innerHTML = '';
     
-    if (!list || list.length === 0) {
+    if (list.length === 0) {
         grid.innerHTML = `<p class="text-xs text-slate-500 italic col-span-full">Belum ada publikasi berita terbaru.</p>`;
         return;
     }
@@ -675,9 +675,9 @@ async function renderPublicBerita() {
 }
 
 // 9. ADMINDUK
-async function updateStatistikPenduduk(e) {
+function updateStatistikPenduduk(e) {
     e.preventDefault();
-    const stats = {
+    saveData('desa_adminduk_stats', {
         pria: parseInt(document.getElementById('admin-jml-pria').value) || 0,
         wanita: parseInt(document.getElementById('admin-jml-wanita').value) || 0,
         kk: parseInt(document.getElementById('admin-adm-kk').value) || 0,
@@ -685,53 +685,44 @@ async function updateStatistikPenduduk(e) {
         kia: parseInt(document.getElementById('admin-adm-kia').value) || 0,
         akta: parseInt(document.getElementById('admin-adm-akta').value) || 0,
         ikd: parseInt(document.getElementById('admin-adm-ikd').value) || 0
-    };
-    await supabaseClient.from('adminduk').upsert([{ id: 1, ...stats }]);
-    loadAllDataFromSupabase();
+    });
+    loadAllSettings();
     alert('Data Statistik berhasil diperbarui!');
 }
 
-async function renderAdminPendudukForm() {
-    let { data: adm } = await supabaseClient.from('adminduk').select('*').eq('id', 1).single();
-    if(adm) {
-        if(document.getElementById('admin-jml-pria')) document.getElementById('admin-jml-pria').value = adm.pria;
-        if(document.getElementById('admin-jml-wanita')) document.getElementById('admin-jml-wanita').value = adm.wanita;
-        if(document.getElementById('admin-adm-kk')) document.getElementById('admin-adm-kk').value = adm.kk;
-        if(document.getElementById('admin-adm-ktp')) document.getElementById('admin-adm-ktp').value = adm.ktp;
-        if(document.getElementById('admin-adm-kia')) document.getElementById('admin-adm-kia').value = adm.kia;
-        if(document.getElementById('admin-adm-akta')) document.getElementById('admin-adm-akta').value = adm.akta;
-        if(document.getElementById('admin-adm-ikd')) document.getElementById('admin-adm-ikd').value = adm.ikd;
+function renderAdminPendudukForm() {
+    let adm = getAdmindukData();
+    if(document.getElementById('admin-jml-pria')) {
+        document.getElementById('admin-jml-pria').value = adm.pria;
+        document.getElementById('admin-jml-wanita').value = adm.wanita;
+        document.getElementById('admin-adm-kk').value = adm.kk;
+        document.getElementById('admin-adm-ktp').value = adm.ktp;
+        document.getElementById('admin-adm-kia').value = adm.kia;
+        document.getElementById('admin-adm-akta').value = adm.akta;
+        document.getElementById('admin-adm-ikd').value = adm.ikd;
     }
 }
 
 // 10. TAUTAN
-async function tambahTautanBaru(e) {
+function tambahTautanBaru(e) {
     e.preventDefault();
     const nama = document.getElementById('tautan-nama').value.trim();
     const url = document.getElementById('tautan-url').value.trim();
 
-    await supabaseClient.from('tautan').insert([{ nama, url }]);
+    let list = getTautanList();
+    list.push({ nama, url });
+    saveData('desa_tautan_list', list);
 
     renderPublicTautan();
     alert('Tautan baru berhasil ditambahkan secara permanen!');
     e.target.reset();
 }
 
-async function renderPublicTautan() {
+function renderPublicTautan() {
     const container = document.getElementById('tautan-container');
     if (!container) return;
-    let { data: list } = await supabaseClient.from('tautan').select('*');
+    let list = getTautanList();
     container.innerHTML = '';
-
-    if (!list || list.length === 0) {
-        container.innerHTML = `
-            <a href="https://buolkab.go.id" target="_blank" class="p-4 border rounded-xl hover:bg-slate-50 flex items-center justify-between">
-                <span>Pemerintah Kabupaten Buol</span>
-                <i class="fa-solid fa-external-link text-slate-400"></i>
-            </a>
-        `;
-        return;
-    }
 
     list.forEach(item => {
         let a = document.createElement('a');
@@ -744,58 +735,50 @@ async function renderPublicTautan() {
 }
 
 // 11. KONTAK
-async function updateKontakSettings(e) {
+function updateKontakSettings(e) {
     e.preventDefault();
     const phone = document.getElementById('admin-phone').value;
     const email = document.getElementById('admin-email').value;
     const mapUrl = document.getElementById('admin-map-url').value;
 
-    await supabaseClient.from('settings').upsert([
-        { key: 'desa_phone', value: phone },
-        { key: 'desa_email', value: email },
-        { key: 'desa_map_url', value: mapUrl }
-    ]);
+    saveData('desa_phone', phone);
+    saveData('desa_email', email);
+    if(mapUrl) saveData('desa_map_url', mapUrl);
 
-    loadAllDataFromSupabase();
+    loadAllSettings();
     alert('Kontak dan Peta berhasil diperbarui!');
 }
 
 // 12. ADD & DDS
-async function updateTotalAddDds(e) {
+function updateTotalAddDds(e) {
     e.preventDefault();
-    const addVal = document.getElementById('input-total-add').value;
-    const ddsVal = document.getElementById('input-total-dds').value;
-
-    await supabaseClient.from('settings').upsert([
-        { key: 'desa_total_add', value: addVal },
-        { key: 'desa_total_dds', value: ddsVal }
-    ]);
-
-    loadAllDataFromSupabase();
+    saveData('desa_total_add', document.getElementById('input-total-add').value);
+    saveData('desa_total_dds', document.getElementById('input-total-dds').value);
+    loadAllSettings();
     alert('Total anggaran berhasil diperbarui!');
 }
 
-async function tambahProgramKegiatan(e) {
+function tambahProgramKegiatan(e) {
     e.preventDefault();
-    await supabaseClient.from('anggaran').insert([{
+    let list = getAddDdsPrograms();
+    list.push({
         sumber: document.getElementById('prog-sumber').value,
         nama: document.getElementById('prog-nama').value,
         anggaran: document.getElementById('prog-anggaran').value,
         ket: document.getElementById('prog-ket').value
-    }]);
-
+    });
+    saveData('desa_add_dds_programs', list);
     renderAdminAddDds();
     renderPublicAddDds();
     alert('Program berhasil ditambahkan!');
     e.target.reset();
 }
 
-async function renderPublicAddDds() {
+function renderPublicAddDds() {
     const tableBody = document.getElementById('public-add-dds-table');
     if (!tableBody) return;
-    let { data: list } = await supabaseClient.from('anggaran').select('*');
+    let list = getAddDdsPrograms();
     tableBody.innerHTML = '';
-    if(!list) return;
     list.forEach(item => {
         let badgeClass = item.sumber === 'ADD' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800';
         let row = document.createElement('tr');
@@ -805,87 +788,86 @@ async function renderPublicAddDds() {
     });
 }
 
-async function renderAdminAddDds() {
+function renderAdminAddDds() {
     const container = document.getElementById('admin-add-dds-list');
     if (!container) return;
-    let { data: list } = await supabaseClient.from('anggaran').select('*');
+    let list = getAddDdsPrograms();
     container.innerHTML = '';
-    if(!list) return;
     list.forEach((item) => {
         let card = document.createElement('div');
         card.className = 'bg-slate-900 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
-        card.innerHTML = `<div><span class="font-bold text-white">${item.nama}</span><p class="text-slate-400">${item.anggaran}</p></div><button onclick="hapusProg(${item.id})" class="bg-rose-600 text-white px-2 py-1 rounded">Hapus</button>`;
+        card.innerHTML = `<div><span class="font-bold text-white">${item.nama}</span><p class="text-slate-400">${item.anggaran}</p></div>`;
         container.appendChild(card);
     });
 }
 
-async function hapusProg(id) {
-    await supabaseClient.from('anggaran').delete().eq('id', id);
-    renderAdminAddDds();
-    renderPublicAddDds();
-}
+// LOAD ALL SETTINGS KE HALAMAN PUBLIK
+function loadAllSettings() {
+    const nama = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
+    const slogan = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
+    const logo = getData('desa_logo', '');
+    const videoLocal = getData('desa_video_local', '');
 
-// LOAD ALL DATA FROM SUPABASE KE HALAMAN PUBLIK & HP SECARA REAL-TIME
-async function loadAllDataFromSupabase() {
-    if (!supabaseClient) return;
-
-    let { data: settings } = await supabaseClient.from('settings').select('*');
-    if (settings) {
-        let map = {};
-        settings.forEach(s => map[s.key] = s.value);
-
-        if(map['desa_nama']) document.getElementById('app-title').innerText = map['desa_nama'];
-        if(map['desa_slogan']) document.getElementById('app-slogan').innerText = map['desa_slogan'];
-        if(map['desa_logo']) {
-            const imgEl = document.getElementById('nav-logo-img');
-            const iconEl = document.getElementById('nav-logo-icon');
-            if(imgEl && iconEl) { imgEl.src = map['desa_logo']; imgEl.classList.remove('hidden'); iconEl.classList.add('hidden'); }
-        }
-        if(map['desa_video_local']) {
-            const videoBg = document.getElementById('hero-video-bg');
-            if(videoBg) { videoBg.src = map['desa_video_local']; videoBg.classList.remove('hidden'); }
-        }
-        if(map['desa_sejarah']) document.getElementById('content-sejarah').innerHTML = `<p>${map['desa_sejarah']}</p>`;
-        if(map['desa_visi']) document.getElementById('content-visi').innerText = `"${map['desa_visi']}"`;
-        if(map['desa_misi']) {
-            let misiArr = map['desa_misi'].split('\n');
-            document.getElementById('content-misi').innerHTML = `<ul class="list-disc list-inside space-y-1">${misiArr.map(m => `<li>${m}</li>`).join('')}</ul>`;
-        }
-        if(map['desa_struktur_teks']) document.getElementById('content-struktur-teks').innerText = map['desa_struktur_teks'];
-        if(map['desa_struktur_img']) {
-            const imgStruktur = document.getElementById('content-struktur-img');
-            if(imgStruktur) { imgStruktur.src = map['desa_struktur_img']; imgStruktur.classList.remove('hidden'); }
-        }
-        if(map['desa_foto_sambutan']) {
-            const imgKades = document.getElementById('sambutan-img');
-            const iconKades = document.getElementById('sambutan-icon');
-            if(imgKades && iconKades) { imgKades.src = map['desa_foto_sambutan']; imgKades.classList.remove('hidden'); iconKades.classList.add('hidden'); }
-        }
-        if(map['desa_sambutan']) document.getElementById('content-sambutan').innerHTML = `<p><em>"${map['desa_sambutan']}"</em></p><p class="font-bold text-slate-800">— Kepala Desa Mokupo</p>`;
-        
-        if(map['desa_email']) {
-            document.getElementById('display-email').innerHTML = `<i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> ${map['desa_email']}`;
-            document.getElementById('topbar-email').innerHTML = `<i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ${map['desa_email']}`;
-        }
-        if(map['desa_phone']) document.getElementById('display-phone').innerHTML = `<i class="fa-solid fa-phone text-emerald-700 mr-2"></i> ${map['desa_phone']}`;
-        if(map['desa_map_url']) document.getElementById('display-map-iframe').src = map['desa_map_url'];
-
-        if(map['desa_total_add']) document.getElementById('display-add-total').innerText = map['desa_total_add'];
-        if(map['desa_total_dds']) document.getElementById('display-dds-total').innerText = map['desa_total_dds'];
+    if(nama) document.getElementById('app-title').innerText = nama;
+    if(slogan) document.getElementById('app-slogan').innerText = slogan;
+    if(logo) {
+        const imgEl = document.getElementById('nav-logo-img');
+        const iconEl = document.getElementById('nav-logo-icon');
+        if(imgEl && iconEl) { imgEl.src = logo; imgEl.classList.remove('hidden'); iconEl.classList.add('hidden'); }
     }
 
-    let { data: adm } = await supabaseClient.from('adminduk').select('*').eq('id', 1).single();
-    if (adm) {
-        if(document.getElementById('home-total')) document.getElementById('home-total').innerText = adm.pria + adm.wanita;
-        if(document.getElementById('home-laki')) document.getElementById('home-laki').innerText = adm.pria;
-        if(document.getElementById('home-perempuan')) document.getElementById('home-perempuan').innerText = adm.wanita;
-        if(document.getElementById('home-kk')) document.getElementById('home-kk').innerText = adm.kk;
-        if(document.getElementById('adm-kk')) document.getElementById('adm-kk').innerText = adm.kk;
-        if(document.getElementById('adm-ktp')) document.getElementById('adm-ktp').innerText = adm.ktp;
-        if(document.getElementById('adm-kia')) document.getElementById('adm-kia').innerText = adm.kia;
-        if(document.getElementById('adm-akta')) document.getElementById('adm-akta').innerText = adm.akta;
-        if(document.getElementById('adm-ikd')) document.getElementById('adm-ikd').innerText = adm.ikd;
+    const videoBg = document.getElementById('hero-video-bg');
+    if (videoLocal && videoBg) {
+        videoBg.src = videoLocal;
+        videoBg.classList.remove('hidden');
+    } else if(videoBg) {
+        videoBg.classList.add('hidden');
     }
+
+    document.getElementById('content-sejarah').innerHTML = `<p>${getData('desa_sejarah', 'Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol.')}</p>`;
+    document.getElementById('content-visi').innerText = `"${getData('desa_visi', 'Terwujudnya Desa Mokupo yang Mandiri, Transparan, Agamis, dan Sejahtera.')}"`;
+    
+    let misiTxt = getData('desa_misi', 'Meningkatkan kualitas pelayanan publik.\nMengoptimalkan tata kelola keuangan desa.');
+    let misiArr = misiTxt.split('\n');
+    document.getElementById('content-misi').innerHTML = `<ul class="list-disc list-inside space-y-1">${misiArr.map(m => `<li>${m}</li>`).join('')}</ul>`;
+    
+    document.getElementById('content-struktur-teks').innerText = getData('desa_struktur_teks', 'Bagan Struktur Organisasi Pemerintah Desa Mokupo.');
+    let strukturImg = getData('desa_struktur_img', '');
+    if(strukturImg) {
+        const imgStruktur = document.getElementById('content-struktur-img');
+        if(imgStruktur) { imgStruktur.src = strukturImg; imgStruktur.classList.remove('hidden'); }
+    }
+
+    let fotoSambutan = getData('desa_foto_sambutan', '');
+    if(fotoSambutan) {
+        const imgKades = document.getElementById('sambutan-img');
+        const iconKades = document.getElementById('sambutan-icon');
+        if(imgKades && iconKades) { imgKades.src = fotoSambutan; imgKades.classList.remove('hidden'); iconKades.classList.add('hidden'); }
+    }
+    document.getElementById('content-sambutan').innerHTML = `<p><em>"${getData('desa_sambutan', 'Selamat datang di portal resmi...')}"</em></p><p class="font-bold text-slate-800">— Kepala Desa Mokupo</p>`;
+
+    const email = getData('desa_email', 'pemdesmokupo@buolkab.go.id');
+    const phone = getData('desa_phone', '+62 821-xxxx-xxxx');
+    const mapUrl = getData('desa_map_url', '');
+
+    if(document.getElementById('display-email')) document.getElementById('display-email').innerHTML = `<i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> ${email}`;
+    if(document.getElementById('topbar-email')) document.getElementById('topbar-email').innerHTML = `<i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ${email}`;
+    if(document.getElementById('display-phone')) document.getElementById('display-phone').innerHTML = `<i class="fa-solid fa-phone text-emerald-700 mr-2"></i> ${phone}`;
+    if(mapUrl && document.getElementById('display-map-iframe')) document.getElementById('display-map-iframe').src = mapUrl;
+
+    if(document.getElementById('display-add-total')) document.getElementById('display-add-total').innerText = getData('desa_total_add', 'Rp 845.200.000');
+    if(document.getElementById('display-dds-total')) document.getElementById('display-dds-total').innerText = getData('desa_total_dds', 'Rp 1.120.500.000');
+
+    let adm = getAdmindukData();
+    if(document.getElementById('home-total')) document.getElementById('home-total').innerText = adm.pria + adm.wanita;
+    if(document.getElementById('home-laki')) document.getElementById('home-laki').innerText = adm.pria;
+    if(document.getElementById('home-perempuan')) document.getElementById('home-perempuan').innerText = adm.wanita;
+    if(document.getElementById('home-kk')) document.getElementById('home-kk').innerText = adm.kk;
+    if(document.getElementById('adm-kk')) document.getElementById('adm-kk').innerText = adm.kk;
+    if(document.getElementById('adm-ktp')) document.getElementById('adm-ktp').innerText = adm.ktp;
+    if(document.getElementById('adm-kia')) document.getElementById('adm-kia').innerText = adm.kia;
+    if(document.getElementById('adm-akta')) document.getElementById('adm-akta').innerText = adm.akta;
+    if(document.getElementById('adm-ikd')) document.getElementById('adm-ikd').innerText = adm.ikd;
 
     renderPublicAddDds();
     renderPublicBpd();
@@ -894,23 +876,17 @@ async function loadAllDataFromSupabase() {
     renderPublicTautan();
 }
 
-async function loadAdminFormValues() {
-    if (!supabaseClient) return;
-    let { data: settings } = await supabaseClient.from('settings').select('*');
-    if (settings) {
-        let map = {};
-        settings.forEach(s => map[s.key] = s.value);
-        if(document.getElementById('admin-nama-desa')) document.getElementById('admin-nama-desa').value = map['desa_nama'] || 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT';
-        if(document.getElementById('admin-slogan-desa')) document.getElementById('admin-slogan-desa').value = map['desa_slogan'] || 'Sistem Informasi & Portal Pelayanan Publik';
-        if(document.getElementById('admin-sejarah')) document.getElementById('admin-sejarah').value = map['desa_sejarah'] || '';
-        if(document.getElementById('admin-visi')) document.getElementById('admin-visi').value = map['desa_visi'] || '';
-        if(document.getElementById('admin-misi')) document.getElementById('admin-misi').value = map['desa_misi'] || '';
-        if(document.getElementById('admin-struktur-teks')) document.getElementById('admin-struktur-teks').value = map['desa_struktur_teks'] || '';
-        if(document.getElementById('admin-sambutan')) document.getElementById('admin-sambutan').value = map['desa_sambutan'] || '';
-        if(document.getElementById('admin-phone')) document.getElementById('admin-phone').value = map['desa_phone'] || '';
-        if(document.getElementById('admin-email')) document.getElementById('admin-email').value = map['desa_email'] || '';
-        if(document.getElementById('admin-map-url')) document.getElementById('admin-map-url').value = map['desa_map_url'] || '';
-        if(document.getElementById('input-total-add')) document.getElementById('input-total-add').value = map['desa_total_add'] || '';
-        if(document.getElementById('input-total-dds')) document.getElementById('input-total-dds').value = map['desa_total_dds'] || '';
-    }
+function loadAdminFormValues() {
+    if(document.getElementById('admin-nama-desa')) document.getElementById('admin-nama-desa').value = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
+    if(document.getElementById('admin-slogan-desa')) document.getElementById('admin-slogan-desa').value = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
+    if(document.getElementById('admin-sejarah')) document.getElementById('admin-sejarah').value = getData('desa_sejarah', '');
+    if(document.getElementById('admin-visi')) document.getElementById('admin-visi').value = getData('desa_visi', '');
+    if(document.getElementById('admin-misi')) document.getElementById('admin-misi').value = getData('desa_misi', '');
+    if(document.getElementById('admin-struktur-teks')) document.getElementById('admin-struktur-teks').value = getData('desa_struktur_teks', '');
+    if(document.getElementById('admin-sambutan')) document.getElementById('admin-sambutan').value = getData('desa_sambutan', '');
+    if(document.getElementById('admin-phone')) document.getElementById('admin-phone').value = getData('desa_phone', '');
+    if(document.getElementById('admin-email')) document.getElementById('admin-email').value = getData('desa_email', '');
+    if(document.getElementById('admin-map-url')) document.getElementById('admin-map-url').value = getData('desa_map_url', '');
+    if(document.getElementById('input-total-add')) document.getElementById('input-total-add').value = getData('desa_total_add', '');
+    if(document.getElementById('input-total-dds')) document.getElementById('input-total-dds').value = getData('desa_total_dds', '');
 }
