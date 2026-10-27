@@ -1,4 +1,4 @@
-// app.js - Sistem Informasi Desa Mokupo (Notifikasi Surat & Upload Video Lokal)
+// app.js - Sistem Informasi Desa Mokupo (Lengkap, Utuh & Permanen)
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAllSettings();
@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPublicAddDds();
     renderPublicBpd();
     renderPublicAparat();
+    renderPublicBerita();
+    renderPublicTautan();
 });
 
 // ==========================================
@@ -61,6 +63,11 @@ function getBpdList() {
 
 function getPengaduanList() { return getData('desa_pengaduan', []); }
 function getAddDdsPrograms() { return getData('desa_add_dds_programs', []); }
+function getBeritaList() { return getData('desa_berita_list', []); }
+function getTautanList() { return getData('desa_tautan_list', [
+    { nama: 'Pemerintah Kabupaten Buol', url: 'https://buolkab.go.id' }
+]); }
+
 function getAdmindukData() {
     return getData('desa_adminduk_stats', { pria: 2450, wanita: 2380, kk: 1210, ktp: 3620, kia: 965, akta: 4340, ikd: 850 });
 }
@@ -152,7 +159,7 @@ function checkAuthStatus() {
 // 12 SUB MENU ADMIN & FITUR LAYANAN
 // ==========================================
 
-// 1. EDIT BERANDA (UPLOAD VIDEO DARI PERANGKAT LOKAL)
+// 1. EDIT BERANDA (UPLOAD VIDEO LOKAL & LOGO PERMANEN)
 async function updateBerandaSettings(e) {
     e.preventDefault();
     try {
@@ -358,7 +365,7 @@ function renderAdminBpdList() {
     });
 }
 
-// 5 & 6. PETUGAS & PERMOHONAN SURAT MASUK (DENGAN NOTIFIKASI & LIHAT DOKUMEN)
+// 5 & 6. PETUGAS & PERMOHONAN SURAT (DENGAN NOTIFIKASI & LIHAT DOKUMEN)
 function tambahPetugasBaru(e) { e.preventDefault(); alert('Petugas berhasil didaftarkan!'); e.target.reset(); }
 function tambahArsipSurat(e) { e.preventDefault(); alert('Arsip surat berhasil disimpan!'); e.target.reset(); }
 
@@ -472,7 +479,6 @@ function renderAdminPermohonanList() {
         container.appendChild(card);
     });
 
-    // Tandai semua terbaca saat menu dibuka
     list.forEach(item => item.dibaca = true);
     saveData('desa_permohonan_surat', list);
     updateNotificationBadges();
@@ -520,20 +526,49 @@ function cekStatusPermohonanSurat() {
     }
 }
 
-// 8. BERITA
+// 8. PUBLIKASI BERITA PERMANEN
 function publikasiBerita(e) {
     e.preventDefault();
-    const judul = document.getElementById('admin-judul-berita').value;
-    const isi = document.getElementById('admin-isi-berita').value;
-    const grid = document.getElementById('beranda-berita-grid');
-    if(grid) {
-        const card = document.createElement('div');
-        card.className = 'border p-4 rounded-xl space-y-2 bg-slate-50';
-        card.innerHTML = `<span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">TERBARU</span><h4 class="font-bold text-slate-800 text-base">${judul}</h4><p class="text-xs text-slate-600">${isi}</p>`;
-        grid.prepend(card);
-    }
-    alert('Berita berhasil dipublikasikan!');
+    const judul = document.getElementById('admin-judul-berita').value.trim();
+    const isi = document.getElementById('admin-isi-berita').value.trim();
+    
+    let list = getBeritaList();
+    list.unshift({
+        judul,
+        isi,
+        tanggal: new Date().toLocaleDateString('id-ID')
+    });
+    saveData('desa_berita_list', list);
+
+    renderPublicBerita();
+    alert('Berita berhasil dipublikasikan secara permanen!');
     e.target.reset();
+}
+
+function renderPublicBerita() {
+    const grid = document.getElementById('beranda-berita-grid');
+    if (!grid) return;
+    let list = getBeritaList();
+    grid.innerHTML = '';
+    
+    if (list.length === 0) {
+        grid.innerHTML = `<p class="text-xs text-slate-500 italic col-span-full">Belum ada publikasi berita terbaru.</p>`;
+        return;
+    }
+
+    list.forEach(item => {
+        let card = document.createElement('div');
+        card.className = 'border p-4 rounded-xl space-y-2 bg-slate-50 shadow-sm';
+        card.innerHTML = `
+            <div class="flex justify-between items-center">
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">TERBARU</span>
+                <span class="text-[10px] text-slate-400">${item.tanggal}</span>
+            </div>
+            <h4 class="font-bold text-slate-800 text-base">${item.judul}</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">${item.isi}</p>
+        `;
+        grid.appendChild(card);
+    });
 }
 
 // 9. ADMINDUK
@@ -565,21 +600,35 @@ function renderAdminPendudukForm() {
     }
 }
 
-// 10. TAUTAN
+// 10. TAUTAN TERKAIT PERMANEN
 function tambahTautanBaru(e) {
     e.preventDefault();
-    const nama = document.getElementById('tautan-nama').value;
-    const url = document.getElementById('tautan-url').value;
-    const container = document.getElementById('tautan-container');
-    if(container) {
-        const a = document.createElement('a');
-        a.href = url; a.target = '_blank';
-        a.className = 'p-4 border rounded-xl hover:bg-slate-50 flex items-center justify-between';
-        a.innerHTML = `<span class="font-medium text-slate-700">${nama}</span><i class="fa-solid fa-external-link text-slate-400"></i>`;
-        container.appendChild(a);
-    }
-    alert('Tautan baru ditambahkan!');
+    const nama = document.getElementById('tautan-nama').value.trim();
+    const url = document.getElementById('tautan-url').value.trim();
+
+    let list = getTautanList();
+    list.push({ nama, url });
+    saveData('desa_tautan_list', list);
+
+    renderPublicTautan();
+    alert('Tautan baru berhasil ditambahkan secara permanen!');
     e.target.reset();
+}
+
+function renderPublicTautan() {
+    const container = document.getElementById('tautan-container');
+    if (!container) return;
+    let list = getTautanList();
+    container.innerHTML = '';
+
+    list.forEach(item => {
+        let a = document.createElement('a');
+        a.href = item.url; 
+        a.target = '_blank';
+        a.className = 'p-4 border rounded-xl hover:bg-slate-50 flex items-center justify-between shadow-sm transition';
+        a.innerHTML = `<span class="font-medium text-slate-700 text-xs sm:text-sm">${item.nama}</span><i class="fa-solid fa-external-link text-slate-400"></i>`;
+        container.appendChild(a);
+    });
 }
 
 // 11. KONTAK
@@ -721,6 +770,8 @@ function loadAllSettings() {
     renderPublicAddDds();
     renderPublicBpd();
     renderPublicAparat();
+    renderPublicBerita();
+    renderPublicTautan();
 }
 
 function loadAdminFormValues() {
