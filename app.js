@@ -46,26 +46,6 @@ function toggleMobileMenu() {
     }
 }
 
-// TOGGLE DROPDOWN DESKTOP
-window.toggleDropdown = function(event) {
-    event.stopPropagation();
-    const dropdownMenu = event.currentTarget.nextElementSibling;
-    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        if (menu !== dropdownMenu) menu.classList.add('hidden');
-    });
-    if (dropdownMenu) {
-        dropdownMenu.classList.toggle('hidden');
-    }
-}
-
-// Tutup dropdown saat klik di luar
-document.addEventListener('click', function(event) {
-    const isDropdownButton = event.target.closest('.dropdown button');
-    if (!isDropdownButton) {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-    }
-});
-
 // LOCALSTORAGE HELPERS
 function saveData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 function getData(key, defaultValue) {
