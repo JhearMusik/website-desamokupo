@@ -1,8 +1,9 @@
-// app.js - Sistem Informasi Desa Mokupo (Perbaikan Lengkap)
+// app.js - Sistem Informasi Desa Mokupo (Notifikasi Surat & Upload Video Lokal)
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAllSettings();
     checkAuthStatus();
+    updateNotificationBadges();
     renderPublicAddDds();
     renderPublicBpd();
     renderPublicAparat();
@@ -18,6 +19,14 @@ function konversiFileKeBase64(fileInput) {
             return;
         }
         const file = fileInput.files[0];
+        
+        // Validasi ukuran video maksimal 20MB jika file video
+        if (file.type.includes('video') && file.size > 20 * 1024 * 1024) {
+            alert('Ukuran video terlalu besar! Maksimal kapasitas file video adalah 20 MB.');
+            reject(new Error('File video melebihi batas 20MB'));
+            return;
+        }
+
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
@@ -92,12 +101,13 @@ function switchAdminSub(subId, btnElement) {
 
     if (subId === 'sub-aparat') renderAdminAparatList();
     if (subId === 'sub-bpd') renderAdminBpdList();
+    if (subId === 'sub-surat') renderAdminPermohonanList();
     if (subId === 'sub-pengaduan') renderAdminPengaduanList();
     if (subId === 'sub-add-dds') renderAdminAddDds();
     if (subId === 'sub-penduduk') renderAdminPendudukForm();
 }
 
-// PERBAIKAN AUTHENTICATION LOGIN PETUGAS
+// AUTHENTICATION LOGIN PETUGAS
 function handleLogin(e) {
     e.preventDefault();
     const userVal = document.getElementById('login-user').value.trim();
@@ -126,10 +136,12 @@ function checkAuthStatus() {
         if(dashBox) dashBox.classList.remove('hidden');
         renderAdminAparatList();
         renderAdminBpdList();
+        renderAdminPermohonanList();
         renderAdminPengaduanList();
         renderAdminAddDds();
         renderAdminPendudukForm();
         loadAdminFormValues();
+        updateNotificationBadges();
     } else {
         if(loginBox) loginBox.classList.remove('hidden');
         if(dashBox) dashBox.classList.add('hidden');
@@ -140,25 +152,27 @@ function checkAuthStatus() {
 // 12 SUB MENU ADMIN & FITUR LAYANAN
 // ==========================================
 
-// 1. EDIT BERANDA (LOGO & URL VIDEO DENGAN SMART PARSER)
+// 1. EDIT BERANDA (UPLOAD VIDEO DARI PERANGKAT LOKAL)
 async function updateBerandaSettings(e) {
     e.preventDefault();
     try {
         const nama = document.getElementById('admin-nama-desa').value;
         const slogan = document.getElementById('admin-slogan-desa').value;
-        const videoUrl = document.getElementById('admin-video-url').value.trim();
         
         let logoBase64 = await konversiFileKeBase64(document.getElementById('admin-logo-file')) || getData('desa_logo', '');
+        let videoBase64 = await konversiFileKeBase64(document.getElementById('admin-video-file')) || getData('desa_video_local', '');
 
         saveData('desa_nama', nama);
         saveData('desa_slogan', slogan);
         if(logoBase64) saveData('desa_logo', logoBase64);
-        saveData('desa_video', videoUrl);
+        if(videoBase64) saveData('desa_video_local', videoBase64);
 
         loadAllSettings();
-        alert('Beranda, Logo & Video Latar berhasil diperbarui!');
+        alert('Beranda, Logo & Video Latar berhasil diperbarui secara permanen!');
     } catch (err) {
-        alert('Gagal memproses perubahan: ' + err.message);
+        if(err.message !== 'File video melebihi batas 20MB') {
+            alert('Gagal memproses file: ' + err.message);
+        }
     }
 }
 
@@ -344,57 +358,10 @@ function renderAdminBpdList() {
     });
 }
 
-// 5 & 6. PETUGAS & SURAT
+// 5 & 6. PETUGAS & PERMOHONAN SURAT MASUK (DENGAN NOTIFIKASI & LIHAT DOKUMEN)
 function tambahPetugasBaru(e) { e.preventDefault(); alert('Petugas berhasil didaftarkan!'); e.target.reset(); }
 function tambahArsipSurat(e) { e.preventDefault(); alert('Arsip surat berhasil disimpan!'); e.target.reset(); }
 
-// 7. PENGADUAN & 10. PERMOHONAN SURAT
-function kirimPengaduanPublik(e) {
-    e.preventDefault();
-    const nama = document.getElementById('adu-nama').value;
-    const telp = document.getElementById('adu-telp').value;
-    const subjek = document.getElementById('adu-subjek').value;
-    const isi = document.getElementById('adu-isi').value;
-    const uniqueId = 'ADU-' + Math.floor(1000 + Math.random() * 9000);
-
-    let list = getPengaduanList();
-    list.unshift({ id: uniqueId, nama, telp, subjek, isi, status: 'Pending', jawaban: 'Belum ditanggapi.' });
-    saveData('desa_pengaduan', list);
-    alert(`Pengaduan terkirim! Kode Unik Anda: ${uniqueId}`);
-    e.target.reset();
-}
-
-function cekStatusPengaduan() {
-    const kode = document.getElementById('cek-kode').value.trim().toUpperCase();
-    const box = document.getElementById('hasil-cek-status');
-    const detailBox = document.getElementById('detail-status-box');
-    let found = getPengaduanList().find(item => item.id === kode);
-    box.classList.remove('hidden');
-    if (found) {
-        detailBox.innerHTML = `<p><b>Kode:</b> ${found.id}</p><p><b>Subjek:</b> ${found.subjek}</p><p><b>Status:</b> ${found.status}</p><p><b>Tanggapan:</b> ${found.jawaban}</p>`;
-    } else {
-        detailBox.innerHTML = `<p class="text-rose-600">Kode ${kode} tidak ditemukan.</p>`;
-    }
-}
-
-function renderAdminPengaduanList() {
-    const container = document.getElementById('admin-pengaduan-list');
-    if (!container) return;
-    let list = getPengaduanList();
-    if (list.length === 0) { container.innerHTML = `<p class="text-xs text-slate-400">Belum ada pengaduan.</p>`; return; }
-    container.innerHTML = '';
-    list.forEach((item) => {
-        let card = document.createElement('div');
-        card.className = 'bg-slate-900 border border-slate-700 p-4 rounded-xl space-y-3';
-        card.innerHTML = `
-            <div><span class="bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded">${item.id}</span><h4 class="font-bold text-white text-sm mt-1">${item.subjek}</h4><p class="text-xs text-slate-300">Pelapor: ${item.nama} (${item.telp})</p></div>
-            <p class="text-xs text-slate-400 bg-slate-950 p-2.5 rounded">${item.isi}</p>
-        `;
-        container.appendChild(card);
-    });
-}
-
-// PERMOHONAN PENERBITAN SURAT & UPLOAD SYARAT
 function updateSyaratLabel() {
     const jenis = document.getElementById('s-jenis').value;
     const label = document.getElementById('label-dokumen-syarat');
@@ -426,15 +393,98 @@ async function ajukanPermohonanSurat(e) {
             kode: kodeUnik,
             jenis, nama, nik, telp, ket,
             berkas: berkasBase64,
-            status: 'Selesai / Terverifikasi',
+            status: 'Baru',
+            dibaca: false,
             tanggal: new Date().toLocaleDateString('id-ID')
         });
         saveData('desa_permohonan_surat', permohonanList);
+        updateNotificationBadges();
 
-        alert(`Permohonan Berhasil Dikirim!\n\nKode Unik Anda: ${kodeUnik}\n\nSilakan catat kode ini untuk mengecek status dan mencetak surat Anda di kolom sebelah kanan.`);
+        alert(`Permohonan Berhasil Dikirim!\n\nKode Unik Anda: ${kodeUnik}\n\nSilakan catat kode ini untuk mengecek status dan mencetak surat Anda.`);
         e.target.reset();
     } catch (err) {
         alert('Gagal memproses permohonan: ' + err.message);
+    }
+}
+
+function updateNotificationBadges() {
+    let list = getData('desa_permohonan_surat', []);
+    let unreadCount = list.filter(item => !item.dibaca).length;
+
+    const navBadge = document.getElementById('badge-notif-nav');
+    const mobBadge = document.getElementById('badge-notif-mobile');
+    const adminBadge = document.getElementById('badge-notif-admin');
+    const subBadge = document.getElementById('sub-badge-surat');
+
+    if (unreadCount > 0) {
+        if(navBadge) { navBadge.innerText = unreadCount; navBadge.classList.remove('hidden'); }
+        if(mobBadge) { mobBadge.innerText = unreadCount; mobBadge.classList.remove('hidden'); }
+        if(adminBadge) { adminBadge.innerText = `${unreadCount} Permohonan Baru`; adminBadge.classList.remove('hidden'); }
+        if(subBadge) { subBadge.innerText = unreadCount; subBadge.classList.remove('hidden'); }
+    } else {
+        if(navBadge) navBadge.classList.add('hidden');
+        if(mobBadge) mobBadge.classList.add('hidden');
+        if(adminBadge) adminBadge.classList.add('hidden');
+        if(subBadge) subBadge.classList.add('hidden');
+    }
+}
+
+function tandaiSemuaDibaca() {
+    let list = getData('desa_permohonan_surat', []);
+    list.forEach(item => item.dibaca = true);
+    saveData('desa_permohonan_surat', list);
+    updateNotificationBadges();
+    renderAdminPermohonanList();
+    alert('Semua permohonan telah ditandai dibaca.');
+}
+
+function renderAdminPermohonanList() {
+    const container = document.getElementById('admin-permohonan-list');
+    if (!container) return;
+    let list = getData('desa_permohonan_surat', []);
+    if (list.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada permohonan surat masuk.</p>`;
+        return;
+    }
+    container.innerHTML = '';
+    list.forEach((item, index) => {
+        let badgeUnread = !item.dibaca ? `<span class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">BARU</span>` : `<span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-0.5 rounded">Dibaca</span>`;
+        let card = document.createElement('div');
+        card.className = `p-4 rounded-xl border space-y-3 ${!item.dibaca ? 'bg-slate-950 border-amber-500/50' : 'bg-slate-900 border-slate-700'}`;
+        card.innerHTML = `
+            <div class="flex justify-between items-start">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-400 font-bold text-xs">${item.kode}</span>
+                        ${badgeUnread}
+                        <span class="text-[11px] text-slate-400">(${item.tanggal})</span>
+                    </div>
+                    <h4 class="font-bold text-white text-sm">${item.jenis}</h4>
+                    <p class="text-xs text-slate-300"><b>Pemohon:</b> ${item.nama} | <b>NIK:</b> ${item.nik} | <b>Telp/WA:</b> ${item.telp}</p>
+                    <p class="text-xs text-slate-400"><b>Keperluan:</b> ${item.ket}</p>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2 border-t border-slate-800">
+                ${item.berkas ? `<a href="${item.berkas}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1"><i class="fa-solid fa-eye"></i> Buka Dokumen Syarat</a>` : '<span class="text-xs text-slate-500 italic">Tidak ada dokumen diunggah</span>'}
+                <button onclick="hapusPermohonan(${index})" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded ml-auto flex items-center gap-1"><i class="fa-solid fa-trash"></i> Hapus</button>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    // Tandai semua terbaca saat menu dibuka
+    list.forEach(item => item.dibaca = true);
+    saveData('desa_permohonan_surat', list);
+    updateNotificationBadges();
+}
+
+function hapusPermohonan(index) {
+    if(confirm('Hapus data permohonan surat ini?')) {
+        let list = getData('desa_permohonan_surat', []);
+        list.splice(index, 1);
+        saveData('desa_permohonan_surat', list);
+        renderAdminPermohonanList();
+        updateNotificationBadges();
     }
 }
 
@@ -454,7 +504,7 @@ function cekStatusPermohonanSurat() {
             <p><b>Kode Permohonan:</b> <span class="text-emerald-700 font-bold">${found.kode}</span></p>
             <p><b>Jenis Surat:</b> ${found.jenis}</p>
             <p><b>Pemohon:</b> ${found.nama} (NIK: ${found.nik})</p>
-            <p><b>Status:</b> <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">${found.status}</span></p>
+            <p><b>Status:</b> <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Selesai / Terverifikasi</span></p>
         `;
         document.getElementById('out-jenis-surat').innerText = found.jenis;
         document.getElementById('out-nama').innerText = found.nama;
@@ -464,7 +514,7 @@ function cekStatusPermohonanSurat() {
         printArea.classList.remove('hidden');
         btnCetak.classList.remove('hidden');
     } else {
-        detailBox.innerHTML = `<p class="text-rose-600 font-bold">Kode permohonan "${kode}" tidak ditemukan. Pastikan kode benar.</p>`;
+        detailBox.innerHTML = `<p class="text-rose-600 font-bold">Kode permohonan "${kode}" tidak ditemukan.</p>`;
         printArea.classList.add('hidden');
         btnCetak.classList.add('hidden');
     }
@@ -599,12 +649,12 @@ function renderAdminAddDds() {
     });
 }
 
-// LOAD ALL SETTINGS KE HALAMAN PUBLIK & PENANGANAN VIDEO ADVANCED
+// LOAD ALL SETTINGS KE HALAMAN PUBLIK & PEMUTAR VIDEO LOKAL
 function loadAllSettings() {
     const nama = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
     const slogan = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
     const logo = getData('desa_logo', '');
-    const videoUrl = getData('desa_video', '');
+    const videoLocal = getData('desa_video_local', '');
 
     if(nama) document.getElementById('app-title').innerText = nama;
     if(slogan) document.getElementById('app-slogan').innerText = slogan;
@@ -614,31 +664,13 @@ function loadAllSettings() {
         if(imgEl && iconEl) { imgEl.src = logo; imgEl.classList.remove('hidden'); iconEl.classList.add('hidden'); }
     }
 
-    // PEMROSESAN OTOMATIS TIPE VIDEO (Direct MP4 vs YouTube vs Drive)
+    // PEMUTAR VIDEO LOKAL DI BERANDA
     const videoBg = document.getElementById('hero-video-bg');
-    const iframeBg = document.getElementById('hero-iframe-bg');
-    
-    if (videoUrl) {
-        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-            let ytId = '';
-            if (videoUrl.includes('v=')) ytId = videoUrl.split('v=')[1].split('&')[0];
-            else if (videoUrl.includes('youtu.be/')) ytId = videoUrl.split('youtu.be/')[1].split('?')[0];
-
-            if (ytId && iframeBg) {
-                iframeBg.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0`;
-                iframeBg.classList.remove('hidden');
-                if(videoBg) videoBg.classList.add('hidden');
-            }
-        } else {
-            if (videoBg) {
-                videoBg.src = videoUrl;
-                videoBg.classList.remove('hidden');
-                if(iframeBg) iframeBg.classList.add('hidden');
-            }
-        }
-    } else {
-        if(videoBg) videoBg.classList.add('hidden');
-        if(iframeBg) iframeBg.classList.add('hidden');
+    if (videoLocal && videoBg) {
+        videoBg.src = videoLocal;
+        videoBg.classList.remove('hidden');
+    } else if(videoBg) {
+        videoBg.classList.add('hidden');
     }
 
     document.getElementById('content-sejarah').innerHTML = `<p>${getData('desa_sejarah', 'Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol.')}</p>`;
@@ -694,7 +726,6 @@ function loadAllSettings() {
 function loadAdminFormValues() {
     if(document.getElementById('admin-nama-desa')) document.getElementById('admin-nama-desa').value = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
     if(document.getElementById('admin-slogan-desa')) document.getElementById('admin-slogan-desa').value = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
-    if(document.getElementById('admin-video-url')) document.getElementById('admin-video-url').value = getData('desa_video', '');
     if(document.getElementById('admin-sejarah')) document.getElementById('admin-sejarah').value = getData('desa_sejarah', '');
     if(document.getElementById('admin-visi')) document.getElementById('admin-visi').value = getData('desa_visi', '');
     if(document.getElementById('admin-misi')) document.getElementById('admin-misi').value = getData('desa_misi', '');
