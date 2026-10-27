@@ -206,7 +206,7 @@ async function updateBerandaSettings(e) {
             slogan: slogan,
             logo_url: logoUrl,
             video_url: videoUrl
-        }]);
+        }], { onConflict: 'id' });
 
         if(error) throw error;
         loadAllDataFromSupabase();
