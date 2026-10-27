@@ -398,7 +398,7 @@
         <!-- 16. PORTAL PETUGAS (DASHBOARD ADMIN) -->
         <section id="portal-petugas" class="tab-content space-y-6">
             
-            <!-- FORM LOGIN AMAN (TANPA TEKS SAMAR) -->
+            <!-- FORM LOGIN AMAN -->
             <div id="auth-login-box" class="max-w-md mx-auto bg-white p-6 sm:p-8 rounded-2xl border shadow-xl space-y-6 mt-6">
                 <div class="text-center space-y-2">
                     <div class="w-16 h-16 bg-amber-500 text-slate-900 rounded-full flex items-center justify-center text-2xl mx-auto shadow"><i class="fa-solid fa-lock"></i></div>
@@ -448,7 +448,7 @@
 
                 <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
 
-                    <!-- SUB 1: BERANDA (UPLOAD VIDEO LANGSUNG DARI PERANGKAT) -->
+                    <!-- SUB 1: BERANDA -->
                     <div id="sub-beranda" class="admin-sub-content active space-y-4">
                         <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Beranda, Logo & Video Latar</h3>
                         <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl text-xs">
@@ -467,13 +467,16 @@
                             <div>
                                 <label class="block font-semibold mb-1">Upload Video Latar Beranda (Dari HP / Laptop)</label>
                                 <input type="file" id="admin-video-file" accept="video/mp4,video/webm" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                                <p class="text-[11px] text-amber-300 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kapasitas maksimal file video yang direkomendasikan adalah **20 MB** (format MP4/WebM).</p>
+                                <p class="text-[11px] text-amber-300 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kapasitas maksimal file video adalah **20 MB** (format MP4/WebM).</p>
                             </div>
-                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 font-bold px-6 py-2.5 rounded text-slate-900 transition">Simpan Beranda Permanen</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-amber-500 hover:bg-amber-600 font-bold px-6 py-2.5 rounded text-slate-900 transition">Simpan Beranda</button>
+                                <button type="button" onclick="hapusDataSubMenu(1)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2.5 rounded text-white transition"><i class="fa-solid fa-trash mr-1"></i> Hapus / Reset Beranda</button>
+                            </div>
                         </form>
                     </div>
 
-                    <!-- SUB 2: PROFIL, VISI MISI & STRUKTUR ORGANISASI -->
+                    <!-- SUB 2: PROFIL, VISI MISI & STRUKTUR -->
                     <div id="sub-profil" class="admin-sub-content space-y-4">
                         <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil, Visi Misi, Struktur Organisasi & Sambutan</h3>
                         <form onsubmit="updateProfilSettings(event)" class="space-y-4 max-w-xl text-xs">
@@ -505,7 +508,10 @@
                                 <label class="block font-semibold mb-1">Sambutan Kepala Desa</label>
                                 <textarea id="admin-sambutan" rows="3" class="w-full p-2.5 bg-slate-900 border rounded text-white"></textarea>
                             </div>
-                            <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Profil Permanen</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Profil</button>
+                                <button type="button" onclick="hapusDataSubMenu(2)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus / Reset Profil</button>
+                            </div>
                         </form>
                     </div>
 
@@ -520,10 +526,13 @@
                                 <input type="file" id="admin-foto-aparat-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <input type="text" id="admin-tupoksi-aparat" placeholder="Tupoksi" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 font-bold px-6 py-2 rounded text-white transition">Tambah Aparat</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 font-bold px-6 py-2 rounded text-white transition">Tambah Aparat</button>
+                                <button type="button" onclick="hapusDataSubMenu(3)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Aparat</button>
+                            </div>
                         </form>
                         <div class="max-w-xl space-y-3">
-                            <h4 class="font-bold text-sm text-white border-b border-slate-700 pb-1">Daftar Aparat Terdaftar (Tombol Hapus untuk Perubahan Perangkat):</h4>
+                            <h4 class="font-bold text-sm text-white border-b border-slate-700 pb-1">Daftar Aparat Terdaftar:</h4>
                             <div id="admin-aparat-list" class="space-y-2"></div>
                         </div>
                     </div>
@@ -538,7 +547,10 @@
                                 <label class="block font-semibold mb-1">Upload Foto BPD (Pas Foto 4x6)</label>
                                 <input type="file" id="bpd-foto-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
                             </div>
-                            <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Anggota BPD</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Anggota BPD</button>
+                                <button type="button" onclick="hapusDataSubMenu(4)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua BPD</button>
+                            </div>
                         </form>
                         <div id="admin-bpd-list" class="space-y-2 max-w-xl"></div>
                     </div>
@@ -550,22 +562,31 @@
                             <input type="text" id="petugas-nama" placeholder="Nama Petugas" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="petugas-user" placeholder="Username" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="password" id="petugas-pass" placeholder="Password" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Daftarkan Petugas</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Daftarkan Petugas</button>
+                                <button type="button" onclick="hapusDataSubMenu(5)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Reset Data Petugas</button>
+                            </div>
                         </form>
                     </div>
 
-                    <!-- SUB 6: PERMOHONAN SURAT MASUK (DENGAN NOTIFIKASI & LIHAT DOKUMEN UPLOAD) -->
+                    <!-- SUB 6: PERMOHONAN SURAT MASUK -->
                     <div id="sub-surat" class="admin-sub-content space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-2 flex-wrap gap-2">
                             <h3 class="text-base font-bold text-amber-400">Daftar Permohonan & Dokumen Surat Masuk</h3>
-                            <button onclick="tandaiSemuaDibaca()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-1.5 rounded font-medium"><i class="fa-solid fa-check-double mr-1"></i> Tandai Semua Dibaca</button>
+                            <div class="flex gap-2">
+                                <button onclick="tandaiSemuaDibaca()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-1.5 rounded font-medium"><i class="fa-solid fa-check-double mr-1"></i> Tandai Dibaca</button>
+                                <button onclick="hapusDataSubMenu(6)" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3 py-1.5 rounded font-bold"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Permohonan</button>
+                            </div>
                         </div>
                         <div id="admin-permohonan-list" class="space-y-3"></div>
                     </div>
 
                     <!-- SUB 7: PENGADUAN -->
                     <div id="sub-pengaduan" class="admin-sub-content space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Daftar Pengaduan Masyarakat</h3>
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                            <h3 class="text-base font-bold text-amber-400">Daftar Pengaduan Masyarakat</h3>
+                            <button onclick="hapusDataSubMenu(7)" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3 py-1.5 rounded font-bold"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Pengaduan</button>
+                        </div>
                         <div id="admin-pengaduan-list" class="space-y-4"></div>
                     </div>
 
@@ -575,7 +596,10 @@
                         <form onsubmit="publikasiBerita(event)" class="space-y-3 max-w-xl text-xs">
                             <input type="text" id="admin-judul-berita" placeholder="Judul Berita" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <textarea id="admin-isi-berita" rows="3" placeholder="Isi Berita..." required class="w-full p-2.5 bg-slate-900 border rounded text-white"></textarea>
-                            <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Publikasikan</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Publikasikan</button>
+                                <button type="button" onclick="hapusDataSubMenu(8)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Berita</button>
+                            </div>
                         </form>
                     </div>
 
@@ -592,7 +616,10 @@
                             <input type="number" id="admin-adm-kia" placeholder="KIA" class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="number" id="admin-adm-akta" placeholder="Akta" class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="number" id="admin-adm-ikd" placeholder="IKD" class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-950">Simpan Adminduk Permanen</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-950">Simpan Adminduk</button>
+                                <button type="button" onclick="hapusDataSubMenu(9)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Reset Adminduk (0)</button>
+                            </div>
                         </form>
                     </div>
 
@@ -602,7 +629,10 @@
                         <form onsubmit="tambahTautanBaru(event)" class="space-y-3 max-w-xl text-xs">
                             <input type="text" id="tautan-nama" placeholder="Nama Instansi/Portal" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="url" id="tautan-url" placeholder="https://..." required class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Tautan</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Tautan</button>
+                                <button type="button" onclick="hapusDataSubMenu(10)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Tautan</button>
+                            </div>
                         </form>
                     </div>
 
@@ -613,7 +643,10 @@
                             <input type="text" id="admin-phone" placeholder="No Telepon / WA" class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="email" id="admin-email" placeholder="Email Desa" class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="admin-map-url" placeholder="URL Embed Google Maps" class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Kontak Permanen</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Kontak</button>
+                                <button type="button" onclick="hapusDataSubMenu(11)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus / Reset Kontak</button>
+                            </div>
                         </form>
                     </div>
 
@@ -633,7 +666,10 @@
                             <input type="text" id="prog-nama" placeholder="Nama Program" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="prog-anggaran" placeholder="Besaran Anggaran" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="prog-ket" placeholder="Keterangan" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-emerald-600 font-bold px-4 py-2 rounded text-white">Tambah Program</button>
+                            <div class="flex gap-2">
+                                <button type="submit" class="bg-emerald-600 font-bold px-4 py-2 rounded text-white">Tambah Program</button>
+                                <button type="button" onclick="hapusDataSubMenu(12)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Program ADD/DDS</button>
+                            </div>
                         </form>
                         <div id="admin-add-dds-list" class="space-y-2 max-w-xl"></div>
                     </div>
