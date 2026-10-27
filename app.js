@@ -719,11 +719,17 @@ function updateKontakSettings(e) {
     e.preventDefault();
     const phone = document.getElementById('admin-phone').value;
     const email = document.getElementById('admin-email').value;
-    const mapUrl = document.getElementById('admin-map-url').value;
+    
+    const mapInput = document.getElementById('admin-map-url').value.trim();
+    let mapUrl = mapInput;
+    if (mapInput.includes('<iframe')) {
+        const match = mapInput.match(/src="([^"]+)"/);
+        if (match) mapUrl = match[1];
+    }
 
     saveData('desa_phone', phone);
     saveData('desa_email', email);
-    if(mapUrl) saveData('desa_map_url', mapUrl);
+    if (mapUrl) saveData('desa_map_url', mapUrl);
 
     loadAllSettings();
     alert('Kontak dan Peta berhasil diperbarui!');
