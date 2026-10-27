@@ -393,19 +393,10 @@
 
         <!-- 16. PORTAL PETUGAS (DASHBOARD ADMIN 12 MENU LENGKAP) -->
         <section id="portal-petugas" class="tab-content space-y-6">
-            <div id="auth-login-box" class="max-w-md mx-auto bg-white p-6 sm:p-8 rounded-2xl border shadow-xl space-y-6 mt-6">
-                <div class="text-center space-y-2">
-                    <div class="w-16 h-16 bg-amber-500 text-slate-900 rounded-full flex items-center justify-center text-2xl mx-auto shadow"><i class="fa-solid fa-lock"></i></div>
-                    <h2 class="text-xl font-bold text-slate-800">Login Portal Petugas</h2>
-                </div>
-                <form onsubmit="handleLogin(event)" class="space-y-4">
-                    <input type="text" id="login-user" placeholder="Username (admin)" required class="w-full p-3 border rounded-lg bg-slate-50">
-                    <input type="password" id="login-pass" placeholder="Password (admin123)" required class="w-full p-3 border rounded-lg bg-slate-50">
-                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg">Masuk Dashboard</button>
-                </form>
-            </div>
+            <!-- Kotak login disembunyikan/dihilangkan total -->
+            <div id="auth-login-box" class="hidden"></div>
 
-            <div id="admin-dashboard-box" class="hidden space-y-6 bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100">
+            <div id="admin-dashboard-box" class="space-y-6 bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100">
                 <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
                     <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-user-gear text-amber-400 mr-2"></i>PORTAL PETUGAS (ADMIN)</h2>
                     <button onclick="handleLogout()" class="bg-rose-600 text-white text-xs font-bold px-3 py-2 rounded-lg"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
@@ -489,10 +480,10 @@
                         </form>
                     </div>
 
-                    <!-- SUB 3: APARAT -->
-                    <div id="sub-aparat" class="admin-sub-content space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah Aparat Desa</h3>
-                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs">
+                    <!-- SUB 3: APARAT (DENGAN LIST HAPUS) -->
+                    <div id="sub-aparat" class="admin-sub-content space-y-6">
+                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah & Kelola Aparat Desa</h3>
+                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs bg-slate-950 p-4 rounded-xl border">
                             <input type="text" id="admin-nama-aparat" placeholder="Nama Aparat" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan (Contoh: KEPALA DESA / KASI PEMERINTAHAN)" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div>
@@ -502,6 +493,10 @@
                             <input type="text" id="admin-tupoksi-aparat" placeholder="Tupoksi" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Aparat</button>
                         </form>
+                        <div class="max-w-xl space-y-2">
+                            <h4 class="font-bold text-sm text-white">Daftar Aparat Terdaftar (Klik Hapus jika ada pergantian):</h4>
+                            <div id="admin-aparat-list" class="space-y-2"></div>
+                        </div>
                     </div>
 
                     <!-- SUB 4: BPD -->
@@ -516,7 +511,7 @@
                             </div>
                             <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Anggota BPD</button>
                         </form>
-                        <div id="admin-bpd-list" class="space-y-2"></div>
+                        <div id="admin-bpd-list" class="space-y-2 max-w-xl"></div>
                     </div>
 
                     <!-- SUB 5: PETUGAS -->
@@ -618,7 +613,7 @@
                             <input type="text" id="prog-ket" placeholder="Keterangan" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <button type="submit" class="bg-emerald-600 font-bold px-4 py-2 rounded text-white">Tambah Program</button>
                         </form>
-                        <div id="admin-add-dds-list" class="space-y-2"></div>
+                        <div id="admin-add-dds-list" class="space-y-2 max-w-xl"></div>
                     </div>
 
                 </div>
