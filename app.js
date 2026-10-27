@@ -1,4 +1,4 @@
-// app.js - Sistem Informasi Desa Mokupo (Lengkap & Utuh)
+// app.js - Sistem Informasi Desa Mokupo (Perbaikan Lengkap)
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAllSettings();
@@ -97,44 +97,68 @@ function switchAdminSub(subId, btnElement) {
     if (subId === 'sub-penduduk') renderAdminPendudukForm();
 }
 
-// AUTH PETUGAS (LANGSUNG TERBUKA TANPA PERLU KETIK USER/PASS)
-function checkAuthStatus() {
-    renderAdminAparatList();
-    renderAdminBpdList();
-    renderAdminPengaduanList();
-    renderAdminAddDds();
-    renderAdminPendudukForm();
-    loadAdminFormValues();
+// PERBAIKAN AUTHENTICATION LOGIN PETUGAS
+function handleLogin(e) {
+    e.preventDefault();
+    const userVal = document.getElementById('login-user').value.trim();
+    const passVal = document.getElementById('login-pass').value.trim();
+
+    if (userVal === 'admin' && passVal === 'admin123') {
+        sessionStorage.setItem('admin_logged', 'true');
+        checkAuthStatus();
+    } else {
+        alert('Username atau Password yang Anda masukkan salah!');
+    }
 }
 
 function handleLogout() {
-    alert('Anda keluar dari sesi admin.');
-    switchTab('beranda');
+    sessionStorage.removeItem('admin_logged');
+    checkAuthStatus();
+}
+
+function checkAuthStatus() {
+    const isLogged = sessionStorage.getItem('admin_logged');
+    const loginBox = document.getElementById('auth-login-box');
+    const dashBox = document.getElementById('admin-dashboard-box');
+
+    if (isLogged === 'true') {
+        if(loginBox) loginBox.classList.add('hidden');
+        if(dashBox) dashBox.classList.remove('hidden');
+        renderAdminAparatList();
+        renderAdminBpdList();
+        renderAdminPengaduanList();
+        renderAdminAddDds();
+        renderAdminPendudukForm();
+        loadAdminFormValues();
+    } else {
+        if(loginBox) loginBox.classList.remove('hidden');
+        if(dashBox) dashBox.classList.add('hidden');
+    }
 }
 
 // ==========================================
 // 12 SUB MENU ADMIN & FITUR LAYANAN
 // ==========================================
 
-// 1. EDIT BERANDA (LOGO & URL VIDEO)
+// 1. EDIT BERANDA (LOGO & URL VIDEO DENGAN SMART PARSER)
 async function updateBerandaSettings(e) {
     e.preventDefault();
     try {
         const nama = document.getElementById('admin-nama-desa').value;
         const slogan = document.getElementById('admin-slogan-desa').value;
-        const videoUrl = document.getElementById('admin-video-url').value;
+        const videoUrl = document.getElementById('admin-video-url').value.trim();
         
         let logoBase64 = await konversiFileKeBase64(document.getElementById('admin-logo-file')) || getData('desa_logo', '');
 
         saveData('desa_nama', nama);
         saveData('desa_slogan', slogan);
         if(logoBase64) saveData('desa_logo', logoBase64);
-        if(videoUrl) saveData('desa_video', videoUrl);
+        saveData('desa_video', videoUrl);
 
         loadAllSettings();
-        alert('Beranda, Logo & Video berhasil disimpan secara permanen!');
+        alert('Beranda, Logo & Video Latar berhasil diperbarui!');
     } catch (err) {
-        alert('Gagal memproses file: ' + err.message);
+        alert('Gagal memproses perubahan: ' + err.message);
     }
 }
 
@@ -160,9 +184,9 @@ async function updateProfilSettings(e) {
         if(fotoStruktur) saveData('desa_struktur_img', fotoStruktur);
 
         loadAllSettings();
-        alert('Profil, Visi Misi, dan Struktur berhasil disimpan permanen!');
+        alert('Profil, Visi Misi, dan Struktur berhasil disimpan!');
     } catch (err) {
-        alert('Gagal memproses foto: ' + err.message);
+        alert('Gagal memproses data: ' + err.message);
     }
 }
 
@@ -182,14 +206,14 @@ async function tambahAparatDesa(e) {
         renderPublicAparat();
         renderAdminAparatList();
         e.target.reset();
-        alert('Aparat berhasil ditambahkan!');
+        alert('Aparat Desa berhasil ditambahkan!');
     } catch (err) {
-        alert('Gagal menambah aparat: ' + err.message);
+        alert('Gagal menambah data aparat: ' + err.message);
     }
 }
 
 function hapusAparatMember(index) {
-    if (confirm('Hapus data aparat desa ini?')) {
+    if (confirm('Konfirmasi hapus data aparat desa ini?')) {
         let list = getData('desa_aparat_list', []);
         list.splice(index, 1);
         saveData('desa_aparat_list', list);
@@ -204,7 +228,7 @@ function renderPublicAparat() {
     let list = getData('desa_aparat_list', []);
     container.innerHTML = '';
     if (list.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-500 italic col-span-full text-center">Belum ada data aparat desa. Silakan tambahkan melalui Portal Petugas.</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-500 italic col-span-full text-center py-4">Belum ada data aparat desa.</p>`;
         return;
     }
     list.forEach(item => {
@@ -230,18 +254,20 @@ function renderAdminAparatList() {
     let list = getData('desa_aparat_list', []);
     container.innerHTML = '';
     if (list.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400">Belum ada data aparat.</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada data aparat desa terdaftar.</p>`;
         return;
     }
     list.forEach((item, index) => {
         let card = document.createElement('div');
-        card.className = 'bg-slate-900 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
+        card.className = 'bg-slate-950 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
         card.innerHTML = `
             <div>
                 <p class="font-bold text-white text-sm">${item.nama}</p>
                 <p class="text-emerald-400 font-semibold uppercase">${item.jabatan}</p>
             </div>
-            <button onclick="hapusAparatMember(${index})" class="bg-rose-600 text-white p-2 rounded shadow hover:bg-rose-700"><i class="fa-solid fa-trash"></i> Hapus</button>
+            <button onclick="hapusAparatMember(${index})" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-3 py-1.5 rounded shadow transition flex items-center gap-1">
+                <i class="fa-solid fa-trash"></i> Hapus
+            </button>
         `;
         container.appendChild(card);
     });
@@ -306,13 +332,13 @@ function renderAdminBpdList() {
     container.innerHTML = '';
     list.forEach((item, index) => {
         let card = document.createElement('div');
-        card.className = 'bg-slate-900 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
+        card.className = 'bg-slate-950 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs';
         card.innerHTML = `
             <div>
                 <p class="font-bold text-white text-sm">${item.nama}</p>
                 <p class="text-emerald-400 font-semibold uppercase">${item.jabatan}</p>
             </div>
-            <button onclick="hapusBpdMember(${index})" class="bg-rose-600 text-white p-2 rounded shadow"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="hapusBpdMember(${index})" class="bg-rose-600 text-white p-2 rounded shadow"><i class="fa-solid fa-trash"></i> Hapus</button>
         `;
         container.appendChild(card);
     });
@@ -475,6 +501,7 @@ function updateStatistikPenduduk(e) {
     loadAllSettings();
     alert('Data Statistik berhasil diperbarui!');
 }
+
 function renderAdminPendudukForm() {
     let adm = getAdmindukData();
     if(document.getElementById('admin-jml-pria')) {
@@ -572,7 +599,7 @@ function renderAdminAddDds() {
     });
 }
 
-// LOAD ALL SETTINGS KE HALAMAN PUBLIK
+// LOAD ALL SETTINGS KE HALAMAN PUBLIK & PENANGANAN VIDEO ADVANCED
 function loadAllSettings() {
     const nama = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
     const slogan = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
@@ -586,9 +613,32 @@ function loadAllSettings() {
         const iconEl = document.getElementById('nav-logo-icon');
         if(imgEl && iconEl) { imgEl.src = logo; imgEl.classList.remove('hidden'); iconEl.classList.add('hidden'); }
     }
-    if(videoUrl) {
-        const videoBg = document.getElementById('hero-video-bg');
-        if(videoBg) videoBg.src = videoUrl;
+
+    // PEMROSESAN OTOMATIS TIPE VIDEO (Direct MP4 vs YouTube vs Drive)
+    const videoBg = document.getElementById('hero-video-bg');
+    const iframeBg = document.getElementById('hero-iframe-bg');
+    
+    if (videoUrl) {
+        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+            let ytId = '';
+            if (videoUrl.includes('v=')) ytId = videoUrl.split('v=')[1].split('&')[0];
+            else if (videoUrl.includes('youtu.be/')) ytId = videoUrl.split('youtu.be/')[1].split('?')[0];
+
+            if (ytId && iframeBg) {
+                iframeBg.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0`;
+                iframeBg.classList.remove('hidden');
+                if(videoBg) videoBg.classList.add('hidden');
+            }
+        } else {
+            if (videoBg) {
+                videoBg.src = videoUrl;
+                videoBg.classList.remove('hidden');
+                if(iframeBg) iframeBg.classList.add('hidden');
+            }
+        }
+    } else {
+        if(videoBg) videoBg.classList.add('hidden');
+        if(iframeBg) iframeBg.classList.add('hidden');
     }
 
     document.getElementById('content-sejarah').innerHTML = `<p>${getData('desa_sejarah', 'Desa Mokupo terletak di wilayah Kecamatan Karamat, Kabupaten Buol.')}</p>`;
