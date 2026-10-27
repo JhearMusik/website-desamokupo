@@ -234,7 +234,7 @@
             <h2 class="text-xl sm:text-2xl font-bold text-emerald-800 border-b pb-2">Formulir Permohonan Penerbitan Surat</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-xl border shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-800 text-base sm:text-lg border-b pb-2">Lengkapi Data & Upload Dokumen Syarat</h3>
+                    <h3 class="font-bold text-slate-800 text-base sm:text-lg border-b pb-2">Lengkapi Data & Link Dokumen Syarat</h3>
                     <form onsubmit="ajukanPermohonanSurat(event)" class="space-y-4 text-xs sm:text-sm">
                         <div>
                             <label class="block font-medium text-slate-700">PILIH JENIS SURAT KETERANGAN</label>
@@ -264,10 +264,9 @@
                             <label class="block font-medium text-slate-700">KEPERLUAN / KETERANGAN</label>
                             <textarea id="s-ket" rows="2" required class="w-full mt-1 p-2.5 border rounded-lg" placeholder="Jelaskan keperluan pembuatan surat ini..."></textarea>
                         </div>
-                        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2">
-                            <label class="block font-bold text-emerald-900" id="label-dokumen-syarat"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Dokumen Pendukung (KTP / Pengantar RT / Bukti Terkait)</label>
-                            <input type="file" id="s-berkas" accept="image/*,.pdf" required class="w-full text-xs bg-white p-2 border rounded-lg">
-                            <p class="text-[11px] text-emerald-700">Format gambar (JPG/PNG) atau PDF (Maksimal 5MB).</p>
+                        <div>
+                            <label class="block font-medium text-slate-700">LINK URL DOKUMEN PENDUKUNG (Opsional)</label>
+                            <input type="url" id="s-berkas" placeholder="https://..." class="w-full mt-1 p-2.5 border rounded-lg text-xs">
                         </div>
                         <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-bold shadow">Kirim Permohonan Surat</button>
                     </form>
@@ -448,7 +447,7 @@
 
                 <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
 
-                    <!-- SUB 1: BERANDA -->
+                    <!-- SUB 1: BERANDA (URL) -->
                     <div id="sub-beranda" class="admin-sub-content active space-y-4">
                         <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Beranda, Logo & Video Latar</h3>
                         <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl text-xs">
@@ -461,24 +460,24 @@
                                 <input type="text" id="admin-slogan-desa" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Logo Desa (Gambar)</label>
-                                <input type="file" id="admin-logo-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Logo Desa (Gambar Online)</label>
+                                <input type="url" id="admin-logo-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white text-xs">
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Video Latar Beranda (Dari HP / Laptop)</label>
-                                <input type="file" id="admin-video-file" accept="video/mp4,video/webm" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                                <p class="text-[11px] text-amber-300 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kapasitas maksimal file video adalah **20 MB** (format MP4/WebM).</p>
+                                <label class="block font-semibold mb-1">Link URL Video Latar Beranda (MP4 Online)</label>
+                                <input type="url" id="admin-video-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white text-xs">
+                                <p class="text-[11px] text-amber-300 mt-1"><i class="fa-solid fa-circle-info mr-1"></i> Masukkan URL file video online (Google Drive publik atau direct link MP4).</p>
                             </div>
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-amber-500 hover:bg-amber-600 font-bold px-6 py-2.5 rounded text-slate-900 transition">Simpan Beranda</button>
-                                <button type="button" onclick="hapusDataSubMenu(1)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2.5 rounded text-white transition"><i class="fa-solid fa-trash mr-1"></i> Hapus / Reset Beranda</button>
+                                <button type="button" onclick="hapusDataSubMenu(1)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2.5 rounded text-white transition"><i class="fa-solid fa-trash mr-1"></i> Reset Beranda</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- SUB 2: PROFIL, VISI MISI & STRUKTUR -->
+                    <!-- SUB 2: PROFIL (URL) -->
                     <div id="sub-profil" class="admin-sub-content space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil, Visi Misi, Struktur Organisasi & Sambutan</h3>
+                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Profil, Visi Misi, Struktur & Sambutan</h3>
                         <form onsubmit="updateProfilSettings(event)" class="space-y-4 max-w-xl text-xs">
                             <div>
                                 <label class="block font-semibold mb-1">Sejarah Desa</label>
@@ -493,16 +492,16 @@
                                 <textarea id="admin-misi" rows="3" class="w-full p-2.5 bg-slate-900 border rounded text-white"></textarea>
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Gambar Struktur Organisasi (Bagan)</label>
-                                <input type="file" id="admin-struktur-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Gambar Struktur Organisasi (Bagan)</label>
+                                <input type="url" id="admin-struktur-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <div>
                                 <label class="block font-semibold mb-1">Teks Keterangan Struktur Organisasi</label>
                                 <textarea id="admin-struktur-teks" rows="2" class="w-full p-2.5 bg-slate-900 border rounded text-white"></textarea>
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Foto Kepala Desa (Pas Foto 4x6)</label>
-                                <input type="file" id="admin-foto-sambutan-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Foto Kepala Desa (Pas Foto 4x6)</label>
+                                <input type="url" id="admin-foto-kades-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <div>
                                 <label class="block font-semibold mb-1">Sambutan Kepala Desa</label>
@@ -510,20 +509,20 @@
                             </div>
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Profil</button>
-                                <button type="button" onclick="hapusDataSubMenu(2)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus / Reset Profil</button>
+                                <button type="button" onclick="hapusDataSubMenu(2)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Reset Profil</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- SUB 3: APARAT -->
+                    <!-- SUB 3: APARAT (URL) -->
                     <div id="sub-aparat" class="admin-sub-content space-y-6">
                         <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah & Kelola Aparat Desa</h3>
                         <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs bg-slate-950 p-4 rounded-xl border border-slate-700">
                             <input type="text" id="admin-nama-aparat" placeholder="Nama Aparat" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan (Contoh: KEPALA DESA / KASI PEMERINTAHAN)" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
+                            <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan (Contoh: KEPALA DESA)" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div>
-                                <label class="block font-semibold mb-1 text-slate-300">Upload Foto Aparat (Pas Foto 4x6)</label>
-                                <input type="file" id="admin-foto-aparat-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1 text-slate-300">Link URL Foto Aparat</label>
+                                <input type="url" id="admin-foto-aparat-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <input type="text" id="admin-tupoksi-aparat" placeholder="Tupoksi" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div class="flex gap-2">
@@ -537,15 +536,15 @@
                         </div>
                     </div>
 
-                    <!-- SUB 4: BPD -->
+                    <!-- SUB 4: BPD (URL) -->
                     <div id="sub-bpd" class="admin-sub-content space-y-6">
                         <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Kelola Anggota BPD</h3>
                         <form onsubmit="tambahBpdMember(event)" class="space-y-3 max-w-xl bg-slate-950 p-4 rounded-xl border text-xs">
                             <input type="text" id="bpd-nama" placeholder="Nama BPD" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="bpd-jabatan" placeholder="Jabatan" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div>
-                                <label class="block font-semibold mb-1">Upload Foto BPD (Pas Foto 4x6)</label>
-                                <input type="file" id="bpd-foto-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Foto BPD</label>
+                                <input type="url" id="bpd-foto-url" placeholder="https://..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Anggota BPD</button>
@@ -645,7 +644,7 @@
                             <input type="text" id="admin-map-url" placeholder="URL Embed Google Maps" class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Kontak</button>
-                                <button type="button" onclick="hapusDataSubMenu(11)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus / Reset Kontak</button>
+                                <button type="button" onclick="hapusDataSubMenu(11)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Reset Kontak</button>
                             </div>
                         </form>
                     </div>
@@ -668,7 +667,7 @@
                             <input type="text" id="prog-ket" placeholder="Keterangan" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-emerald-600 font-bold px-4 py-2 rounded text-white">Tambah Program</button>
-                                <button type="button" onclick="hapusDataSubMenu(12)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Semua Program ADD/DDS</button>
+                                <button type="button" onclick="hapusDataSubMenu(12)" class="bg-rose-600 hover:bg-rose-700 font-bold px-4 py-2 rounded text-white"><i class="fa-solid fa-trash mr-1"></i> Hapus Program</button>
                             </div>
                         </form>
                         <div id="admin-add-dds-list" class="space-y-2 max-w-xl"></div>
