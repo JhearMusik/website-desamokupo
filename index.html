@@ -109,10 +109,11 @@
         </div>
     </header>
 
-    <!-- BANNER HERO -->
-    <div id="beranda-hero-fullscreen" class="relative w-full min-h-[360px] sm:min-h-[480px] bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white flex items-center overflow-hidden shadow-2xl">
-        <div id="hero-video-container" class="absolute inset-0 w-full h-full z-0 overflow-hidden">
-            <video id="hero-video-bg" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+    <!-- BANNER HERO (VIDEO CONTAINER PERBAIKAN) -->
+    <div id="beranda-hero-fullscreen" class="relative w-full min-h-[380px] sm:min-h-[480px] bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white flex items-center overflow-hidden shadow-2xl">
+        <div id="hero-video-container" class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+            <video id="hero-video-bg" autoplay muted loop playsinline class="w-full h-full object-cover hidden"></video>
+            <iframe id="hero-iframe-bg" class="w-full h-[150%] -translate-y-[15%] object-cover hidden" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <div class="absolute inset-0 bg-slate-950/60 bg-gradient-to-t from-slate-950/80 via-emerald-950/50 to-transparent"></div>
         </div>
         <div class="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -391,15 +392,34 @@
             </div>
         </section>
 
-        <!-- 16. PORTAL PETUGAS (DASHBOARD ADMIN 12 MENU LENGKAP) -->
+        <!-- 16. PORTAL PETUGAS (DASHBOARD ADMIN) -->
         <section id="portal-petugas" class="tab-content space-y-6">
-            <!-- Kotak login disembunyikan/dihilangkan total -->
-            <div id="auth-login-box" class="hidden"></div>
+            
+            <!-- FORM LOGIN BERSIH & AMAN (TIDAK ADA PETUNJUK USER/PASS SAMAR) -->
+            <div id="auth-login-box" class="max-w-md mx-auto bg-white p-6 sm:p-8 rounded-2xl border shadow-xl space-y-6 mt-6">
+                <div class="text-center space-y-2">
+                    <div class="w-16 h-16 bg-amber-500 text-slate-900 rounded-full flex items-center justify-center text-2xl mx-auto shadow"><i class="fa-solid fa-lock"></i></div>
+                    <h2 class="text-xl font-bold text-slate-800">Login Portal Petugas</h2>
+                    <p class="text-xs text-slate-500">Masukkan kredensial akun administrator Anda</p>
+                </div>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Username</label>
+                        <input type="text" id="login-user" required class="w-full p-3 border rounded-lg bg-slate-50 focus:bg-white text-sm" placeholder="Masukkan username">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                        <input type="password" id="login-pass" required class="w-full p-3 border rounded-lg bg-slate-50 focus:bg-white text-sm" placeholder="Masukkan password">
+                    </div>
+                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg text-sm shadow">Masuk Dashboard</button>
+                </form>
+            </div>
 
-            <div id="admin-dashboard-box" class="space-y-6 bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100">
+            <!-- DASHBOARD ADMIN (DITAMPILKAN JIKA BERHASIL LOGIN) -->
+            <div id="admin-dashboard-box" class="hidden space-y-6 bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl text-slate-100">
                 <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
                     <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-user-gear text-amber-400 mr-2"></i>PORTAL PETUGAS (ADMIN)</h2>
-                    <button onclick="handleLogout()" class="bg-rose-600 text-white text-xs font-bold px-3 py-2 rounded-lg"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
+                    <button onclick="handleLogout()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
                 </div>
 
                 <!-- 12 TOMBOL MENU UTAMA ADMIN -->
@@ -422,25 +442,26 @@
 
                     <!-- SUB 1: BERANDA -->
                     <div id="sub-beranda" class="admin-sub-content active space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Beranda, Logo & Video</h3>
+                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Beranda, Logo & Video Latar</h3>
                         <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl text-xs">
                             <div>
                                 <label class="block font-semibold mb-1">Nama Desa / Instansi</label>
-                                <input type="text" id="admin-nama-desa" class="w-full p-2.5 bg-slate-900 border rounded text-white">
+                                <input type="text" id="admin-nama-desa" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
                                 <label class="block font-semibold mb-1">Slogan Beranda</label>
-                                <input type="text" id="admin-slogan-desa" class="w-full p-2.5 bg-slate-900 border rounded text-white">
+                                <input type="text" id="admin-slogan-desa" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
                                 <label class="block font-semibold mb-1">Upload Logo Desa (Gambar dari Perangkat)</label>
-                                <input type="file" id="admin-logo-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <input type="file" id="admin-logo-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">URL / Link Video Latar (.mp4)</label>
-                                <input type="text" id="admin-video-url" placeholder="https://... (Masukkan link video publik)" class="w-full p-2.5 bg-slate-900 border rounded text-white">
+                                <label class="block font-semibold mb-1">URL / Link Video Latar Beranda</label>
+                                <input type="text" id="admin-video-url" placeholder="Contoh: https://www.youtube.com/watch?v=xxxxx atau link .mp4" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
+                                <p class="text-[11px] text-slate-400 mt-1">Dapat menggunakan link YouTube, Google Drive, atau file direct mp4.</p>
                             </div>
-                            <button type="submit" class="bg-amber-500 font-bold px-6 py-2 rounded text-slate-900">Simpan Beranda Permanen</button>
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 font-bold px-6 py-2.5 rounded text-slate-900 transition">Simpan Beranda Permanen</button>
                         </form>
                     </div>
 
@@ -480,21 +501,21 @@
                         </form>
                     </div>
 
-                    <!-- SUB 3: APARAT (DENGAN LIST HAPUS) -->
+                    <!-- SUB 3: APARAT (KONTROL TAMBAH & HAPUS APARAT) -->
                     <div id="sub-aparat" class="admin-sub-content space-y-6">
                         <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Tambah & Kelola Aparat Desa</h3>
-                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs bg-slate-950 p-4 rounded-xl border">
+                        <form onsubmit="tambahAparatDesa(event)" class="space-y-3 max-w-xl text-xs bg-slate-950 p-4 rounded-xl border border-slate-700">
                             <input type="text" id="admin-nama-aparat" placeholder="Nama Aparat" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan (Contoh: KEPALA DESA / KASI PEMERINTAHAN)" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div>
-                                <label class="block font-semibold mb-1">Upload Foto Aparat (Pas Foto 4x6)</label>
+                                <label class="block font-semibold mb-1 text-slate-300">Upload Foto Aparat (Pas Foto 4x6)</label>
                                 <input type="file" id="admin-foto-aparat-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <input type="text" id="admin-tupoksi-aparat" placeholder="Tupoksi" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
-                            <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Aparat</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 font-bold px-6 py-2 rounded text-white transition">Tambah Aparat</button>
                         </form>
-                        <div class="max-w-xl space-y-2">
-                            <h4 class="font-bold text-sm text-white">Daftar Aparat Terdaftar (Klik Hapus jika ada pergantian):</h4>
+                        <div class="max-w-xl space-y-3">
+                            <h4 class="font-bold text-sm text-white border-b border-slate-700 pb-1">Daftar Aparat Terdaftar (Tombol Hapus untuk Perubahan Perangkat):</h4>
                             <div id="admin-aparat-list" class="space-y-2"></div>
                         </div>
                     </div>
