@@ -450,7 +450,7 @@
 
                     <!-- SUB 1: BERANDA -->
                     <div id="sub-beranda" class="admin-sub-content active space-y-4">
-                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Beranda, Logo & Video Latar</h3>
+                        <h3 class="text-base font-bold text-amber-400 border-b border-slate-700 pb-2">Edit Beranda, Logo & Video Latar (URL Postimg / Direct MP4)</h3>
                         <form onsubmit="updateBerandaSettings(event)" class="space-y-4 max-w-xl text-xs">
                             <div>
                                 <label class="block font-semibold mb-1">Nama Desa / Instansi</label>
@@ -461,13 +461,12 @@
                                 <input type="text" id="admin-slogan-desa" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white">
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Logo Desa (Gambar)</label>
-                                <input type="file" id="admin-logo-file" accept="image/*" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Logo Desa (Dari Postimg.cc)</label>
+                                <input type="url" id="admin-logo-url" placeholder="https://i.postimg.cc/..." class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white text-xs">
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Video Latar Beranda (Dari HP / Laptop)</label>
-                                <input type="file" id="admin-video-file" accept="video/mp4,video/webm" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white text-xs">
-                                <p class="text-[11px] text-amber-300 mt-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kapasitas maksimal file video adalah **20 MB** (format MP4/WebM).</p>
+                                <label class="block font-semibold mb-1">Link URL Video Latar Beranda (Direct Link .mp4)</label>
+                                <input type="url" id="admin-video-url" placeholder="https://... / Berakhiran .mp4" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded text-white text-xs">
                             </div>
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-amber-500 hover:bg-amber-600 font-bold px-6 py-2.5 rounded text-slate-900 transition">Simpan Beranda</button>
@@ -493,16 +492,16 @@
                                 <textarea id="admin-misi" rows="3" class="w-full p-2.5 bg-slate-900 border rounded text-white"></textarea>
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Gambar Struktur Organisasi (Bagan)</label>
-                                <input type="file" id="admin-struktur-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Gambar Struktur Organisasi (Postimg)</label>
+                                <input type="url" id="admin-struktur-url" placeholder="https://i.postimg.cc/..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <div>
                                 <label class="block font-semibold mb-1">Teks Keterangan Struktur Organisasi</label>
                                 <textarea id="admin-struktur-teks" rows="2" class="w-full p-2.5 bg-slate-900 border rounded text-white"></textarea>
                             </div>
                             <div>
-                                <label class="block font-semibold mb-1">Upload Foto Kepala Desa (Pas Foto 4x6)</label>
-                                <input type="file" id="admin-foto-sambutan-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Foto Kepala Desa (Postimg)</label>
+                                <input type="url" id="admin-foto-sambutan-url" placeholder="https://i.postimg.cc/..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <div>
                                 <label class="block font-semibold mb-1">Sambutan Kepala Desa</label>
@@ -522,8 +521,8 @@
                             <input type="text" id="admin-nama-aparat" placeholder="Nama Aparat" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="admin-jabatan-aparat" placeholder="Jabatan (Contoh: KEPALA DESA / KASI PEMERINTAHAN)" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div>
-                                <label class="block font-semibold mb-1 text-slate-300">Upload Foto Aparat (Pas Foto 4x6)</label>
-                                <input type="file" id="admin-foto-aparat-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1 text-slate-300">Link URL Foto Aparat (Postimg)</label>
+                                <input type="url" id="admin-foto-aparat-url" placeholder="https://i.postimg.cc/..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <input type="text" id="admin-tupoksi-aparat" placeholder="Tupoksi" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div class="flex gap-2">
@@ -544,8 +543,8 @@
                             <input type="text" id="bpd-nama" placeholder="Nama BPD" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <input type="text" id="bpd-jabatan" placeholder="Jabatan" required class="w-full p-2.5 bg-slate-900 border rounded text-white">
                             <div>
-                                <label class="block font-semibold mb-1">Upload Foto BPD (Pas Foto 4x6)</label>
-                                <input type="file" id="bpd-foto-file" accept="image/*" class="w-full p-2 bg-slate-900 border rounded text-white text-xs">
+                                <label class="block font-semibold mb-1">Link URL Foto BPD (Postimg)</label>
+                                <input type="url" id="bpd-foto-url" placeholder="https://i.postimg.cc/..." class="w-full p-2.5 bg-slate-900 border rounded text-white text-xs">
                             </div>
                             <div class="flex gap-2">
                                 <button type="submit" class="bg-emerald-600 font-bold px-6 py-2 rounded text-white">Tambah Anggota BPD</button>
