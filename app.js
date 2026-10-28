@@ -1,4 +1,4 @@
-// app.js - Sistem Informasi Desa Mokupo (Lengkap dengan Tombol Hapus di 12 Sub Menu)
+// app.js - Sistem Informasi Desa Mokupo (Sinkronisasi Real-Time & Pembersih Cache Otomatis)
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAllSettings();
@@ -714,7 +714,7 @@ function renderPublicTautan() {
     });
 }
 
-// 11. KONTAK
+// 11. KONTAK (Dilengkapi Pembersih URL Map Embed otomatis)
 function updateKontakSettings(e) {
     e.preventDefault();
     const phone = document.getElementById('admin-phone').value;
@@ -729,7 +729,7 @@ function updateKontakSettings(e) {
 
     saveData('desa_phone', phone);
     saveData('desa_email', email);
-    if (mapUrl) saveData('desa_map_url', mapUrl);
+    if(mapUrl) saveData('desa_map_url', mapUrl);
 
     loadAllSettings();
     alert('Kontak dan Peta berhasil diperbarui!');
@@ -787,7 +787,7 @@ function renderAdminAddDds() {
     });
 }
 
-// LOAD ALL SETTINGS KE HALAMAN PUBLIK
+// LOAD ALL SETTINGS KE HALAMAN PUBLIK (Dengan Stempel Waktu / Timestamp Anti-Cache)
 function loadAllSettings() {
     const nama = getData('desa_nama', 'PEMERINTAH DESA MOKUPO KECAMATAN KARAMAT');
     const slogan = getData('desa_slogan', 'Sistem Informasi & Portal Pelayanan Publik');
@@ -839,7 +839,12 @@ function loadAllSettings() {
     if(document.getElementById('display-email')) document.getElementById('display-email').innerHTML = `<i class="fa-solid fa-envelope text-emerald-700 mr-2"></i> ${email}`;
     if(document.getElementById('topbar-email')) document.getElementById('topbar-email').innerHTML = `<i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ${email}`;
     if(document.getElementById('display-phone')) document.getElementById('display-phone').innerHTML = `<i class="fa-solid fa-phone text-emerald-700 mr-2"></i> ${phone}`;
-    if(mapUrl && document.getElementById('display-map-iframe')) document.getElementById('display-map-iframe').src = mapUrl;
+    
+    // Sinkronisasi Map dengan parameter waktu acak anti-cache agar langsung tampil di HP
+    if(mapUrl && document.getElementById('display-map-iframe')) {
+        const separator = mapUrl.includes('?') ? '&' : '?';
+        document.getElementById('display-map-iframe').src = `${mapUrl}${separator}_t=${new Date().getTime()}`;
+    }
 
     if(document.getElementById('display-add-total')) document.getElementById('display-add-total').innerText = getData('desa_total_add', 'Rp 845.200.000');
     if(document.getElementById('display-dds-total')) document.getElementById('display-dds-total').innerText = getData('desa_total_dds', 'Rp 1.120.500.000');
