@@ -1,4 +1,4 @@
-// app.js - Sistem Informasi Desa Mokupo (Sinkronisasi Real-Time & Pembersih Cache Otomatis)
+// app.js - Sistem Informasi Desa Mokupo (Sinkronisasi Real-Time Berbasis URL)
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAllSettings();
@@ -10,30 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPublicBerita();
     renderPublicTautan();
 });
-
-// ==========================================
-// HELPER: KONVERSI FILE KE BASE64 (LOKAL)
-// ==========================================
-function konversiFileKeBase64(fileInput) {
-    return new Promise((resolve, reject) => {
-        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-            resolve(null);
-            return;
-        }
-        const file = fileInput.files[0];
-        
-        if (file.type.includes('video') && file.size > 20 * 1024 * 1024) {
-            alert('Ukuran video terlalu besar! Maksimal kapasitas file video adalah 20 MB.');
-            reject(new Error('File video melebihi batas 20MB'));
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-    });
-}
 
 // TOGGLE MENU MOBILE
 function toggleMobileMenu() {
@@ -239,81 +215,66 @@ function hapusDataSubMenu(nomorSub) {
 }
 
 // ==========================================
-// 12 SUB MENU ADMIN & FITUR LAYANAN
+// 12 SUB MENU ADMIN (BERBASIS URL TEKS)
 // ==========================================
 
-// 1. EDIT BERANDA
-async function updateBerandaSettings(e) {
+// 1. EDIT BERANDA (Menggunakan URL Postimg & Direct MP4)
+function updateBerandaSettings(e) {
     e.preventDefault();
-    try {
-        const nama = document.getElementById('admin-nama-desa').value;
-        const slogan = document.getElementById('admin-slogan-desa').value;
-        
-        let logoBase64 = await konversiFileKeBase64(document.getElementById('admin-logo-file')) || getData('desa_logo', '');
-        let videoBase64 = await konversiFileKeBase64(document.getElementById('admin-video-file')) || getData('desa_video_local', '');
+    const nama = document.getElementById('admin-nama-desa').value.trim();
+    const slogan = document.getElementById('admin-slogan-desa').value.trim();
+    const logoUrl = document.getElementById('admin-logo-url').value.trim();
+    const videoUrl = document.getElementById('admin-video-url').value.trim();
 
-        saveData('desa_nama', nama);
-        saveData('desa_slogan', slogan);
-        if(logoBase64) saveData('desa_logo', logoBase64);
-        if(videoBase64) saveData('desa_video_local', videoBase64);
+    saveData('desa_nama', nama);
+    saveData('desa_slogan', slogan);
+    if(logoUrl) saveData('desa_logo', logoUrl);
+    if(videoUrl) saveData('desa_video_local', videoUrl);
 
-        loadAllSettings();
-        alert('Beranda, Logo & Video Latar berhasil diperbarui secara permanen!');
-    } catch (err) {
-        if(err.message !== 'File video melebihi batas 20MB') {
-            alert('Gagal memproses file: ' + err.message);
-        }
-    }
+    loadAllSettings();
+    alert('Beranda, Logo & Video Latar berhasil diperbarui!');
 }
 
 // 2. EDIT PROFIL, VISI MISI & STRUKTUR
-async function updateProfilSettings(e) {
+function updateProfilSettings(e) {
     e.preventDefault();
-    try {
-        const sejarah = document.getElementById('admin-sejarah').value;
-        const visi = document.getElementById('admin-visi').value;
-        const misi = document.getElementById('admin-misi').value;
-        const strukturTeks = document.getElementById('admin-struktur-teks').value;
-        const sambutan = document.getElementById('admin-sambutan').value;
+    const sejarah = document.getElementById('admin-sejarah').value;
+    const visi = document.getElementById('admin-visi').value;
+    const misi = document.getElementById('admin-misi').value;
+    const strukturTeks = document.getElementById('admin-struktur-teks').value;
+    const sambutan = document.getElementById('admin-sambutan').value;
 
-        let fotoKades = await konversiFileKeBase64(document.getElementById('admin-foto-sambutan-file')) || getData('desa_foto_sambutan', '');
-        let fotoStruktur = await konversiFileKeBase64(document.getElementById('admin-struktur-file')) || getData('desa_struktur_img', '');
+    const fotoKadesUrl = document.getElementById('admin-foto-sambutan-url').value.trim();
+    const fotoStrukturUrl = document.getElementById('admin-struktur-url').value.trim();
 
-        saveData('desa_sejarah', sejarah);
-        saveData('desa_visi', visi);
-        saveData('desa_misi', misi);
-        saveData('desa_struktur_teks', strukturTeks);
-        saveData('desa_sambutan', sambutan);
-        if(fotoKades) saveData('desa_foto_sambutan', fotoKades);
-        if(fotoStruktur) saveData('desa_struktur_img', fotoStruktur);
+    saveData('desa_sejarah', sejarah);
+    saveData('desa_visi', visi);
+    saveData('desa_misi', misi);
+    saveData('desa_struktur_teks', strukturTeks);
+    saveData('desa_sambutan', sambutan);
+    if(fotoKadesUrl) saveData('desa_foto_sambutan', fotoKadesUrl);
+    if(fotoStrukturUrl) saveData('desa_struktur_img', fotoStrukturUrl);
 
-        loadAllSettings();
-        alert('Profil, Visi Misi, dan Struktur berhasil disimpan!');
-    } catch (err) {
-        alert('Gagal memproses data: ' + err.message);
-    }
+    loadAllSettings();
+    alert('Profil, Visi Misi, dan Struktur berhasil disimpan!');
 }
 
 // 3. APARAT DESA
-async function tambahAparatDesa(e) {
+function tambahAparatDesa(e) {
     e.preventDefault();
-    try {
-        const nama = document.getElementById('admin-nama-aparat').value;
-        const jabatan = document.getElementById('admin-jabatan-aparat').value;
-        const tupoksi = document.getElementById('admin-tupoksi-aparat').value;
-        let fotoUrl = await konversiFileKeBase64(document.getElementById('admin-foto-aparat-file')) || '';
+    const nama = document.getElementById('admin-nama-aparat').value;
+    const jabatan = document.getElementById('admin-jabatan-aparat').value;
+    const tupoksi = document.getElementById('admin-tupoksi-aparat').value;
+    const fotoUrl = document.getElementById('admin-foto-aparat-url').value.trim();
 
-        let aparatList = getData('desa_aparat_list', []);
-        aparatList.push({ nama, jabatan, tupoksi, foto: fotoUrl });
-        saveData('desa_aparat_list', aparatList);
+    let aparatList = getData('desa_aparat_list', []);
+    aparatList.push({ nama, jabatan, tupoksi, foto: fotoUrl });
+    saveData('desa_aparat_list', aparatList);
 
-        renderPublicAparat();
-        renderAdminAparatList();
-        e.target.reset();
-        alert('Aparat Desa berhasil ditambahkan!');
-    } catch (err) {
-        alert('Gagal menambah data aparat: ' + err.message);
-    }
+    renderPublicAparat();
+    renderAdminAparatList();
+    e.target.reset();
+    alert('Aparat Desa berhasil ditambahkan!');
 }
 
 function hapusAparatMember(index) {
@@ -378,24 +339,20 @@ function renderAdminAparatList() {
 }
 
 // 4. KELOLA BPD
-async function tambahBpdMember(e) {
+function tambahBpdMember(e) {
     e.preventDefault();
-    try {
-        const nama = document.getElementById('bpd-nama').value;
-        const jabatan = document.getElementById('bpd-jabatan').value;
-        let fotoUrl = await konversiFileKeBase64(document.getElementById('bpd-foto-file')) || '';
+    const nama = document.getElementById('bpd-nama').value;
+    const jabatan = document.getElementById('bpd-jabatan').value;
+    const fotoUrl = document.getElementById('bpd-foto-url').value.trim();
 
-        let list = getBpdList();
-        list.push({ nama, jabatan, foto: fotoUrl });
-        saveData('desa_bpd_list', list);
+    let list = getBpdList();
+    list.push({ nama, jabatan, foto: fotoUrl });
+    saveData('desa_bpd_list', list);
 
-        e.target.reset();
-        renderAdminBpdList();
-        renderPublicBpd();
-        alert('Anggota BPD berhasil ditambahkan!');
-    } catch (err) {
-        alert('Gagal menambah BPD: ' + err.message);
-    }
+    e.target.reset();
+    renderAdminBpdList();
+    renderPublicBpd();
+    alert('Anggota BPD berhasil ditambahkan!');
 }
 
 function hapusBpdMember(index) {
@@ -450,7 +407,6 @@ function renderAdminBpdList() {
 
 // 5 & 6. PETUGAS & PERMOHONAN SURAT
 function tambahPetugasBaru(e) { e.preventDefault(); alert('Petugas berhasil didaftarkan!'); e.target.reset(); }
-function tambahArsipSurat(e) { e.preventDefault(); alert('Arsip surat berhasil disimpan!'); e.target.reset(); }
 
 function updateSyaratLabel() {
     const jenis = document.getElementById('s-jenis').value;
@@ -468,33 +424,27 @@ function updateSyaratLabel() {
 
 async function ajukanPermohonanSurat(e) {
     e.preventDefault();
-    try {
-        const jenis = document.getElementById('s-jenis').value;
-        const nama = document.getElementById('s-nama').value;
-        const nik = document.getElementById('s-nik').value;
-        const telp = document.getElementById('s-telp').value;
-        const ket = document.getElementById('s-ket').value;
-        
-        let berkasBase64 = await konversiFileKeBase64(document.getElementById('s-berkas')) || '';
-        const kodeUnik = 'SRT-' + Math.floor(1000 + Math.random() * 9000);
+    const jenis = document.getElementById('s-jenis').value;
+    const nama = document.getElementById('s-nama').value;
+    const nik = document.getElementById('s-nik').value;
+    const telp = document.getElementById('s-telp').value;
+    const ket = document.getElementById('s-ket').value;
+    
+    const kodeUnik = 'SRT-' + Math.floor(1000 + Math.random() * 9000);
 
-        let permohonanList = getData('desa_permohonan_surat', []);
-        permohonanList.unshift({
-            kode: kodeUnik,
-            jenis, nama, nik, telp, ket,
-            berkas: berkasBase64,
-            status: 'Baru',
-            dibaca: false,
-            tanggal: new Date().toLocaleDateString('id-ID')
-        });
-        saveData('desa_permohonan_surat', permohonanList);
-        updateNotificationBadges();
+    let permohonanList = getData('desa_permohonan_surat', []);
+    permohonanList.unshift({
+        kode: kodeUnik,
+        jenis, nama, nik, telp, ket,
+        status: 'Baru',
+        dibaca: false,
+        tanggal: new Date().toLocaleDateString('id-ID')
+    });
+    saveData('desa_permohonan_surat', permohonanList);
+    updateNotificationBadges();
 
-        alert(`Permohonan Berhasil Dikirim!\n\nKode Unik Anda: ${kodeUnik}\n\nSilakan catat kode ini untuk mengecek status dan mencetak surat Anda.`);
-        e.target.reset();
-    } catch (err) {
-        alert('Gagal memproses permohonan: ' + err.message);
-    }
+    alert(`Permohonan Berhasil Dikirim!\n\nKode Unik Anda: ${kodeUnik}\n\nSilakan catat kode ini untuk mengecek status dan mencetak surat Anda.`);
+    e.target.reset();
 }
 
 function updateNotificationBadges() {
@@ -555,7 +505,6 @@ function renderAdminPermohonanList() {
                 </div>
             </div>
             <div class="flex gap-2 pt-2 border-t border-slate-800">
-                ${item.berkas ? `<a href="${item.berkas}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1"><i class="fa-solid fa-eye"></i> Buka Dokumen Syarat</a>` : '<span class="text-xs text-slate-500 italic">Tidak ada dokumen diunggah</span>'}
                 <button onclick="hapusPermohonan(${index})" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded ml-auto flex items-center gap-1"><i class="fa-solid fa-trash"></i> Hapus</button>
             </div>
         `;
@@ -840,7 +789,6 @@ function loadAllSettings() {
     if(document.getElementById('topbar-email')) document.getElementById('topbar-email').innerHTML = `<i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ${email}`;
     if(document.getElementById('display-phone')) document.getElementById('display-phone').innerHTML = `<i class="fa-solid fa-phone text-emerald-700 mr-2"></i> ${phone}`;
     
-    // Sinkronisasi Map dengan parameter waktu acak anti-cache agar langsung tampil di HP
     if(mapUrl && document.getElementById('display-map-iframe')) {
         const separator = mapUrl.includes('?') ? '&' : '?';
         document.getElementById('display-map-iframe').src = `${mapUrl}${separator}_t=${new Date().getTime()}`;
